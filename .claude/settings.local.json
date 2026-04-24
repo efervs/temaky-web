@@ -7,7 +7,10 @@
       "Bash(node -e \"const p=require\\('./node_modules/astro/package.json'\\); console.log\\('astro:', p.version\\)\")",
       "Bash(node -e \"const p=require\\('./node_modules/tailwindcss/package.json'\\); console.log\\('tailwind:', p.version\\)\")",
       "Bash(npm uninstall *)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(python3 -c \"print\\('ok'\\)\")",
+      "Bash(python -c \"print\\('ok'\\)\")",
+      "Bash(python3 *)"
     ]
   }
 }
