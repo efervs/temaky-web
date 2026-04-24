@@ -1,0 +1,187 @@
+---
+import type { Product } from '../../types/menu';
+
+interface Props {
+  item: Product;
+}
+
+const { item } = Astro.props;
+
+const hasMods = (item.mods?.length ?? 0) > 0;
+const searchBlob = [item.name, item.desc, item.cat]
+  .filter(Boolean)
+  .join(' ')
+  .toLowerCase();
+---
+
+<button
+  class="pcard"
+  data-id={item.id}
+  data-cat={item.cat}
+  data-search={searchBlob}
+  data-has-mods={hasMods ? '1' : '0'}
+  type="button"
+  aria-label={`${item.name} — $${item.price}`}
+>
+  <div class="pi" style={`background:${item.gr ?? '#111'}`}>
+    <div class="pi-badges">
+      {item.deal ? <span class="b-promo">{item.deal}</span> : <span></span>}
+      {item.badge ? <span class="b-top">{item.badge}</span> : null}
+    </div>
+    <img
+      src={item.img}
+      alt={item.name}
+      loading="lazy"
+      decoding="async"
+      width="400"
+      height="300"
+    />
+  </div>
+  <div class="pb">
+    <span class="pn">{item.name}</span>
+    <p class="pd">{item.desc}</p>
+    <div class="pf">
+      <span class="pp"><span class="currency">$</span>{item.price}</span>
+      <span class="padd" aria-hidden="true">+</span>
+    </div>
+  </div>
+</button>
+
+<style>
+  .pcard {
+    background: var(--s2);
+    border: 1px solid var(--g06);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    color: inherit;
+    font: inherit;
+    padding: 0;
+    transition: transform .22s cubic-bezier(.2,.7,.2,1),
+                border-color .22s ease,
+                box-shadow .22s ease;
+  }
+  .pcard:hover {
+    transform: translateY(-3px);
+    border-color: rgba(184,16,46,0.4);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(184,16,46,0.08);
+  }
+  .pcard:focus-visible {
+    outline: 2px solid var(--rojo);
+    outline-offset: 2px;
+  }
+
+  .pi {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+  }
+  .pi img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .pcard:hover .pi img { transform: scale(1.06); }
+
+  .pi-badges {
+    position: absolute;
+    inset: 8px 8px auto 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 6px;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .b-promo,
+  .b-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 9px;
+    border-radius: 999px;
+    font-size: .64rem;
+    font-weight: 700;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+  }
+  .b-promo { background: var(--amarillo); color: #1a0a00; }
+  .b-top { background: var(--rojo); color: #fff; margin-left: auto; }
+
+  .pb {
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+  }
+  .pn {
+    font-family: var(--madec);
+    font-size: 1rem;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    line-height: 1.1;
+    color: #fff;
+  }
+  .pd {
+    font-size: .76rem;
+    line-height: 1.4;
+    color: rgba(255,255,255,0.5);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+    margin: 0;
+  }
+  .pf {
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .pp {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #fff;
+  }
+  .pp .currency {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: .7rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.45);
+    margin-right: 2px;
+    vertical-align: 4px;
+    letter-spacing: .04em;
+  }
+  .padd {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--rojo);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 1.2rem;
+    line-height: 1;
+    font-weight: 500;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .pcard:hover .padd { background: var(--rojo-dark); transform: scale(1.08); }
+</style>

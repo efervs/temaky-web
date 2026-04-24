@@ -15,7 +15,13 @@
       "Bash(curl -s -I http://localhost:4321/favicon.ico)",
       "Bash(curl -s -I http://localhost:4321/images/logo/logo-temaky.webp)",
       "Bash(curl -s -I http://localhost:4321/video/hero.webm)",
-      "Bash(kill 1578)"
+      "Bash(kill 1578)",
+      "Bash(curl -sS -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:4321/)",
+      "Bash(curl *)",
+      "Bash(node docs/screenshots/_capture-f3-4.mjs)",
+      "Bash(kill %1)",
+      "Bash(jobs -p)",
+      "Bash(xargs -r kill)"
     ]
   }
 }
