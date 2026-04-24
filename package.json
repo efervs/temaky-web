@@ -25,5 +25,8 @@
     "tailwindcss": "^4.2.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.5"
+  },
+  "devDependencies": {
+    "puppeteer": "^24.42.0"
   }
 }

@@ -1,0 +1,203 @@
+---
+---
+<nav
+  id="site-nav"
+  class="fixed top-0 left-0 right-0 z-[500] h-[68px] flex items-center px-[5%] transition-[background,border-color] duration-300"
+>
+  <div class="flex justify-between items-center w-full">
+    <!-- Logo -->
+    <a href="#top" aria-label="Temaky Sushi — inicio">
+      <img
+        src="/images/logo/logo-temaky.webp"
+        alt="Temaky Sushi"
+        height="44"
+        width="auto"
+        class="h-[44px] w-auto block [filter:drop-shadow(0_2px_8px_rgba(0,0,0,.6))]"
+      />
+    </a>
+
+    <!-- Desktop nav links -->
+    <ul class="hidden md:flex gap-7 list-none items-center m-0 p-0">
+      <li>
+        <button data-action="open-menu" class="nav-link bg-transparent border-0 cursor-pointer p-0 font-[inherit]">
+          Menú
+        </button>
+      </li>
+      <li><a href="#reserva" class="nav-link">Reserva</a></li>
+      <li><a href="#ubic" class="nav-link">Ubicación</a></li>
+      <li>
+        <a
+          href="https://www.instagram.com/temakysushimty/"
+          target="_blank"
+          rel="noopener"
+          class="nav-link"
+        >@temakysushimty</a>
+      </li>
+    </ul>
+
+    <!-- Right side -->
+    <div class="flex items-center gap-2">
+      <button
+        data-action="open-menu"
+        class="hidden md:inline-flex items-center bg-rojo text-white px-5 py-[9px] rounded-[8px] text-[.84rem] font-semibold transition-[background,transform] duration-200 hover:bg-rojo-dark hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-rojo active:translate-y-0"
+      >
+        Ver Menú
+      </button>
+
+      <!-- Hamburger button (mobile) -->
+      <button
+        id="nav-hamburger"
+        class="flex md:hidden flex-col gap-[5px] bg-transparent border-0 p-1 cursor-pointer"
+        aria-label="Abrir menú"
+        aria-expanded="false"
+        aria-controls="nav-drawer"
+      >
+        <span class="block w-6 h-[2px] bg-white rounded-[2px] transition-transform duration-300 origin-center"></span>
+        <span class="block w-6 h-[2px] bg-white rounded-[2px] transition-[transform,opacity] duration-300"></span>
+        <span class="block w-6 h-[2px] bg-white rounded-[2px] transition-transform duration-300 origin-center"></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Overlay backdrop -->
+<div
+  id="nav-overlay"
+  aria-hidden="true"
+  class="fixed inset-0 bg-black/65 z-[800] opacity-0 pointer-events-none transition-opacity duration-300"
+></div>
+
+<!-- Mobile drawer -->
+<aside
+  id="nav-drawer"
+  aria-label="Navegación móvil"
+  class="fixed top-0 z-[900] w-[min(290px,88vw)] h-[100dvh] bg-[#0a0a0a] border-l border-white/[.07] flex flex-col justify-between pt-20 px-6 pb-[34px]"
+>
+  <ul class="list-none flex flex-col m-0 p-0">
+    <li>
+      <button data-action="open-menu" class="drawer-link w-full text-left bg-transparent border-0 p-0 font-[inherit] cursor-pointer">
+        Ver Menú
+      </button>
+    </li>
+    <li><a href="#reserva" class="drawer-link">Reserva</a></li>
+    <li><a href="#ubic" class="drawer-link">Ubicación</a></li>
+    <li>
+      <a
+        href="https://www.instagram.com/temakysushimty/"
+        target="_blank"
+        rel="noopener"
+        class="drawer-link"
+      >Instagram</a>
+    </li>
+  </ul>
+
+  <div class="flex flex-col gap-[9px]">
+    <a
+      href="https://wa.me/528127474440?text=Hola!%20Quiero%20hacer%20un%20pedido%20%F0%9F%8D%A3"
+      target="_blank"
+      rel="noopener"
+      class="block text-center bg-rojo text-white no-underline py-[13px] rounded-[8px] font-semibold transition-[background] duration-200 hover:bg-rojo-dark"
+    >Pedir por WhatsApp</a>
+    <p class="text-[.76rem] text-white/30 text-center mt-2">+52 81 2747-4440</p>
+  </div>
+</aside>
+
+<style>
+  /* Scroll-activated solid state */
+  #site-nav.solid {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Desktop nav links */
+  .nav-link {
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: none;
+    padding: 3px 0;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-link:hover { color: #fff; border-bottom-color: #B8102E; }
+  .nav-link:focus-visible { outline: 2px solid #B8102E; outline-offset: 2px; }
+
+  /* Drawer links */
+  .drawer-link {
+    display: block;
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.70);
+    text-decoration: none;
+    padding: 13px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  .drawer-link:hover { color: #fff; }
+  .drawer-link:focus-visible { outline: 2px solid #B8102E; outline-offset: 2px; }
+
+  /* Drawer and overlay open states (toggled by JS) */
+  #nav-drawer {
+    right: -110%;
+    transition: right 0.35s ease;
+  }
+  #nav-drawer.open { right: 0; }
+
+  #nav-overlay.on {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Hamburger → X */
+  #nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  #nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  #nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+</style>
+
+<script>
+  const siteNav = document.getElementById('site-nav') as HTMLElement;
+  const hamburger = document.getElementById('nav-hamburger') as HTMLButtonElement;
+  const drawer = document.getElementById('nav-drawer') as HTMLElement;
+  const overlay = document.getElementById('nav-overlay') as HTMLElement;
+
+  // Scroll → solid class
+  function updateSolid() {
+    siteNav.classList.toggle('solid', window.scrollY > 80);
+  }
+  window.addEventListener('scroll', updateSolid, { passive: true });
+  updateSolid();
+
+  // Drawer helpers
+  function openDrawer() {
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('open');
+    overlay.classList.add('on');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('open');
+    overlay.classList.remove('on');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', () => {
+    drawer.classList.contains('open') ? closeDrawer() : openDrawer();
+  });
+  overlay.addEventListener('click', closeDrawer);
+
+  // Close drawer when navigating via anchor links inside it
+  drawer.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', closeDrawer));
+
+  // Menu overlay trigger (implemented in F3-4 — dispatches custom event)
+  document.querySelectorAll('[data-action="open-menu"]').forEach(el => {
+    el.addEventListener('click', () => {
+      closeDrawer();
+      window.dispatchEvent(new CustomEvent('temaky:open-menu'));
+    });
+  });
+</script>

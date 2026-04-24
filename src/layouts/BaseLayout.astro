@@ -9,7 +9,7 @@ interface Props {
 }
 
 const {
-  title = 'Temaky Sushi — El Sushi de Monterrey desde 1999',
+  title = 'Temaky Sushi — Sushi de Monterrey desde 1999',
   description = 'El mejor sushi de Monterrey desde 1999. Rollos clásicos y signature, combos desde $139. Plaza Villa Obispado.',
   ogImage = '/images/og-default.jpg',
   canonicalURL = Astro.url.href,
@@ -27,7 +27,6 @@ const {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
-    <!-- OG / Twitter -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
@@ -40,12 +39,13 @@ const {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Oswald:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-    <!-- Favicon placeholder -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   </head>
   <body>

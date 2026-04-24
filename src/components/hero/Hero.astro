@@ -1,0 +1,393 @@
+---
+const WA_URL = 'https://wa.me/528127474440?text=Hola!%20Quiero%20hacer%20un%20pedido%20%F0%9F%8D%A3';
+
+const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" class="wa-icon"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+---
+
+<section class="hero" id="top" aria-label="Hero Temaky Sushi">
+
+  <!-- Poster fallback gradient (shown before video loads) -->
+  <div class="hero-poster" aria-hidden="true"></div>
+
+  <!-- Background video -->
+  <video
+    class="hero-video"
+    src="/video/hero.webm"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    aria-hidden="true"
+  >
+  </video>
+
+  <!-- Left-heavy overlay (Variante A) -->
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <!-- Film grain -->
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <!-- Main content -->
+  <div class="hero-container">
+    <div class="hero-content">
+
+      <!-- Eyebrow -->
+      <p class="hero-eyebrow rise d1">
+        Monterrey
+        <span class="eyebrow-dot" aria-hidden="true"></span>
+        Desde 1999
+      </p>
+
+      <!-- H1 -->
+      <h1 class="hero-h1 rise d2">
+        <span class="h1-white">El Sushi</span>
+        <span class="h1-red">de Monterrey</span>
+      </h1>
+
+      <!-- Reviews badge -->
+      <div class="rise d3">
+        <span class="badge-reviews">
+          <span class="badge-star" aria-hidden="true">★</span>
+          <span>4.4</span>
+          <span class="badge-sep" aria-hidden="true">·</span>
+          <span>946 reseñas en Google</span>
+        </span>
+      </div>
+
+      <!-- Combo Clásico block -->
+      <button
+        class="combo-block rise d4"
+        data-action="open-sheet"
+        data-sheet-id="combo-clasico"
+        aria-label="Combo Clásico $139 — Rollo a elegir más medio arroz frito"
+      >
+        <span class="combo-eyebrow">Combo Clásico</span>
+        <span class="combo-price">$139</span>
+        <span class="combo-sep" aria-hidden="true"></span>
+        <span class="combo-desc">Rollo a elegir + ½ arroz frito</span>
+      </button>
+
+      <!-- CTAs -->
+      <div class="hero-ctas rise d5">
+        <button
+          data-action="open-menu"
+          class="btn btn-solid focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+        >
+          Ver Menú
+        </button>
+        <a
+          href={WA_URL}
+          target="_blank"
+          rel="noopener"
+          class="btn btn-outline focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+        >
+          <Fragment set:html={WA_ICON} />
+          Pedir por WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <a class="scroll-cue" href="#after-hero" aria-label="Descubre el menú">
+    <span aria-hidden="true">↓</span>
+    <span>Descubre el menú</span>
+  </a>
+
+</section>
+
+<style>
+  /* ── Hero shell ── */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: radial-gradient(ellipse at 50% 50%, #1a0608 0%, #000 70%);
+    display: flex;
+    align-items: stretch;
+  }
+
+  /* ── Video ── */
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ── Poster fallback ── */
+  .hero-poster {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse at 65% 55%, rgba(184,16,46,0.22) 0%, rgba(0,0,0,0.95) 60%),
+      linear-gradient(180deg, #15060a 0%, #000 100%);
+  }
+
+  /* ── Overlay: Variante A (left-heavy darkness) ── */
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0.10) 100%),
+      radial-gradient(ellipse at 70% 50%, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 70%);
+  }
+
+  /* ── Grain ── */
+  .hero-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* ── Container ── */
+  .hero-container {
+    position: relative;
+    z-index: 4;
+    width: 100%;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 120px 6% 110px;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ── Content stack ── */
+  .hero-content {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+  }
+
+  /* ── Eyebrow ── */
+  .hero-eyebrow {
+    font-family: var(--sans);
+    font-size: 0.70rem;
+    font-weight: 500;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.60);
+    display: flex;
+    align-items: center;
+    gap: 0;
+  }
+  .eyebrow-dot {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #B8102E;
+    vertical-align: middle;
+    margin: 0 0.65em;
+    transform: translateY(-1px);
+  }
+
+  /* ── H1 ── */
+  .hero-h1 {
+    font-family: var(--madec);
+    font-weight: 700;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .h1-white { display: block; color: #fff; }
+  .h1-red   { display: block; color: #B8102E; }
+
+  /* ── Reviews badge ── */
+  .badge-reviews {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.92);
+    white-space: nowrap;
+  }
+  .badge-star { color: #F5C542; font-size: 0.9rem; }
+  .badge-sep  { color: rgba(255, 255, 255, 0.30); }
+
+  /* ── Combo block ── */
+  .combo-block {
+    display: block;
+    align-self: flex-start;
+    min-width: 260px;
+    border-radius: 14px;
+    background: #B8102E;
+    padding: 18px 22px;
+    color: #fff;
+    border: 0;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .combo-block:hover  { background: #8B0D22; transform: translateY(-2px); }
+  .combo-block:active { transform: translateY(0); }
+  .combo-block:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+
+  .combo-eyebrow {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 6px;
+  }
+  .combo-price {
+    display: block;
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 1;
+    color: #fff;
+  }
+  .combo-sep {
+    display: block;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.22);
+    margin: 10px 0;
+  }
+  .combo-desc {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.92);
+    line-height: 1.35;
+  }
+
+  /* ── CTAs ── */
+  .hero-ctas {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 15px 26px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    min-height: 52px;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  }
+  .btn-solid {
+    background: #B8102E;
+    color: #fff;
+  }
+  .btn-solid:hover  { background: #8B0D22; transform: translateY(-1px); }
+  .btn-solid:active { transform: translateY(0); }
+
+  .btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.38);
+  }
+  .btn-outline:hover { border-color: #fff; background: rgba(255, 255, 255, 0.04); }
+  .btn-outline:active { transform: translateY(0); }
+
+  .wa-icon {
+    fill: #25D366;
+    flex-shrink: 0;
+  }
+
+  /* ── Scroll indicator ── */
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: 32px;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.45);
+    text-decoration: none;
+    animation: cue-bounce 2s ease-in-out infinite;
+  }
+  .scroll-cue:hover { color: rgba(255, 255, 255, 0.75); }
+
+  @keyframes cue-bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── Entrance animations ── */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .rise { animation: rise 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+  .d1 { animation-delay: 0.05s; }
+  .d2 { animation-delay: 0.15s; }
+  .d3 { animation-delay: 0.25s; }
+  .d4 { animation-delay: 0.35s; }
+  .d5 { animation-delay: 0.45s; }
+
+  /* ── Desktop: CTAs side by side ── */
+  @media (min-width: 900px) {
+    .hero-content { max-width: 640px; gap: 30px; }
+    .hero-ctas { flex-direction: row; max-width: none; }
+    .hero-ctas .btn { flex: 1 1 auto; min-width: 200px; }
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 420px) {
+    .hero-container { padding: 108px 6% 120px; }
+    .badge-reviews { font-size: 0.72rem; padding: 9px 16px; }
+    .combo-block { min-width: 0; width: 100%; }
+    .hero-h1 { letter-spacing: -0.015em; }
+  }
+</style>
+
+<script>
+  // Combo sheet opener — handler will be wired in F3-4
+  document.querySelectorAll('[data-action="open-sheet"]').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = (el as HTMLElement).dataset.sheetId ?? '';
+      window.dispatchEvent(new CustomEvent('temaky:open-sheet', { detail: id }));
+    });
+  });
+</script>

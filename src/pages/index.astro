@@ -1,9 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/nav/Navbar.astro';
+import Hero from '../components/hero/Hero.astro';
 ---
 
 <BaseLayout>
-  <main>
-    <h1 style="font-family: var(--madec); color: var(--rojo);">Temaky Sushi</h1>
-  </main>
+  <Navbar />
+  <Hero />
+
+  <div id="after-hero"></div>
+
+  <!-- TODO F3-4: ComboSection — Combo Clásico detalle + ProductSheet modal -->
+  <!-- TODO F3-5: MenuSection — Overlay de menú completo con categorías y búsqueda -->
+  <!-- TODO F3-6: SocialProof — Reviews de Google + contador de reseñas -->
+  <!-- TODO F3-7: Ubicacion — Mapa + datos de contacto + delivery badges -->
+  <!-- TODO F3-8: Footer — Links, redes sociales, delivery, copyright -->
 </BaseLayout>
