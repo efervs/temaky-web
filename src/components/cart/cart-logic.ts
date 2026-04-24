@@ -1,4 +1,11 @@
 import { MODS } from '../../data/menu';
+import { isRestaurantOpen } from '../../lib/hours';
+import {
+  buildOrderMessage,
+  buildWhatsAppUrl,
+  type DeliveryType,
+  type OrderCustomer,
+} from '../../lib/whatsapp';
 import type { CartCalc, CartItem, CartMod, Product, SheetSelections } from '../../types/menu';
 
 const STORAGE_KEY = 'temaky-v6-cart';
@@ -164,10 +171,10 @@ function renderCart() {
   }
   fhtml += `<div class="cl total"><span class="cl-lbl">Total del pedido</span><span class="cl-val">$${calc.total}</span></div>
   </div>
-  <button class="cart-wa" type="button" id="cart-checkout" disabled>
-    Enviar pedido (próximo paso)
+  <button class="cart-wa cart-wa-ok" type="button" id="cart-checkout">
+    Enviar pedido
   </button>
-  <p class="cart-note">Checkout por WhatsApp se conecta en F3-5.</p>`;
+  <p class="cart-note">Te abrimos WhatsApp con el pedido listo.</p>`;
   foot.innerHTML = fhtml;
   foot.hidden = false;
 }
@@ -194,6 +201,7 @@ function openCart() {
   const overlay = document.getElementById('cart-overlay');
   if (!overlay) return;
   overlay.hidden = false;
+  overlay.classList.remove('step-2');
   renderCart();
   requestAnimationFrame(() => overlay.classList.add('open'));
   overlay.setAttribute('aria-hidden', 'false');
@@ -204,12 +212,126 @@ function closeCart() {
   const overlay = document.getElementById('cart-overlay');
   if (!overlay) return;
   overlay.classList.remove('open');
+  overlay.classList.remove('step-2');
   overlay.setAttribute('aria-hidden', 'true');
   setTimeout(() => { overlay.hidden = true; }, 300);
   const menuOpen = document.getElementById('menu-overlay')?.classList.contains('open');
   const sheetOpen = document.getElementById('psheet')?.classList.contains('open');
   if (!menuOpen && !sheetOpen) {
     document.body.style.overflow = '';
+  }
+}
+
+function goToCheckout() {
+  if (!cart.length) return;
+  const overlay = document.getElementById('cart-overlay');
+  if (!overlay) return;
+  overlay.classList.add('step-2');
+  const title = overlay.querySelector('.cart-title');
+  if (title) title.textContent = 'Checkout';
+  setTimeout(() => {
+    document.getElementById('ck-name')?.focus();
+  }, 50);
+}
+
+function backToCart() {
+  const overlay = document.getElementById('cart-overlay');
+  if (!overlay) return;
+  overlay.classList.remove('step-2');
+  const title = overlay.querySelector('.cart-title');
+  if (title) title.textContent = 'Tu pedido';
+}
+
+function showOrderToast(msg: string) {
+  const toast = document.getElementById('order-toast');
+  if (!toast) return;
+  const txt = toast.querySelector('.order-toast-txt');
+  if (txt) txt.textContent = msg;
+  toast.hidden = false;
+  requestAnimationFrame(() => toast.classList.add('show'));
+  setTimeout(() => {
+    toast.classList.remove('show');
+    setTimeout(() => { toast.hidden = true; }, 260);
+  }, 3200);
+}
+
+function setFieldError(fieldId: string, errKey: string, invalid: boolean) {
+  const input = document.getElementById(fieldId);
+  const wrap = input?.closest('.ck-field');
+  const err = document.querySelector<HTMLElement>(`[data-err="${errKey}"]`);
+  wrap?.classList.toggle('invalid', invalid);
+  if (err) err.hidden = !invalid;
+}
+
+function clearAllCart() {
+  cart = [];
+  save();
+  renderCart();
+  updateCartUI();
+}
+
+function submitCheckout(e: Event) {
+  e.preventDefault();
+  const form = e.currentTarget as HTMLFormElement;
+
+  if (!cart.length) {
+    backToCart();
+    return;
+  }
+
+  const name = (form.elements.namedItem('name') as HTMLInputElement).value.trim();
+  const delivery = (form.querySelector<HTMLInputElement>('input[name="delivery"]:checked')
+    ?.value ?? 'pickup') as DeliveryType;
+  const address = (form.elements.namedItem('address') as HTMLTextAreaElement).value.trim();
+  const instructions = (form.elements.namedItem('instructions') as HTMLTextAreaElement).value.trim();
+
+  const nameBad = !name;
+  const addressBad = delivery === 'delivery' && !address;
+  setFieldError('ck-name', 'name', nameBad);
+  setFieldError('ck-address', 'address', addressBad);
+  if (nameBad) {
+    document.getElementById('ck-name')?.focus();
+    return;
+  }
+  if (addressBad) {
+    document.getElementById('ck-address')?.focus();
+    return;
+  }
+
+  const customer: OrderCustomer = {
+    name,
+    delivery,
+    ...(delivery === 'delivery' ? { address } : {}),
+    ...(instructions ? { instructions } : {}),
+  };
+  const calc = cartCalc();
+  const text = buildOrderMessage(cart, customer, calc);
+  const url = buildWhatsAppUrl(text);
+
+  if (!isRestaurantOpen()) {
+    window.dispatchEvent(
+      new CustomEvent('offhours:open', { detail: { pendingUrl: url } }),
+    );
+    return;
+  }
+
+  window.open(url, '_blank', 'noopener');
+  clearAllCart();
+  backToCart();
+  closeCart();
+  showOrderToast('Pedido enviado, revisa tu WhatsApp');
+  form.reset();
+  toggleAddressField(false);
+}
+
+function toggleAddressField(show: boolean) {
+  const wrap = document.getElementById('ck-addr-wrap');
+  if (!wrap) return;
+  wrap.hidden = !show;
+  if (!show) {
+    const addr = document.getElementById('ck-address') as HTMLTextAreaElement | null;
+    if (addr) addr.value = '';
+    setFieldError('ck-address', 'address', false);
   }
 }
 
@@ -250,7 +372,26 @@ export function initCart() {
     }
   });
 
+  document.getElementById('cart-foot')?.addEventListener('click', e => {
+    const target = e.target as HTMLElement;
+    if (target.closest('#cart-checkout')) goToCheckout();
+  });
+
+  document.getElementById('checkout-back')?.addEventListener('click', backToCart);
+
+  const form = document.getElementById('checkout-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', submitCheckout);
+  form?.addEventListener('change', e => {
+    const target = e.target as HTMLInputElement;
+    if (target.name === 'delivery') {
+      toggleAddressField(target.value === 'delivery');
+    }
+  });
+
   document.addEventListener('keydown', e => {
-    if (e.key === 'Escape' && !overlay.hidden) closeCart();
+    if (e.key === 'Escape' && !overlay.hidden) {
+      if (overlay.classList.contains('step-2')) backToCart();
+      else closeCart();
+    }
   });
 }

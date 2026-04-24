@@ -1,0 +1,271 @@
+---
+---
+
+<form id="checkout-form" class="checkout-form" novalidate>
+  <button id="checkout-back" type="button" class="checkout-back" aria-label="Volver al pedido">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" />
+    </svg>
+    <span>Volver al pedido</span>
+  </button>
+
+  <h3 class="checkout-title">Últimos datos</h3>
+  <p class="checkout-sub">Te abrimos WhatsApp con el pedido listo.</p>
+
+  <label class="ck-field">
+    <span class="ck-lbl">Tu nombre <em aria-hidden="true">*</em></span>
+    <input
+      id="ck-name"
+      name="name"
+      type="text"
+      required
+      autocomplete="name"
+      placeholder="¿Cómo te decimos?"
+    />
+    <span class="ck-err" data-err="name" hidden>Necesitamos un nombre para el pedido.</span>
+  </label>
+
+  <fieldset class="ck-field ck-radio">
+    <legend class="ck-lbl">¿Cómo lo recibes?</legend>
+    <label class="ck-ropt">
+      <input type="radio" name="delivery" value="pickup" checked />
+      <span class="ck-ropt-body">
+        <span class="ck-ropt-t">Recoger en restaurante</span>
+        <span class="ck-ropt-s">Plaza Villa Obispado, Piso 2</span>
+      </span>
+    </label>
+    <label class="ck-ropt">
+      <input type="radio" name="delivery" value="delivery" />
+      <span class="ck-ropt-body">
+        <span class="ck-ropt-t">Entrega a domicilio</span>
+        <span class="ck-ropt-s">Confirmamos tiempo por WhatsApp</span>
+      </span>
+    </label>
+  </fieldset>
+
+  <label class="ck-field" id="ck-addr-wrap" hidden>
+    <span class="ck-lbl">Dirección completa <em aria-hidden="true">*</em></span>
+    <textarea
+      id="ck-address"
+      name="address"
+      rows="2"
+      autocomplete="street-address"
+      placeholder="Calle, número, colonia, referencias…"></textarea>
+    <span class="ck-err" data-err="address" hidden>Agrega una dirección para la entrega.</span>
+  </label>
+
+  <label class="ck-field">
+    <span class="ck-lbl">Instrucciones adicionales <span class="ck-opt">(opcional)</span></span>
+    <textarea
+      id="ck-notes"
+      name="instructions"
+      rows="2"
+      placeholder="Sin picante, tocar timbre, empaque regalo…"></textarea>
+  </label>
+
+  <button id="ck-submit" type="submit" class="ck-submit">
+    <svg viewBox="0 0 24 24" class="ck-wa-ico" aria-hidden="true">
+      <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.9.55 3.74 1.58 5.34L2 22l4.88-1.68a9.87 9.87 0 0 0 5.16 1.47h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.81 9.81 0 0 0 12.04 2zm4.92 13.99c-.2.57-1.18 1.12-1.63 1.16-.44.04-.85.22-2.83-.63-2.37-1-3.89-3.45-4-3.61-.12-.16-.96-1.35-.96-2.58 0-1.22.63-1.82.85-2.07.22-.25.48-.31.64-.31h.46c.15 0 .35-.05.55.42.2.48.69 1.68.75 1.8.06.12.1.26.02.42-.08.15-.12.25-.24.39-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.63 1.04 1.36 1.68.93.83 1.72 1.08 1.96 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.14z" />
+    </svg>
+    Enviar por WhatsApp
+  </button>
+</form>
+
+<div id="order-toast" class="order-toast" role="status" aria-live="polite" hidden>
+  <span class="order-toast-ico" aria-hidden="true">✅</span>
+  <span class="order-toast-txt">Pedido enviado. Revisa tu WhatsApp</span>
+</div>
+
+<style>
+  .checkout-form {
+    display: none;
+    flex: 1;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 20px calc(20px + env(safe-area-inset-bottom));
+    overflow-y: auto;
+  }
+  :global(.cart-overlay.step-2) .checkout-form { display: flex; }
+  :global(.cart-overlay.step-2 #cart-body),
+  :global(.cart-overlay.step-2 #cart-foot) { display: none !important; }
+
+  .checkout-back {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: 0;
+    color: rgba(255,255,255,0.6);
+    font-family: var(--sans);
+    font-size: .8rem;
+    padding: 4px 0;
+    cursor: pointer;
+    transition: color .15s ease;
+  }
+  .checkout-back:hover { color: #fff; }
+  .checkout-back svg {
+    width: 14px; height: 14px;
+    fill: none; stroke: currentColor; stroke-width: 2;
+  }
+
+  .checkout-title {
+    font-family: var(--madec);
+    font-size: 1.4rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #fff;
+    margin: 2px 0 0;
+    font-weight: 700;
+  }
+  .checkout-sub {
+    font-size: .82rem;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 6px;
+    line-height: 1.45;
+  }
+
+  .ck-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .ck-field[hidden] { display: none; }
+
+  .ck-lbl {
+    font-family: var(--sans);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.75);
+  }
+  .ck-lbl em { color: var(--rojo); font-style: normal; margin-left: 2px; }
+  .ck-opt {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: rgba(255,255,255,0.4);
+    font-size: .72rem;
+    margin-left: 4px;
+  }
+
+  .ck-field input[type='text'],
+  .ck-field textarea {
+    background: var(--s2);
+    border: 1px solid var(--g10);
+    border-radius: 10px;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: .92rem;
+    padding: 12px 14px;
+    width: 100%;
+    resize: vertical;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .ck-field textarea { min-height: 64px; line-height: 1.45; }
+  .ck-field input:focus-visible,
+  .ck-field textarea:focus-visible {
+    outline: none;
+    border-color: var(--rojo);
+    background: var(--s3);
+  }
+  .ck-field.invalid input,
+  .ck-field.invalid textarea {
+    border-color: var(--rojo);
+  }
+
+  .ck-err {
+    font-size: .74rem;
+    color: var(--rojo);
+    line-height: 1.3;
+  }
+  .ck-err[hidden] { display: none; }
+
+  .ck-radio { display: flex; flex-direction: column; gap: 8px; }
+  .ck-ropt {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--s2);
+    border: 1px solid var(--g06);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color .15s ease, background .15s ease;
+  }
+  .ck-ropt:hover { background: var(--s3); }
+  .ck-ropt input { margin-top: 3px; accent-color: var(--rojo); flex-shrink: 0; }
+  .ck-ropt:has(input:checked) {
+    border-color: var(--rojo);
+    background: rgba(184,16,46,0.08);
+  }
+  .ck-ropt-body { display: flex; flex-direction: column; gap: 2px; }
+  .ck-ropt-t {
+    font-size: .9rem;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1.15;
+  }
+  .ck-ropt-s {
+    font-size: .74rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.3;
+  }
+
+  .ck-submit {
+    margin-top: 6px;
+    height: 54px;
+    border-radius: 12px;
+    background: var(--verde-wa);
+    color: #fff;
+    border: 0;
+    font-family: var(--sans);
+    font-size: .98rem;
+    font-weight: 600;
+    letter-spacing: .01em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background .15s ease, transform .15s ease;
+  }
+  .ck-submit:hover { background: #1fb757; }
+  .ck-submit:active { transform: scale(.98); }
+  .ck-submit:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+  }
+  .ck-wa-ico { width: 20px; height: 20px; fill: #fff; }
+
+  .order-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 28px;
+    transform: translate(-50%, 16px);
+    z-index: 1100;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: var(--s2);
+    border: 1px solid var(--g15);
+    border-radius: 999px;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: .88rem;
+    box-shadow: 0 18px 36px rgba(0,0,0,0.55);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .25s cubic-bezier(.2,.7,.2,1);
+  }
+  .order-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  .order-toast-ico { font-size: 1rem; }
+</style>

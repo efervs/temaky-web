@@ -1,4 +1,5 @@
 ---
+import CheckoutForm from './CheckoutForm.astro';
 ---
 
 <!-- Floating cart FAB — visible once items are added -->
@@ -42,6 +43,7 @@
   </header>
   <div id="cart-body" class="cart-body"></div>
   <footer id="cart-foot" class="cart-foot" hidden></footer>
+  <CheckoutForm />
 </aside>
 
 <style>
@@ -385,13 +387,21 @@
     width: 100%;
     height: 52px;
     border-radius: 10px;
-    background: var(--s2);
-    color: rgba(255,255,255,0.55);
-    border: 1px dashed var(--g15);
-    font-size: .9rem;
+    background: var(--rojo);
+    color: #fff;
+    border: 0;
+    font-size: .95rem;
     font-weight: 600;
-    cursor: not-allowed;
+    letter-spacing: .02em;
+    cursor: pointer;
     font-family: var(--sans);
+    transition: background .15s ease, transform .15s ease;
+  }
+  :global(.cart-wa:hover) { background: var(--rojo-dark); }
+  :global(.cart-wa:active) { transform: scale(.99); }
+  :global(.cart-wa:focus-visible) {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
   }
   :global(.cart-note) {
     margin-top: 8px;

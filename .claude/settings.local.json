@@ -21,7 +21,8 @@
       "Bash(node docs/screenshots/_capture-f3-4.mjs)",
       "Bash(kill %1)",
       "Bash(jobs -p)",
-      "Bash(xargs -r kill)"
+      "Bash(xargs -r kill)",
+      "Bash(npm test *)"
     ]
   }
 }
