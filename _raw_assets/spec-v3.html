@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Temaky Sushi — El Sushi de Monterrey desde 1999</title>
+<meta name="description" content="El mejor sushi de Monterrey desde 1999. Rollos clásicos y signature, combos desde $139. Plaza Villa Obispado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'MADEC';src:local('Oswald'),local('Bebas Neue');font-weight:700;font-display:swap;}
+:root{
+  --k:#000;--w:#fff;--r:#B8102E;--rd:#8B0D22;
+  --s1:#111;--s2:#161616;--s3:#1c1c1c;
+  --g04:rgba(255,255,255,.04);--g07:rgba(255,255,255,.07);--g10:rgba(255,255,255,.10);
+  --g15:rgba(255,255,255,.15);--g30:rgba(255,255,255,.30);--g40:rgba(255,255,255,.40);
+  --g55:rgba(255,255,255,.55);--g70:rgba(255,255,255,.70);--g85:rgba(255,255,255,.85);
+  --r08:rgba(184,16,46,.08);--r15:rgba(184,16,46,.15);--r25:rgba(184,16,46,.25);
+  --gold:rgba(255,180,0,.90);
+  --madec:'MADEC','Oswald','Bebas Neue','Impact',sans-serif;
+  --sans:'DM Sans',sans-serif;--serif:'Cormorant Garamond',serif;
+  --rr:14px;--rs:8px;--rpill:50px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--k);color:var(--w);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+::-webkit-scrollbar{width:4px;height:4px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:rgba(255,255,255,.10);border-radius:4px;}
+
+/* ═══ NAV ═══ */
+#nav{position:fixed;top:0;left:0;right:0;z-index:500;height:68px;display:flex;align-items:center;padding:0 5%;transition:background .3s,border .3s;}
+#nav.solid{background:rgba(0,0,0,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);}
+.ni{display:flex;justify-content:space-between;align-items:center;width:100%;}
+.nlogo img{height:44px;width:auto;display:block;}
+.nlinks{display:flex;gap:28px;list-style:none;}
+.nlinks a{font-size:.84rem;font-weight:500;color:var(--g55);text-decoration:none;padding:3px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s;}
+.nlinks a:hover{color:var(--w);border-bottom-color:var(--r);}
+.nright{display:flex;align-items:center;gap:8px;}
+.n-cart{display:flex;align-items:center;gap:7px;background:var(--g07);border:1px solid var(--g10);color:var(--w);padding:8px 14px;border-radius:var(--rs);cursor:pointer;font-size:.83rem;font-weight:500;transition:background .2s;display:none;}
+.n-cart:hover{background:var(--g10);}
+.n-cart-n{background:var(--r);color:var(--w);border-radius:50%;width:18px;height:18px;font-size:.62rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.n-menu{background:var(--r);color:var(--w);border:none;padding:9px 20px;border-radius:var(--rs);font-size:.84rem;font-weight:600;cursor:pointer;font-family:var(--sans);transition:background .2s;}
+.n-menu:hover{background:var(--rd);}
+.nhbg{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.nhbg span{display:block;width:24px;height:2px;background:var(--w);border-radius:2px;transition:transform .3s,opacity .3s;}
+.nhbg.x span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nhbg.x span:nth-child(2){opacity:0;transform:scaleX(0);}
+.nhbg.x span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.ndrawer{position:fixed;top:0;right:-110%;width:min(290px,88vw);height:100dvh;background:#0a0a0a;z-index:900;padding:80px 24px 34px;transition:right .35s ease;border-left:1px solid rgba(255,255,255,.07);display:flex;flex-direction:column;justify-content:space-between;}
+.ndrawer.open{right:0;}
+.ndlinks{list-style:none;display:flex;flex-direction:column;}
+.ndlinks a{display:block;font-size:1.05rem;font-weight:500;color:var(--g70);text-decoration:none;padding:13px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ndbottom{display:flex;flex-direction:column;gap:9px;}
+.nd-wa{display:block;text-align:center;background:var(--r);color:var(--w);text-decoration:none;padding:13px;border-radius:var(--rs);font-weight:600;font-family:var(--sans);}
+.nov{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:800;opacity:0;pointer-events:none;transition:opacity .3s;}
+.nov.on{opacity:1;pointer-events:auto;}
+@media(max-width:768px){.nlinks{display:none;}.nhbg{display:flex;}.nc-label{display:none;}}
+
+/* ═══ HERO ═══ */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;background:var(--k);overflow:hidden;}
+.hbg{position:absolute;inset:0;background:radial-gradient(ellipse at 68% 55%,rgba(55,18,8,.85) 0%,#000 58%);z-index:0;}
+.hgrain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.26;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.45 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");}
+.hc{position:relative;z-index:2;padding:calc(68px + 3.5rem) 8% 4rem;max-width:650px;}
+.h-eyebrow{font-size:.67rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.45);animation:up .7s ease both;}
+.hh1{font-family:var(--madec);font-weight:700;line-height:.88;text-transform:uppercase;margin-top:1.1rem;}
+.hh1 .w{display:block;font-size:clamp(2.8rem,6vw,5.2rem);color:var(--w);animation:up .7s .1s ease both;}
+.hh1 .r{display:block;font-size:clamp(2.8rem,6vw,5.2rem);color:var(--r);animation:up .7s .17s ease both;}
+.h-badge{display:inline-flex;align-items:center;gap:7px;margin-top:20px;padding:8px 17px;border-radius:var(--rpill);background:rgba(255,255,255,.07);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);font-size:.79rem;white-space:nowrap;animation:up .7s .25s ease both;}
+.h-badge .star{color:#F5C542;}
+.hcc{margin-top:20px;background:var(--r);border-radius:var(--rr);padding:17px 22px;display:inline-block;cursor:pointer;transition:background .2s;animation:up .7s .32s ease both;min-width:250px;}
+.hcc:hover{background:var(--rd);}
+.hcc-lbl{font-size:.64rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);display:block;margin-bottom:1px;}
+.hcc-price{font-family:var(--serif);font-style:italic;font-size:2.7rem;line-height:1;display:block;}
+.hcc-desc{display:block;font-size:.78rem;color:rgba(255,255,255,.75);border-top:1px solid rgba(255,255,255,.17);padding-top:9px;margin-top:9px;}
+.hctas{display:flex;gap:11px;flex-wrap:wrap;margin-top:24px;animation:up .7s .4s ease both;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:var(--rs);font-size:.89rem;font-weight:600;cursor:pointer;border:none;text-decoration:none;color:var(--w);transition:background .2s,transform .18s,border-color .2s;line-height:1;font-family:var(--sans);}
+.btn-r{background:var(--r);}.btn-r:hover{background:var(--rd);transform:translateY(-1px);}
+.btn-o{background:transparent;border:1.5px solid rgba(255,255,255,.38);}.btn-o:hover{background:rgba(255,255,255,.07);border-color:var(--w);}
+@keyframes up{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:580px){.hctas{flex-direction:column;width:100%;}.btn{justify-content:center;}.hcc{width:100%;}}
+
+/* ═══ STRIPS & SECTIONS ═══ */
+.strip{background:var(--r);padding:12px 5%;display:flex;align-items:center;justify-content:center;gap:24px;flex-wrap:wrap;}
+.strip-i{font-size:.75rem;color:rgba(255,255,255,.85);display:flex;align-items:center;gap:5px;}
+.strip-sep{width:3px;height:3px;border-radius:50%;background:rgba(255,255,255,.4);}
+.process-bar{background:rgba(255,255,255,.03);border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05);padding:14px 5%;display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;}
+.pb-step{display:flex;align-items:center;gap:7px;font-size:.76rem;color:var(--g40);}
+.pb-n{width:20px;height:20px;border-radius:50%;background:var(--r08);border:1px solid var(--r25);color:var(--r);font-size:.65rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pb-arr{color:rgba(255,255,255,.18);font-size:.8rem;}
+@media(max-width:560px){.pb-arr{display:none;}.process-bar{gap:8px;}}
+
+/* ═══ PROOF ═══ */
+.proof{background:var(--s1);padding:60px 5%;}
+.proof-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:32px;}
+.pc{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:var(--rr);padding:20px;}
+.pc-stars{color:#F5C542;font-size:.88rem;margin-bottom:9px;letter-spacing:2px;}
+.pc-text{font-size:.85rem;color:var(--g55);line-height:1.58;margin-bottom:12px;}
+.pc-auth{font-size:.73rem;color:rgba(255,255,255,.28);}
+.proof-stat{max-width:340px;margin:0 auto;display:flex;align-items:center;justify-content:center;gap:13px;padding:11px 20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--rpill);flex-wrap:wrap;}
+.ps-score{font-family:var(--serif);font-style:italic;font-size:1.55rem;}
+.ps-sep{color:rgba(255,255,255,.2);}
+.ps-count{font-size:.78rem;color:var(--g40);}
+@media(max-width:768px){.proof-grid{grid-template-columns:1fr;}}
+
+/* ═══ UBICACIÓN ═══ */
+.ubic{background:var(--k);padding:60px 5%;}
+.ubic-wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:start;}
+.sec-ey{font-size:.66rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--r);margin-bottom:7px;}
+.sec-h2{font-family:var(--madec);font-weight:700;line-height:.9;text-transform:uppercase;margin-bottom:22px;}
+.sec-h2 .w{color:var(--w);display:block;font-size:clamp(2rem,4vw,3.3rem);}
+.sec-h2 .r{color:var(--r);display:block;font-size:clamp(2rem,4vw,3.3rem);}
+.ucard{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--rr);padding:26px;}
+.ub-lbl{font-size:.64rem;font-weight:600;text-transform:uppercase;letter-spacing:.17em;color:var(--r);margin-bottom:6px;}
+.u-place{font-family:var(--madec);font-size:1.02rem;text-transform:uppercase;display:block;margin-bottom:2px;}
+.u-addr{font-size:.84rem;color:var(--g55);line-height:1.5;}
+.u-sep{height:1px;background:rgba(255,255,255,.07);margin:16px 0;}
+.u-hours{font-family:var(--serif);font-style:italic;font-size:1.65rem;display:block;line-height:1;}
+.u-open{font-size:.75rem;color:rgba(255,255,255,.35);margin-top:2px;}
+.u-maps{display:inline-block;color:var(--r);font-size:.78rem;text-decoration:none;margin-top:9px;}
+.u-wa{display:flex;align-items:center;justify-content:center;gap:9px;background:#25D366;color:var(--w);border:none;padding:12px;border-radius:var(--rs);font-size:.88rem;font-weight:600;text-decoration:none;margin-top:14px;transition:background .2s;cursor:pointer;font-family:var(--sans);}
+.u-wa:hover{background:#1eae56;}
+.u-wa svg{width:17px;height:17px;fill:var(--w);flex-shrink:0;}
+.umap{border-radius:var(--rr);overflow:hidden;height:360px;}
+.umap iframe{width:100%;height:100%;border:0;display:block;}
+.dbadge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:var(--rs);padding:7px 12px;font-size:.76rem;color:var(--g55);text-decoration:none;}
+.dd{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+@media(max-width:820px){.ubic-wrap{grid-template-columns:1fr;}.umap{height:250px;}}
+
+/* ═══ FOOTER ═══ */
+footer{background:var(--k);border-top:1px solid rgba(255,255,255,.05);padding:44px 5% 28px;}
+.fw{max-width:1100px;margin:0 auto;}
+.ft{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:20px;}
+.fb{font-family:var(--madec);font-size:1.55rem;text-transform:uppercase;display:block;margin-bottom:3px;}
+.fb .ko{color:var(--r);}
+.ftag{font-size:.78rem;color:rgba(255,255,255,.28);margin-bottom:13px;display:block;}
+.fsocs{display:flex;gap:7px;}
+.fsoc{width:30px;height:30px;border:1px solid rgba(255,255,255,.11);border-radius:6px;display:flex;align-items:center;justify-content:center;text-decoration:none;color:rgba(255,255,255,.44);transition:border-color .2s,color .2s;}
+.fsoc:hover{border-color:var(--r);color:var(--w);}
+.fsoc svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;}
+.f-cl{font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.17em;color:rgba(255,255,255,.25);margin-bottom:9px;display:block;}
+.f-links{list-style:none;}
+.f-links a{font-size:.81rem;color:rgba(255,255,255,.48);text-decoration:none;padding:4px 0;display:block;transition:color .2s;}
+.f-links a:hover{color:var(--w);}
+.f-delvs{display:flex;flex-direction:column;gap:6px;}
+.f-copy{font-size:.72rem;color:rgba(255,255,255,.18);display:flex;justify-content:space-between;flex-wrap:wrap;gap:5px;}
+@media(max-width:680px){.ft{grid-template-columns:1fr;gap:28px;}.f-copy{flex-direction:column;}}
+
+/* ═══════════════════════════════════════
+   MENU OVERLAY
+═══════════════════════════════════════ */
+#mover{position:fixed;inset:0;background:var(--k);z-index:600;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .4s cubic-bezier(.32,.72,0,1);overflow:hidden;}
+#mover.open{transform:translateY(0);}
+.mo-hdr{display:flex;align-items:center;justify-content:space-between;padding:0 5%;height:60px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;background:rgba(0,0,0,.97);gap:12px;}
+.mo-title{font-family:var(--madec);font-size:1.3rem;letter-spacing:.05em;text-transform:uppercase;flex-shrink:0;}
+.mo-sw{flex:1;max-width:320px;position:relative;}
+.mo-search{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.10);border-radius:var(--rs);color:var(--w);padding:8px 11px 8px 33px;font-size:.85rem;outline:none;transition:border-color .2s;font-family:var(--sans);}
+.mo-search::placeholder{color:rgba(255,255,255,.3);}
+.mo-search:focus{border-color:rgba(255,255,255,.22);}
+.mo-si{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.32);pointer-events:none;}
+.mo-si svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2;}
+.mo-x{width:34px;height:34px;border-radius:50%;background:var(--g07);border:none;color:var(--w);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;}
+.mo-x:hover{background:var(--g10);}
+.cats-bar{display:flex;gap:6px;padding:11px 5% 9px;overflow-x:auto;flex-shrink:0;background:rgba(0,0,0,.96);scrollbar-width:none;border-bottom:1px solid rgba(255,255,255,.06);}
+.cats-bar::-webkit-scrollbar{display:none;}
+.cp{flex-shrink:0;padding:6px 14px;border-radius:var(--rpill);background:var(--g07);border:1px solid var(--g10);font-size:.78rem;font-weight:500;cursor:pointer;color:var(--g55);transition:background .2s,border-color .2s,color .2s;font-family:var(--sans);}
+.cp.on{background:var(--r);border-color:var(--r);color:var(--w);}
+.cp:hover:not(.on){background:var(--g10);color:var(--w);}
+.mo-body{flex:1;overflow-y:auto;padding:20px 5% 110px;}
+.cg{margin-bottom:30px;}
+.cg-hdr{display:flex;align-items:baseline;gap:10px;margin-bottom:12px;padding-bottom:9px;border-bottom:1px solid rgba(255,255,255,.06);}
+.cg-name{font-family:var(--madec);font-size:1rem;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,.5);}
+.cg-promo{font-size:.69rem;font-weight:600;color:var(--gold);background:rgba(255,180,0,.10);border:1px solid rgba(255,180,0,.22);padding:2px 8px;border-radius:var(--rpill);}
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(256px,1fr));gap:11px;}
+/* Product card */
+.pcard{background:var(--s2);border:1px solid rgba(255,255,255,.07);border-radius:var(--rr);overflow:hidden;display:flex;flex-direction:column;cursor:pointer;transition:border-color .2s,transform .2s,box-shadow .2s;}
+.pcard:hover{border-color:rgba(184,16,46,.35);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.5);}
+.pi{height:128px;position:relative;display:flex;align-items:flex-end;justify-content:flex-start;padding:9px 11px;overflow:hidden;}
+.pi-bg{position:absolute;inset:0;}
+.pi-badge{position:relative;z-index:1;padding:3px 8px;border-radius:var(--rpill);font-size:.62rem;font-weight:600;line-height:1.4;}
+.pi-badge.main{background:var(--r);color:var(--w);}
+.pi-badge.deal{background:rgba(255,180,0,.88);color:#000;}
+.pb{padding:11px 13px 13px;display:flex;flex-direction:column;flex:1;}
+.pn{font-family:var(--madec);font-size:.97rem;text-transform:uppercase;letter-spacing:.02em;margin-bottom:2px;}
+.pd{font-size:.76rem;color:var(--g40);line-height:1.42;flex:1;margin-bottom:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pf{display:flex;align-items:center;justify-content:space-between;}
+.pp{font-family:var(--serif);font-style:italic;font-size:1.38rem;line-height:1;}
+.p-deal{font-size:.67rem;color:var(--gold);font-weight:600;display:block;margin-top:1px;}
+.padd{width:32px;height:32px;border-radius:50%;background:var(--r);border:none;color:var(--w);font-size:1.2rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s,transform .15s;flex-shrink:0;}
+.padd:hover{background:var(--rd);transform:scale(1.08);}
+.padd:active{transform:scale(.95);}
+.pqc{display:flex;align-items:center;gap:7px;flex-shrink:0;}
+.pqcb{width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:transparent;color:var(--w);font-size:.85rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-family:var(--sans);}
+.pqcb:hover{background:rgba(255,255,255,.07);}
+.pqcn{font-size:.9rem;font-weight:700;min-width:15px;text-align:center;}
+.no-res{padding:44px;text-align:center;color:rgba(255,255,255,.28);}
+.no-res-ico{font-size:2.2rem;margin-bottom:10px;opacity:.35;display:block;}
+@media(max-width:580px){.pg{grid-template-columns:1fr 1fr;gap:8px;}.pi{height:100px;}.pn{font-size:.85rem;}.pd{display:none;}.pp{font-size:1.18rem;}.mo-body{padding:14px 4% 100px;}.cats-bar,.mo-hdr{padding-left:4%;padding-right:4%;}}
+@media(max-width:340px){.pg{grid-template-columns:1fr;}}
+
+/* ═══════════════════════════════════════
+   PRODUCT SHEET
+═══════════════════════════════════════ */
+#psheet{position:fixed;inset:0;z-index:700;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;}
+#psheet.open{pointer-events:auto;}
+.psh-bg{position:absolute;inset:0;background:rgba(0,0,0,.75);opacity:0;transition:opacity .3s;}
+#psheet.open .psh-bg{opacity:1;}
+.psh-panel{position:relative;background:var(--s1);border-radius:20px 20px 0 0;padding:0;width:100%;max-width:500px;max-height:88dvh;overflow:hidden;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);}
+#psheet.open .psh-panel{transform:translateY(0);}
+.psh-handle{width:34px;height:4px;background:rgba(255,255,255,.18);border-radius:4px;margin:11px auto 0;}
+.psh-hdr{padding:14px 18px 12px;border-bottom:1px solid rgba(255,255,255,.07);}
+.psh-name{font-family:var(--madec);font-size:1.2rem;text-transform:uppercase;letter-spacing:.03em;margin-bottom:2px;}
+.psh-desc{font-size:.81rem;color:var(--g40);line-height:1.48;}
+.psh-prow{display:flex;align-items:baseline;gap:9px;margin-top:7px;}
+.psh-price{font-family:var(--serif);font-style:italic;font-size:1.9rem;line-height:1;}
+.psh-deal-badge{font-size:.72rem;font-weight:600;color:var(--gold);background:rgba(255,180,0,.10);border:1px solid rgba(255,180,0,.22);padding:3px 9px;border-radius:var(--rpill);}
+.psh-body{flex:1;overflow-y:auto;padding:14px 18px 0;}
+/* Modifier group */
+.mg{margin-bottom:16px;}
+.mg-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.17em;color:var(--r);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.mg-req{font-size:.62rem;background:var(--r08);border:1px solid var(--r25);color:var(--r);padding:2px 7px;border-radius:var(--rpill);}
+.mg-opt{font-size:.62rem;background:var(--g04);border:1px solid var(--g10);color:var(--g40);padding:2px 7px;border-radius:var(--rpill);}
+.mo{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;margin-bottom:5px;border-radius:var(--rs);border:1px solid rgba(255,255,255,.08);cursor:pointer;transition:background .15s,border-color .15s;user-select:none;}
+.mo:hover{background:rgba(255,255,255,.04);}
+.mo.sel{background:var(--r08);border-color:var(--r);}
+.mo-l{display:flex;align-items:center;gap:9px;}
+.mo-ck{width:19px;height:19px;border-radius:50%;border:2px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s,border-color .15s;font-size:.65rem;color:var(--w);}
+.mo.sel .mo-ck{background:var(--r);border-color:var(--r);}
+.mo-ck.sq{border-radius:4px;}
+.mo-nm{font-size:.86rem;font-weight:500;}
+.mo-ex{font-size:.72rem;color:var(--g40);margin-top:1px;}
+.mo-pr{font-size:.85rem;font-weight:600;color:var(--g55);}
+.mo.sel .mo-pr{color:var(--w);}
+/* Notes */
+.notes-wrap{margin-bottom:14px;}
+.notes-lbl{font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:rgba(255,255,255,.35);margin-bottom:5px;display:block;}
+.notes-ta{width:100%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:var(--rs);color:var(--w);padding:9px 11px;font-size:.83rem;resize:none;outline:none;transition:border-color .2s;font-family:var(--sans);}
+.notes-ta::placeholder{color:rgba(255,255,255,.22);}
+.notes-ta:focus{border-color:rgba(255,255,255,.20);}
+.psh-footer{padding:13px 18px;border-top:1px solid rgba(255,255,255,.07);background:var(--s1);flex-shrink:0;}
+.psh-qrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.psh-qlbl{font-size:.78rem;color:var(--g40);}
+.psh-qctrl{display:flex;align-items:center;gap:11px;}
+.pshqb{width:32px;height:32px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:transparent;color:var(--w);font-size:.95rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--sans);}
+.pshqb:hover{background:rgba(255,255,255,.07);}
+.pshqn{font-size:1rem;font-weight:700;min-width:18px;text-align:center;}
+.psh-add{width:100%;background:var(--r);color:var(--w);border:none;padding:13px;border-radius:var(--rs);font-family:var(--sans);font-size:.92rem;font-weight:700;cursor:pointer;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.psh-add:hover{background:var(--rd);}
+.psh-add:disabled{background:rgba(255,255,255,.10);cursor:not-allowed;}
+.psh-tot{font-family:var(--serif);font-style:italic;font-size:1.35rem;}
+
+/* ═══════════════════════════════════════
+   CART
+═══════════════════════════════════════ */
+#cart{position:fixed;top:0;right:0;width:min(390px,100vw);height:100dvh;background:#0d0d0d;z-index:700;transform:translateX(100%);transition:transform .35s cubic-bezier(.32,.72,0,1);display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.07);}
+#cart.open{transform:translateX(0);}
+.cart-hdr{display:flex;align-items:center;justify-content:space-between;padding:17px 19px 15px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.cart-ttl{font-family:var(--madec);font-size:1.1rem;text-transform:uppercase;letter-spacing:.04em;}
+.cart-x{width:28px;height:28px;border-radius:50%;background:var(--g07);border:none;color:var(--w);font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--sans);}
+.cart-body{flex:1;overflow-y:auto;padding:12px 19px;}
+/* empty */
+.ce{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:11px;text-align:center;}
+.ce-ico{width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:center;}
+.ce-ico svg{width:22px;height:22px;stroke:rgba(255,255,255,.22);fill:none;stroke-width:1.5;}
+.ce-t{font-size:.88rem;font-weight:600;color:rgba(255,255,255,.45);}
+.ce-s{font-size:.77rem;color:rgba(255,255,255,.28);}
+/* item */
+.ci{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05);}
+.ci:last-of-type{border-bottom:none;}
+.ci-inf{flex:1;min-width:0;}
+.ci-name{font-size:.86rem;font-weight:600;line-height:1.3;}
+.ci-mods{font-size:.72rem;color:var(--g40);margin-top:2px;line-height:1.5;}
+.ci-notes{font-size:.70rem;color:rgba(255,255,255,.28);margin-top:1px;font-style:italic;}
+.ci-r{display:flex;flex-direction:column;align-items:flex-end;justify-content:space-between;flex-shrink:0;gap:6px;}
+.ci-price{font-family:var(--serif);font-style:italic;font-size:1.08rem;line-height:1;}
+.ci-ctrl{display:flex;align-items:center;gap:5px;}
+.cib{width:24px;height:24px;border-radius:50%;border:1px solid rgba(255,255,255,.13);background:transparent;color:var(--w);font-size:.82rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:var(--sans);}
+.cib:hover{background:rgba(255,255,255,.07);}
+.cib.del{border-color:rgba(184,16,46,.3);color:var(--r);}
+.cib.del:hover{background:var(--r08);}
+.cin{font-size:.83rem;font-weight:700;min-width:13px;text-align:center;}
+/* bundle */
+.bundle-tip{background:rgba(255,180,0,.07);border:1px solid rgba(255,180,0,.22);border-radius:var(--rs);padding:11px 13px;margin:7px 0;}
+.bt-lbl{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:3px;}
+.bt-txt{font-size:.80rem;color:rgba(255,255,255,.58);}
+.bt-save{font-size:.80rem;color:var(--gold);font-weight:700;}
+/* upsell */
+.cupsell{margin:11px 0;padding:11px;background:var(--r08);border:1px solid var(--r15);border-radius:var(--rs);}
+.cup-lbl{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.13em;color:var(--r);margin-bottom:7px;}
+.cup-row{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
+.cup-row::-webkit-scrollbar{display:none;}
+.cup-chip{flex-shrink:0;display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);border-radius:var(--rs);padding:6px 10px;cursor:pointer;transition:background .15s;}
+.cup-chip:hover{background:rgba(255,255,255,.10);}
+.cup-nm{font-size:.76rem;font-weight:500;}
+.cup-pr{font-size:.70rem;color:var(--r);font-weight:600;}
+.cup-plus{width:18px;height:18px;background:var(--r);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
+/* footer */
+.cart-foot{padding:14px 19px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;background:#0d0d0d;}
+.cart-lines{margin-bottom:11px;}
+.cl{display:flex;justify-content:space-between;align-items:baseline;padding:2px 0;font-size:.82rem;}
+.cl-lbl{color:var(--g40);}
+.cl-val{font-weight:500;}
+.cl.saving{color:var(--gold);}
+.cl.total{padding-top:9px;border-top:1px solid rgba(255,255,255,.08);margin-top:5px;}
+.cl.total .cl-lbl{font-size:.86rem;color:var(--g55);}
+.cl.total .cl-val{font-family:var(--serif);font-style:italic;font-size:1.65rem;}
+.cart-wa{width:100%;background:#25D366;color:var(--w);border:none;padding:13px;border-radius:var(--rs);font-family:var(--sans);font-size:.92rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;transition:background .2s;}
+.cart-wa:hover{background:#1eae56;}
+.cart-wa svg{width:19px;height:19px;fill:var(--w);flex-shrink:0;}
+.cart-note{font-size:.68rem;color:rgba(255,255,255,.28);text-align:center;margin-top:7px;line-height:1.5;}
+/* FAB */
+#cfab{position:fixed;bottom:68px;right:18px;z-index:490;background:var(--r);color:var(--w);border:none;border-radius:var(--rpill);padding:10px 16px 10px 13px;display:flex;align-items:center;gap:8px;cursor:pointer;font-family:var(--sans);font-weight:700;font-size:.83rem;box-shadow:0 4px 18px rgba(184,16,46,.4);opacity:0;pointer-events:none;transition:opacity .3s,transform .2s;}
+#cfab.show{opacity:1;pointer-events:auto;}
+#cfab:hover{transform:translateY(-2px);}
+#cfab svg{width:17px;height:17px;fill:var(--w);display:block;}
+/* WA float */
+.waf{position:fixed;bottom:18px;right:18px;z-index:490;width:50px;height:50px;background:#25D366;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 15px rgba(37,211,102,.35);animation:wap 3s infinite;text-decoration:none;}
+.waf svg{width:23px;height:23px;fill:var(--w);display:block;}
+@keyframes wap{0%,100%{box-shadow:0 4px 15px rgba(37,211,102,.35);}50%{box-shadow:0 4px 24px rgba(37,211,102,.55),0 0 0 7px rgba(37,211,102,.09);}}
+/* Toast */
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid rgba(255,255,255,.13);color:var(--w);padding:8px 16px;border-radius:var(--rpill);font-size:.81rem;z-index:9999;opacity:0;transition:opacity .3s;white-space:nowrap;pointer-events:none;max-width:90vw;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="nav">
+  <div class="ni">
+    <a href="#top" class="nlogo"><img src="assets/logo-temaky.webp" alt="Temaky Sushi" style="width:auto;height:44px;"></a>
+    <ul class="nlinks">
+      <li><a href="#" onclick="openMenu();return false">Menú</a></li>
+      <li><a href="#ubic">Ubicación</a></li>
+      <li><a href="https://www.instagram.com/temakysushimty/" target="_blank" rel="noopener">@temakysushimty</a></li>
+    </ul>
+    <div class="nright">
+      <button class="n-cart" id="n-cart" onclick="openCart()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+        <span class="nc-label">Carrito</span>
+        <span class="n-cart-n" id="nc-count">0</span>
+      </button>
+      <button class="n-menu" onclick="openMenu()">Ver Menú</button>
+      <button class="nhbg" id="nhbg" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="ndrawer" id="ndrawer">
+  <ul class="ndlinks">
+    <li><a href="#" onclick="closeDrawer();openMenu();return false">Ver Menú</a></li>
+    <li><a href="#ubic" onclick="closeDrawer()">Ubicación</a></li>
+    <li><a href="https://www.instagram.com/temakysushimty/" target="_blank">Instagram</a></li>
+  </ul>
+  <div class="ndbottom">
+    <a href="https://wa.me/528127474440?text=Hola!%20Quiero%20hacer%20un%20pedido%20🍣" class="nd-wa" target="_blank">Pedir por WhatsApp</a>
+    <p style="font-size:.76rem;color:rgba(255,255,255,.3);text-align:center;margin-top:8px">+52 81 2747-4440</p>
+  </div>
+</div>
+<div class="nov" id="nov" onclick="closeAll()"></div>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero" id="top">
+  <div class="hbg"></div><div class="hgrain"></div>
+  <div class="hc">
+    <p class="h-eyebrow">Monterrey · Desde 1999</p>
+    <h1 class="hh1"><span class="w">El Sushi</span><span class="r">de Monterrey</span></h1>
+    <span class="h-badge"><span class="star">★</span> 4.4 · +946 reseñas en Google</span>
+    <div class="hcc" onclick="openSheet('combo-clasico')">
+      <span class="hcc-lbl">Combo Clásico</span>
+      <span class="hcc-price">$139</span>
+      <span class="hcc-desc">Rollo a elegir + ½ arroz → Armarlo aquí</span>
+    </div>
+    <div class="hctas">
+      <button class="btn btn-r" onclick="openMenu()">Ver Menú Completo</button>
+      <a href="https://wa.me/528127474440?text=Hola!%20Quiero%20hacer%20un%20pedido%20🍣" class="btn btn-o" target="_blank">
+        <svg width="16" height="16" viewBox="0 0 24 24" style="fill:#25D366;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Pedir por WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STRIP & PROCESS ═══ -->
+<div class="strip">
+  <span class="strip-i">🍣 Sushi fresco al momento</span><span class="strip-sep"></span>
+  <span class="strip-i">📍 Plaza Villa Obispado · Piso 2</span><span class="strip-sep"></span>
+  <span class="strip-i">🕐 12:00–22:00 · Todos los días</span>
+</div>
+<div class="process-bar">
+  <span class="pb-step"><span class="pb-n">1</span>Explora el menú</span>
+  <span class="pb-arr">→</span>
+  <span class="pb-step"><span class="pb-n">2</span>Arma tu pedido</span>
+  <span class="pb-arr">→</span>
+  <span class="pb-step"><span class="pb-n">3</span>Envía por WhatsApp</span>
+  <span class="pb-arr">→</span>
+  <span class="pb-step"><span class="pb-n">4</span>¡Listo! Temaky lo confirma</span>
+</div>
+
+<!-- ═══ SOCIAL PROOF ═══ -->
+<section class="proof">
+  <div class="proof-grid">
+    <div class="pc"><div class="pc-stars">★★★★★</div><p class="pc-text">"Delicioso sushi. Se cambiaron a Villa Obispado. Su calidad es incomparable, muy amables. La terraza es perfecta para comer en grupo."</p><span class="pc-auth">— Eli W. · Google</span></div>
+    <div class="pc"><div class="pc-stars">★★★★★</div><p class="pc-text">"25 años no mienten. El mejor sushi de Monterrey. Los rollos son frescos, el servicio es rápido y los precios muy accesibles para la calidad."</p><span class="pc-auth">— Cliente Verificado · Google</span></div>
+    <div class="pc"><div class="pc-stars">★★★★★</div><p class="pc-text">"La terraza, la comida y la atención: todo perfecto. El Combo Clásico vale cada peso. Ya es nuestro lugar favorito de sushi en MTY."</p><span class="pc-auth">— @temakysushimty · Instagram</span></div>
+  </div>
+  <div class="proof-stat"><span class="ps-score">★ 4.4 / 5</span><span class="ps-sep">·</span><span class="ps-count">+946 reseñas en Google</span></div>
+</section>
+
+<!-- ═══ UBICACIÓN ═══ -->
+<section class="ubic" id="ubic">
+  <div class="ubic-wrap">
+    <div>
+      <p class="sec-ey">Dónde encontrarnos</p>
+      <h2 class="sec-h2"><span class="w">Encuéntranos</span><span class="r">en Obispado.</span></h2>
+      <div class="ucard">
+        <div class="ub-lbl">📍 Dirección</div>
+        <span class="u-place">Plaza Villa Obispado</span>
+        <span class="u-addr">Francisco Garza Sada 2940A · Piso 2, Local 204<br>Nuevo Obispado · Monterrey, N.L.</span>
+        <a href="https://maps.app.goo.gl/gZdvYsTJmWGkcaNL6" target="_blank" rel="noopener" class="u-maps">Abrir en Google Maps →</a>
+        <div class="u-sep"></div>
+        <div class="ub-lbl">🕐 Horario</div>
+        <span class="u-hours">12:00 – 22:00 hrs</span>
+        <span class="u-open">Lunes a Domingo · Todos los días</span>
+        <div class="u-sep"></div>
+        <a href="https://wa.me/528127474440?text=Hola!%20Quiero%20hacer%20un%20pedido%20🍣" target="_blank" class="u-wa">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Pedir · +52 81 2747-4440
+        </a>
+        <div style="display:flex;gap:7px;margin-top:11px;flex-wrap:wrap">
+          <a href="#" class="dbadge"><span class="dd" style="background:#FF441F"></span>Rappi</a>
+          <a href="#" class="dbadge"><span class="dd" style="background:#FF7900"></span>DiDi Food</a>
+          <a href="#" class="dbadge"><span class="dd" style="background:#06C167"></span>UberEats</a>
+        </div>
+      </div>
+    </div>
+    <div class="umap">
+      <iframe src="https://maps.google.com/maps?q=Temaky+Sushi,+Francisco+Garza+Sada+2940,+Nuevo+Obispado,+Monterrey,+NL,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Temaky Sushi"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="fw">
+    <div class="ft">
+      <div>
+        <span class="fb">TEmaKY <span class="ko">KO</span></span>
+        <span class="ftag">Sushi desde 1999 · Monterrey, N.L.</span>
+        <div class="fsocs">
+          <a href="https://www.instagram.com/temakysushimty/" class="fsoc" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg></a>
+          <a href="#" class="fsoc" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <span class="f-cl">Navegación</span>
+        <ul class="f-links">
+          <li><a href="#top">Inicio</a></li>
+          <li><a href="#" onclick="openMenu();return false">Menú completo</a></li>
+          <li><a href="#ubic">Ubicación</a></li>
+          <li><a href="https://wa.me/528127474440">Contacto</a></li>
+        </ul>
+      </div>
+      <div>
+        <span class="f-cl">Delivery</span>
+        <div class="f-delvs">
+          <a href="#" class="dbadge"><span class="dd" style="background:#FF441F"></span>Rappi</a>
+          <a href="#" class="dbadge"><span class="dd" style="background:#FF7900"></span>DiDi Food</a>
+          <a href="#" class="dbadge"><span class="dd" style="background:#06C167"></span>UberEats</a>
+        </div>
+      </div>
+    </div>
+    <p class="f-copy"><span>© 2025 Temaky Sushi. Todos los derechos reservados.</span><span>Monterrey, Nuevo León, México</span></p>
+  </div>
+</footer>
+
+<!-- ═══ MENU OVERLAY ═══ -->
+<div id="mover">
+  <div class="mo-hdr">
+    <span class="mo-title">Menú</span>
+    <div class="mo-sw">
+      <span class="mo-si"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
+      <input class="mo-search" id="mo-search" type="search" placeholder="Buscar rollo, platillo…" oninput="onSearch(this.value)" autocomplete="off">
+    </div>
+    <button class="mo-x" onclick="closeMenu()" aria-label="Cerrar menú">✕</button>
+  </div>
+  <div class="cats-bar" id="cats-bar"></div>
+  <div class="mo-body" id="mo-body"></div>
+</div>
+
+<!-- ═══ PRODUCT SHEET ═══ -->
+<div id="psheet">
+  <div class="psh-bg" onclick="closeSheet()"></div>
+  <div class="psh-panel" id="psh-panel">
+    <div class="psh-handle"></div>
+    <div class="psh-hdr" id="psh-hdr"></div>
+    <div class="psh-body" id="psh-body"></div>
+    <div class="psh-footer" id="psh-footer"></div>
+  </div>
+</div>
+
+<!-- ═══ CART ═══ -->
+<div id="cart">
+  <div class="cart-hdr">
+    <span class="cart-ttl">Tu Pedido</span>
+    <button class="cart-x" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body" id="cart-body"></div>
+  <div class="cart-foot" id="cart-foot" style="display:none"></div>
+</div>
+
+<!-- FAB + WA -->
+<button id="cfab" onclick="openCart()">
+  <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+  <span id="cfab-total">$0</span>
+  <span id="cfab-cnt" style="background:rgba(255,255,255,.22);border-radius:var(--rpill);padding:2px 8px;font-size:.72rem">0</span>
+</button>
+<a href="https://wa.me/528127474440?text=Hola%20Temaky!%20Quiero%20hacer%20un%20pedido%20🍣" class="waf" target="_blank" rel="noopener" aria-label="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════════════════
+
+// Modifier groups
+const MODS = {
+  'extras-rollo': {
+    lbl: 'Extras opcionales',type:'check',req:false,
+    items:[
+      {id:'capeado',name:'Capeado',price:19},
+      {id:'empanizado',name:'Empanizado',price:19},
+      {id:'sin-alga',name:'Sin alga',price:19},
+      {id:'ph-extra',name:'Philadelphia extra',price:19},
+      {id:'aguacate-extra',name:'Aguacate extra',price:19},
+      {id:'tampico-3',name:'1/3 Tampico',price:19},
+      {id:'proteina-extra',name:'Proteína extra',price:19},
+    ]
+  },
+  'combo-c-rollo': {lbl:'Elige tu Rollo Clásico',type:'radio',req:true,items:[]},// filled later
+  'combo-s-rollo': {lbl:'Elige tu Rollo Signature',type:'radio',req:true,items:[]},
+  'combo-c-arroz': {
+    lbl:'Elige tu arroz',type:'radio',req:true,
+    items:[{id:'a-pollo',name:'Arroz de Pollo',price:0},{id:'a-verduras',name:'Arroz de Verduras',price:0}]
+  },
+  'combo-s-arroz': {
+    lbl:'Elige tu arroz',type:'radio',req:true,
+    items:[
+      {id:'a-pollo',name:'Arroz de Pollo',price:0},{id:'a-verduras',name:'Arroz de Verduras',price:0},
+      {id:'a-camaron',name:'Arroz de Camarón',price:0},{id:'a-carne',name:'Arroz de Carne',price:0},
+      {id:'a-temaky',name:'Arroz Temaky',price:0},{id:'a-mixto',name:'Arroz Mixto',price:0},
+    ]
+  },
+  'combo-ensalada': {
+    lbl:'Elige tu complemento',type:'radio',req:true,
+    items:[{id:'ens-cangrejo',name:'½ Ensalada de Cangrejo',price:0},{id:'cangrejo-nev',name:'½ Cangrejo Nevado',price:0}]
+  },
+  'combo-addon': {
+    lbl:'Agrega al combo',type:'check',req:false,
+    items:[{id:'add-kushi',name:'2 Kushiages extra',price:30}]
+  },
+  'yasai-addon': {
+    lbl:'Opcional',type:'check',req:false,
+    items:[{id:'add-camarones',name:'5 camarones extra',price:60}]
+  },
+  'alitas-sabor': {
+    lbl:'Elige tu sabor (puedes elegir varios)',type:'check',req:true,
+    items:[
+      {id:'buffalo',name:'Buffalo',price:0},{id:'mango-hab',name:'Mango Habanero',price:0},
+      {id:'bbq',name:'BBQ',price:0},{id:'teriyaki',name:'Teriyaki',price:0},
+      {id:'lemon',name:'Lemon Pepper',price:0}
+    ]
+  },
+  'teppan-extras': {
+    lbl:'Adicionales (+$39 c/u)',type:'check',req:false,
+    items:[
+      {id:'tp-aguacate',name:'Aguacate',price:39},{id:'tp-pollo',name:'Pollo',price:39},
+      {id:'tp-res',name:'Res',price:39},{id:'tp-camaron',name:'Camarón',price:39},
+      {id:'tp-tampico',name:'Tampico',price:39}
+    ]
+  },
+};
+
+// Gradient helpers per category
+const GR = {
+  entrada:'linear-gradient(145deg,#0d0a04,#1a1208)',
+  combo:'linear-gradient(145deg,#1a0303,#2d0808)',
+  ensalada:'linear-gradient(145deg,#041208,#0a2010)',
+  arroz:'linear-gradient(145deg,#100e04,#1f1a06)',
+  clasico_frio:'linear-gradient(145deg,#04080f,#091325)',
+  clasico_emp:'linear-gradient(145deg,#100804,#201008)',
+  clasico_cap:'linear-gradient(145deg,#100404,#200808)',
+  sig_frio:'linear-gradient(145deg,#07051a,#100a2d)',
+  sig_emp:'linear-gradient(145deg,#04100c,#0a1f16)',
+  sig_cap:'linear-gradient(145deg,#060815,#0d1230)',
+  esp:'linear-gradient(145deg,#050610,#0a0c20)',
+  teppan:'linear-gradient(145deg,#0d0803,#1f1005)',
+  kids:'linear-gradient(145deg,#0d0604,#1f0c08)',
+  alita:'linear-gradient(145deg,#170404,#2a0808)',
+  postre:'linear-gradient(145deg,#0e0510,#1a0820)',
+  bebida:'linear-gradient(145deg,#04080d,#081218)',
+};
+
+// Full menu data (from PDF)
+const MENU = [
+  // ── COMBOS ──────────────────────────────────────────
+  {id:'combo-clasico',cat:'combos',name:'Combo Clásico',desc:'Rollo Clásico a elegir + ½ arroz de pollo ó ½ arroz de verduras. Agrega 2 kushiages por $30 más.',price:139,badge:'El más pedido',gr:GR.combo,mods:['combo-c-rollo','combo-c-arroz','combo-addon']},
+  {id:'combo-signature',cat:'combos',name:'Combo Signature',desc:'Rollo Signature a elegir + ½ arroz a elegir + ½ ensalada de cangrejo ó ½ cangrejo nevado. Agrega 2 kushiages por $30 más.',price:175,badge:'Premium',gr:GR.combo,mods:['combo-s-rollo','combo-s-arroz','combo-ensalada','combo-addon']},
+  // ── ENTRADAS ────────────────────────────────────────
+  {id:'kushiages',cat:'entradas',name:'8 Kushiages',desc:'Brochetas de queso empanizadas.',price:109,gr:GR.entrada},
+  {id:'brochetas-t',cat:'entradas',name:'Brochetas Temaky',desc:'2 camarón + 2 salmón + 2 kushiages con morrón y cebolla. Acompañadas de ½ arroz gohan.',price:129,gr:GR.entrada},
+  {id:'brochetas-p',cat:'entradas',name:'3 Brochetas de Pollo',desc:'Con morrón y cebolla, acompañadas de ½ arroz gohan.',price:139,gr:GR.entrada},
+  {id:'cangrejo-nev',cat:'entradas',name:'Cangrejo Nevado',desc:'2 barras de surimi rellenas de queso Philadelphia, capeadas y bañadas en salsa de anguila con ajonjolí.',price:115,gr:GR.entrada},
+  {id:'yasai',cat:'entradas',name:'Yasai Tempura',desc:'Verduras capeadas. Puedes agregar 5 camarones por $60 más.',price:99,gr:GR.entrada,mods:['yasai-addon']},
+  {id:'ebi-furai',cat:'entradas',name:'5 Ebi Furai',desc:'Camarones con queso empanizados.',price:169,gr:GR.entrada},
+  {id:'dumplings',cat:'entradas',name:'6 Dumplings',desc:'Rellenos de pollo y vegetales, al vapor.',price:149,gr:GR.entrada},
+  {id:'shitakes',cat:'entradas',name:'6 Shitakes',desc:'Champiñones rellenos de queso gouda, pasta Tampico y empanizados.',price:129,gr:GR.entrada},
+  {id:'rollos-prim',cat:'entradas',name:'5 Rollos Primavera',desc:'Mini rollos rellenos de verdura.',price:129,gr:GR.entrada},
+  {id:'edamames',cat:'entradas',name:'Edamames',desc:'Vainas de soja salteadas con salsa de soya y shishimi.',price:109,gr:GR.entrada},
+  {id:'gyosas',cat:'entradas',name:'8 Gyosas',desc:'Empanaditas rellenas de pollo y verduras.',price:109,gr:GR.entrada},
+  // ── ENSALADAS / SUNOMONO ─────────────────────────────
+  {id:'suno-camaron',cat:'ensaladas',name:'Sunomono de Camarón',desc:'Ensalada a base de pepino, furikake y vinagreta de la casa con camarón.',price:135,gr:GR.ensalada},
+  {id:'suno-salmon',cat:'ensaladas',name:'Sunomono de Salmón',desc:'Ensalada a base de pepino, furikake y vinagreta de la casa con salmón.',price:109,gr:GR.ensalada},
+  {id:'suno-mixto',cat:'ensaladas',name:'Sunomono Mixto',desc:'Ensalada a base de pepino, furikake y vinagreta de la casa. Mixto: camarón, pulpo y cangrejo.',price:145,gr:GR.ensalada},
+  {id:'suno-cangrejo',cat:'ensaladas',name:'Sunomono de Cangrejo',desc:'Ensalada a base de pepino, furikake y vinagreta de la casa con cangrejo.',price:135,gr:GR.ensalada},
+  // ── ARROCES / GOHAN ─────────────────────────────────
+  {id:'a-pollo',cat:'arroces',name:'Arroz Frito de Pollo',desc:'Arroz frito con zanahoria y morrón picados, con pollo.',price:95,gr:GR.arroz},
+  {id:'a-camaron',cat:'arroces',name:'Arroz Frito de Camarón',desc:'Arroz frito con zanahoria y morrón picados, con camarón.',price:105,gr:GR.arroz},
+  {id:'a-carne',cat:'arroces',name:'Arroz Frito de Carne',desc:'Arroz frito con zanahoria y morrón picados, con carne de res.',price:99,gr:GR.arroz},
+  {id:'a-temaky',cat:'arroces',name:'Arroz Frito Temaky',desc:'Camarón, salmón y calamar.',price:115,gr:GR.arroz},
+  {id:'a-mixto',cat:'arroces',name:'Arroz Frito Mixto',desc:'Pollo, carne de res y camarón.',price:119,gr:GR.arroz},
+  {id:'a-especial',cat:'arroces',name:'Arroz Frito Especial',desc:'Pollo, carne de res, camarón, germen y champiñones.',price:149,badge:'Especial',gr:GR.arroz},
+  {id:'a-verduras',cat:'arroces',name:'Arroz Frito de Verduras',desc:'Arroz frito con zanahoria y morrón picados.',price:89,gr:GR.arroz},
+  {id:'a-vegetariano',cat:'arroces',name:'Arroz Frito Vegetariano',desc:'Con germen y champiñón.',price:105,gr:GR.arroz},
+  {id:'gohan',cat:'arroces',name:'Gohan (Arroz al Vapor)',desc:'14 oz de arroz japonés al vapor.',price:109,gr:GR.arroz},
+  {id:'unagi-don',cat:'arroces',name:'Unagi Don',desc:'Con anguilla y ajonjolí.',price:115,gr:GR.arroz},
+  {id:'gohan-especial',cat:'arroces',name:'Gohan Especial',desc:'Con tampico.',price:105,gr:GR.arroz},
+  // ── ROLLOS CLÁSICOS — FRÍOS ─────────────────────────
+  {id:'cali-esp',cat:'clasicos-frios',name:'California Especial',desc:'Aguacate, pepino y camarón.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'california',cat:'clasicos-frios',name:'California',desc:'Aguacate, pepino y cangrejo; ajonjolí por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'philadelphia',cat:'clasicos-frios',name:'Philadelphia',desc:'Queso Philadelphia y salmón; ajonjolí por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'lino',cat:'clasicos-frios',name:'Lino',desc:'Queso Philadelphia y salmón; aguacate por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'intrepid',cat:'clasicos-frios',name:'Intrepid',desc:'Salmón, cangrejo y aguacate; aguacate y tártara por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'tampico-r',cat:'clasicos-frios',name:'Tampico',desc:'Pasta tampico.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'regional',cat:'clasicos-frios',name:'Regional',desc:'Queso Philadelphia, aguacate y camarón empanizado; tampico por fuera.',price:125,bundle:'clasico',deal:'2×$199',badge:'Fan fav',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'colorado',cat:'clasicos-frios',name:'Colorado',desc:'Cangrejo, queso Philadelphia y aguacate; masago y salmón por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'obispado',cat:'clasicos-frios',name:'Obispado',desc:'Camarón, masago, cangrejo y pulpo; queso Philadelphia, aguacate y cangrejo por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'garfield',cat:'clasicos-frios',name:'Garfield',desc:'Queso Philadelphia, aguacate, salmón y cangrejo.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'popito',cat:'clasicos-frios',name:'Popito',desc:'Arroz frito, queso Philadelphia, aguacate, salmón y chiles toreados.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'kiko',cat:'clasicos-frios',name:'Kiko',desc:'Camarón empanizado y aguacate; masago por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'intocable',cat:'clasicos-frios',name:'Intocable',desc:'Aguacate, tampico, tártara, camarón, shishimi y queso Philadelphia; kanikama por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'futomaki',cat:'clasicos-frios',name:'Futomaki',desc:'Aguacate, camarón, cangrejo, salmón, pepino, zanahoria y masago.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_frio,mods:['extras-rollo']},
+  {id:'mango-roll',cat:'clasicos-frios',name:'Mango Roll',desc:'Queso Philadelphia, aguacate, camarón y mango-habanero; mango, ajonjolí y salsa de anguila por fuera.',price:125,bundle:'clasico',deal:'2×$199',badge:'Especial',gr:GR.clasico_frio,mods:['extras-rollo']},
+  // ── ROLLOS CLÁSICOS — EMPANIZADOS ───────────────────
+  {id:'scobby',cat:'clasicos-emp',name:'Scobby',desc:'Arroz frito, queso Philadelphia, aguacate y chile toreados.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'greta',cat:'clasicos-emp',name:'Greta',desc:'Arroz frito, queso Philadelphia, aguacate, verduras al vapor, pepino, chamoy y shishimi.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'onix',cat:'clasicos-emp',name:'Onix',desc:'Queso Philadelphia, aguacate y cangrejo.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'rockefeller',cat:'clasicos-emp',name:'Rockefeller',desc:'Queso Philadelphia, aguacate, cangrejo, pepino, chamoy y shishimi.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'medicina',cat:'clasicos-emp',name:'Medicina',desc:'Arroz frito, gouda, morrón y pollo empanizado; salsa de anguila y ajonjolí por fuera.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'zafira',cat:'clasicos-emp',name:'Zafira',desc:'Queso Philadelphia, aguacate, cangrejo y camarón.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'esmeralda',cat:'clasicos-emp',name:'Esmeralda',desc:'Queso Philadelphia, aguacate y chiles toreados.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'tribilin',cat:'clasicos-emp',name:'Tribilin',desc:'Queso Philadelphia, aguacate y salmón empanizado.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'sayonara',cat:'clasicos-emp',name:'Sayonara',desc:'Queso Philadelphia, aguacate, camarón empanizado y chiles toreados.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'leyes',cat:'clasicos-emp',name:'Leyes',desc:'Arroz frito, gouda, aguacate y pollo a la plancha.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  {id:'cordero',cat:'clasicos-emp',name:'Cordero',desc:'Arroz frito, queso, aguacate, cebollín y carne de res.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_emp,mods:['extras-rollo']},
+  // ── ROLLOS CLÁSICOS — CAPEADOS ──────────────────────
+  {id:'villarreal',cat:'clasicos-cap',name:'Villarreal',desc:'Arroz frito, queso Philadelphia, aguacate y camarón empanizado.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  {id:'zaru',cat:'clasicos-cap',name:'Zaru',desc:'Queso Philadelphia, aguacate, camarón y cangrejo.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  {id:'vagabundo',cat:'clasicos-cap',name:'Vagabundo',desc:'Arroz frito, queso Philadelphia, aguacate, cangrejo y verduras al vapor.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  {id:'nori-r',cat:'clasicos-cap',name:'Nori',desc:'Queso Philadelphia, aguacate y verduras al vapor.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  {id:'ika',cat:'clasicos-cap',name:'Ika',desc:'Queso Philadelphia, brócoli y camarón empanizado.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  {id:'pittsburgh',cat:'clasicos-cap',name:'Pittsburgh',desc:'Queso Philadelphia, aguacate y cangrejo.',price:125,bundle:'clasico',deal:'2×$199',gr:GR.clasico_cap,mods:['extras-rollo']},
+  // ── SIGNATURE ROLLS — FRÍOS ─────────────────────────
+  {id:'barry',cat:'sig-frios',name:'Barry',desc:'Queso Philadelphia, aguacate, salmón y camarón; tampico por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'plasma',cat:'sig-frios',name:'Plasma',desc:'Queso Philadelphia, tampico, shishimi y masago; salmón por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'temaky-r',cat:'sig-frios',name:'Temaky',desc:'Queso Philadelphia, aguacate, tampico y anguila; masago por fuera.',price:135,bundle:'signature',deal:'2×$229',badge:'Signature',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'arjona',cat:'sig-frios',name:'Arjona',desc:'Arroz frito, queso Philadelphia, aguacate, cangrejo, salmón, camarón y pulpo.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'caricatura',cat:'sig-frios',name:'Caricatura',desc:'Camarón, anguila, tampico y shishimi; masago por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'coronavirus',cat:'sig-frios',name:'Coronavirus',desc:'Tampico, camarón empanizado, chamoy y queso; aguacate y seaweed salad por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'chepevera',cat:'sig-frios',name:'Chepevera',desc:'Cangrejo, camarón y tártara; queso Philadelphia, anguila, salsa de anguila y ajonjolí por fuera.',price:135,bundle:'signature',deal:'2×$229',badge:'Fan fav',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'oyster',cat:'sig-frios',name:'Oyster Roll',desc:'Camarón, queso Philadelphia y aguacate; ostión y salsa de ostión por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  {id:'tuna-spicy',cat:'sig-frios',name:'Tuna Spicy',desc:'Queso Philadelphia, aguacate y surimi; atún, ajonjolí y salsa especial por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_frio,mods:['extras-rollo']},
+  // ── SIGNATURE ROLLS — EMPANIZADOS ───────────────────
+  {id:'cuarzo',cat:'sig-emp',name:'Cuarzo',desc:'Queso Philadelphia, aguacate, cangrejo, camarón, salmón y pulpo.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_emp,mods:['extras-rollo']},
+  {id:'dinamita',cat:'sig-emp',name:'Dinamita Roll',desc:'Arroz frito, queso Philadelphia, gouda, cebollín, aguacate, chiles toreados, salsa mango-habanero, camarón empanizado, pollo y carne de res.',price:135,bundle:'signature',deal:'2×$229',badge:'Especial',gr:GR.sig_emp,mods:['extras-rollo']},
+  {id:'chili',cat:'sig-emp',name:'Chili',desc:'Aguacate, tampico, camarón, cebollín y shishimi; salmón por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_emp,mods:['extras-rollo']},
+  {id:'sake',cat:'sig-emp',name:'Sake',desc:'Queso Philadelphia, anguila, camarón y salmón.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_emp,mods:['extras-rollo']},
+  {id:'houston',cat:'sig-emp',name:'Houston',desc:'Arroz frito, aguacate, anguila y camarón.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_emp,mods:['extras-rollo']},
+  {id:'makisu',cat:'sig-emp',name:'Makisu',desc:'Queso Philadelphia y anguila; cangrejo por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_emp,mods:['extras-rollo']},
+  // ── SIGNATURE ROLLS — CAPEADOS ──────────────────────
+  {id:'sig-cap-1',cat:'sig-cap',name:'Lorem Ipsum',desc:'Queso Philadelphia, anguila y salmón por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_cap,mods:['extras-rollo']},
+  {id:'sig-cap-2',cat:'sig-cap',name:'Rubi',desc:'Queso Philadelphia, anguila y salmón por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_cap,mods:['extras-rollo']},
+  {id:'sig-cap-3',cat:'sig-cap',name:'Cantinflas',desc:'Queso Philadelphia, anguila y salmón por fuera.',price:135,bundle:'signature',deal:'2×$229',gr:GR.sig_cap,mods:['extras-rollo']},
+  // ── ESPECIALIDADES ──────────────────────────────────
+  {id:'misoshiru',cat:'especialidades',name:'Misoshiru',desc:'Pasta de soya con cebollín y tofu.',price:95,gr:GR.esp},
+  {id:'miso-esp',cat:'especialidades',name:'Miso Especial',desc:'Con pescado y mariscos.',price:115,gr:GR.esp},
+  {id:'fideos',cat:'especialidades',name:'Fideos',desc:'Fideo japonés con verduras.',price:105,gr:GR.esp},
+  {id:'ramen',cat:'especialidades',name:'Ramen',desc:'Ramen con proteína y verduras. Indícanos tu preferencia en notas.',price:199,badge:'Especial',gr:GR.esp},
+  // ── TEPPANYAKI ──────────────────────────────────────
+  {id:'teppan-veg',cat:'teppanyaki',name:'Teppanyaki de Verduras',desc:'Brócoli, coliflor, zanahoria, cebolla, morrón y germen con el sazón de la casa.',price:159,gr:GR.teppan,mods:['teppan-extras']},
+  {id:'teppan-pollo',cat:'teppanyaki',name:'Teppanyaki de Pollo',desc:'Con elote, naruto, aguacate, brócoli, zanahoria, huevo, cebollín, alga Nori y pollo.',price:189,gr:GR.teppan,mods:['teppan-extras']},
+  {id:'teppan-mixto',cat:'teppanyaki',name:'Teppanyaki Mixto',desc:'Pollo, res y camarón con verduras al sazón de la casa.',price:245,badge:'Especial',gr:GR.teppan,mods:['teppan-extras']},
+  // ── ALITAS ──────────────────────────────────────────
+  {id:'alitas',cat:'alitas',name:'Alitas (10 piezas)',desc:'Elige tu sabor: Buffalo, Mango Habanero, BBQ, Teriyaki o Lemon Pepper.',price:165,gr:GR.alita,mods:['alitas-sabor']},
+  {id:'boneless',cat:'alitas',name:'Boneless',desc:'Elige tu sabor: Buffalo, Mango Habanero, BBQ, Teriyaki o Lemon Pepper.',price:165,gr:GR.alita,mods:['alitas-sabor']},
+  // ── KIDS ────────────────────────────────────────────
+  {id:'kids-1',cat:'kids',name:'Combo Kids 1',desc:'16 nuggets de pollo empanizado + papas a la francesa.',price:129,gr:GR.kids},
+  {id:'kids-2',cat:'kids',name:'Combo Kids 2',desc:'Mini rollo de pollo y queso gouda empanizado + 3 kushiages.',price:129,gr:GR.kids},
+  // ── POSTRES ─────────────────────────────────────────
+  {id:'helado-t',cat:'postres',name:'Helado Tempura',desc:'Helado empanizado frito.',price:99,gr:GR.postre},
+  {id:'nieve',cat:'postres',name:'Nieve',desc:'Bola de helado.',price:49,gr:GR.postre},
+  {id:'brownie',cat:'postres',name:'Brownie con Nieve',desc:'Brownie caliente con bola de helado.',price:99,gr:GR.postre},
+  {id:'sandwich-nieve',cat:'postres',name:'Sandwich de Nieve',desc:'Postre frío con galletas y helado.',price:99,gr:GR.postre},
+  {id:'carlota',cat:'postres',name:'Carlota de Limón',desc:'Postre frío de galleta y crema de limón.',price:45,gr:GR.postre},
+  // ── BEBIDAS ─────────────────────────────────────────
+  {id:'refresco',cat:'bebidas',name:'Refresco',desc:'355 ml.',price:42,gr:GR.bebida},
+  {id:'agua-sab',cat:'bebidas',name:'Agua de Sabores',desc:'600 ml.',price:49,gr:GR.bebida},
+  {id:'agua-bot',cat:'bebidas',name:'Botella de Agua',desc:'500 ml.',price:45,gr:GR.bebida},
+  {id:'agua-min',cat:'bebidas',name:'Agua Mineral',desc:'600 ml.',price:49,gr:GR.bebida},
+  {id:'limonada',cat:'bebidas',name:'Limonada Natural',desc:'500 ml.',price:49,gr:GR.bebida},
+  {id:'limonada-m',cat:'bebidas',name:'Limonada Mineral',desc:'500 ml.',price:59,gr:GR.bebida},
+];
+
+// Fill combo rollo options dynamically from MENU
+MODS['combo-c-rollo'].items = MENU
+  .filter(i=>['clasicos-frios','clasicos-emp','clasicos-cap'].includes(i.cat))
+  .map(i=>({id:i.id,name:i.name,price:0,sub:i.cat.replace('clasicos-','').replace('-','').toUpperCase()}));
+MODS['combo-s-rollo'].items = MENU
+  .filter(i=>['sig-frios','sig-emp','sig-cap'].includes(i.cat))
+  .map(i=>({id:i.id,name:i.name,price:0,sub:i.cat.replace('sig-','').replace('-','').toUpperCase()}));
+
+const CATS = [
+  {id:'all',lbl:'Todo'},
+  {id:'combos',lbl:'Combos ⭐'},
+  {id:'entradas',lbl:'Entradas'},
+  {id:'ensaladas',lbl:'Ensaladas'},
+  {id:'clasicos-frios',lbl:'Clásicos Fríos'},
+  {id:'clasicos-emp',lbl:'Clásicos Emp.'},
+  {id:'clasicos-cap',lbl:'Clásicos Cap.'},
+  {id:'sig-frios',lbl:'Signature Fríos'},
+  {id:'sig-emp',lbl:'Signature Emp.'},
+  {id:'sig-cap',lbl:'Signature Cap.'},
+  {id:'arroces',lbl:'Arroces / Gohan'},
+  {id:'especialidades',lbl:'Especialidades'},
+  {id:'teppanyaki',lbl:'Teppanyaki'},
+  {id:'alitas',lbl:'Alitas & Boneless'},
+  {id:'kids',lbl:'Kids'},
+  {id:'postres',lbl:'Postres'},
+  {id:'bebidas',lbl:'Bebidas'},
+];
+const CAT_LBL = {
+  combos:'Combos',entradas:'Entradas',ensaladas:'Ensaladas / Sunomono',
+  'clasicos-frios':'Rollos Clásicos — Fríos','clasicos-emp':'Rollos Clásicos — Empanizados','clasicos-cap':'Rollos Clásicos — Capeados',
+  'sig-frios':'Signature Rolls — Fríos','sig-emp':'Signature Rolls — Empanizados','sig-cap':'Signature Rolls — Capeados',
+  arroces:'Arroces / Gohan / Yakimeshi',especialidades:'Especialidades',
+  teppanyaki:'Teppanyaki',alitas:'Alitas & Boneless',kids:'Menú Kids',
+  postres:'Postres',bebidas:'Bebidas',
+};
+const BUNDLE_CATS = ['clasicos-frios','clasicos-emp','clasicos-cap','sig-frios','sig-emp','sig-cap'];
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let cart = JSON.parse(localStorage.getItem('temaky-v3-cart')||'[]');
+let menuCat = 'all';
+let menuSearch = '';
+// Sheet state
+let sheetProd = null;
+let sheetQty = 1;
+let sheetSels = {}; // { modGroupId: Set of item IDs }
+let sheetNotes = '';
+let toastTimer;
+
+// ═══════════════════════════════════════════════════
+//  CART LOGIC
+// ═══════════════════════════════════════════════════
+function cartCalc(){
+  let subtotal=0;
+  cart.forEach(ci=>{subtotal+=ci.lineTotal;});
+  const clasicoQty=cart.filter(ci=>ci.bundle==='clasico').reduce((s,ci)=>s+ci.qty,0);
+  const sigQty=cart.filter(ci=>ci.bundle==='signature').reduce((s,ci)=>s+ci.qty,0);
+  const cPairs=Math.floor(clasicoQty/2);
+  const sPairs=Math.floor(sigQty/2);
+  const bundleSaving=cPairs*51+sPairs*41;
+  return{subtotal,bundleSaving,total:subtotal-bundleSaving,cPairs,sPairs};
+}
+
+function cartSave(){localStorage.setItem('temaky-v3-cart',JSON.stringify(cart));}
+
+function cartAdd(prod,qty,sels,notes){
+  // Build mods list from sels
+  const mods=[];
+  let modsExtra=0;
+  Object.entries(sels).forEach(([gid,ids])=>{
+    const grp=MODS[gid];if(!grp)return;
+    ids.forEach(id=>{
+      const item=grp.items.find(i=>i.id===id);if(!item)return;
+      mods.push({id,name:item.name,price:item.price,group:gid});
+      modsExtra+=item.price;
+    });
+  });
+  const basePrice=prod.price;
+  const lineTotal=(basePrice+modsExtra)*qty;
+  const id=prod.id+'-'+Date.now();
+  cart.push({cartId:id,id:prod.id,name:prod.name,price:basePrice,modsTotal:modsExtra,mods,notes,qty,lineTotal,bundle:prod.bundle||null});
+  cartSave();
+  renderCart();
+  updateCartUI();
+  toast(prod.name+' agregado al pedido ✓');
+  // Upsell suggestions
+  checkUpsell(prod);
+}
+
+function cartChangeQty(cartId,delta){
+  const ci=cart.find(c=>c.cartId===cartId);if(!ci)return;
+  ci.qty=Math.max(0,ci.qty+delta);
+  if(ci.qty===0){cart=cart.filter(c=>c.cartId!==cartId);}
+  else{ci.lineTotal=(ci.price+ci.modsTotal)*ci.qty;}
+  cartSave();renderCart();updateCartUI();
+  // Re-render menu to update qty buttons
+  renderMenu();
+}
+
+function cartRemove(cartId){
+  cart=cart.filter(c=>c.cartId!==cartId);
+  cartSave();renderCart();updateCartUI();renderMenu();
+}
+
+function checkUpsell(prod){
+  // If added a rollo and no bebida → suggest
+  if((prod.bundle==='clasico'||prod.bundle==='signature')&&!cart.find(c=>c.id==='refresco')){
+    setTimeout(()=>toast('¿Agregar Refresco por $42?'),800);
+  }
+  // If added yasai → suggest camaron
+  if(prod.id==='yasai'&&!cart.find(c=>c.mods.find(m=>m.id==='add-camarones'))){
+    setTimeout(()=>toast('Recuerda: puedes agregar 5 camarones al Yasai (+$60)'),900);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+//  PRODUCT SHEET
+// ═══════════════════════════════════════════════════
+function openSheet(prodId){
+  const prod=MENU.find(p=>p.id===prodId);if(!prod)return;
+  sheetProd=prod;sheetQty=1;sheetSels={};sheetNotes='';
+  // Init selections
+  (prod.mods||[]).forEach(gid=>{
+    sheetSels[gid]=new Set();
+  });
+  renderSheet();
+  document.getElementById('psheet').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function closeSheet(){
+  document.getElementById('psheet').classList.remove('open');
+  if(!document.getElementById('mover').classList.contains('open')&&!document.getElementById('cart').classList.contains('open'))
+    document.body.style.overflow='';
+}
+
+function renderSheet(){
+  if(!sheetProd)return;
+  const p=sheetProd;
+  // Header
+  document.getElementById('psh-hdr').innerHTML=`
+    <div class="psh-name">${p.name}</div>
+    <div class="psh-desc">${p.desc}</div>
+    <div class="psh-prow">
+      <span class="psh-price">$${p.price}</span>
+      ${p.deal?`<span class="psh-deal-badge">Promo ${p.deal}</span>`:''}
+    </div>`;
+  // Body: modifiers + notes
+  let html='';
+  (p.mods||[]).forEach(gid=>{
+    const grp=MODS[gid];if(!grp)return;
+    const isRadio=grp.type==='radio';
+    html+=`<div class="mg">
+      <div class="mg-lbl">${grp.lbl} <span class="${grp.req?'mg-req':'mg-opt'}">${grp.req?'Requerido':'Opcional'}</span></div>`;
+    grp.items.forEach(item=>{
+      const sel=(sheetSels[gid]||new Set()).has(item.id);
+      html+=`<div class="mo${sel?' sel':''}" onclick="toggleMod('${gid}','${item.id}',${isRadio})">
+        <div class="mo-l">
+          <div class="mo-ck${isRadio?'':' sq'}">${sel?'✓':''}</div>
+          <div><div class="mo-nm">${item.name}</div>${item.sub?`<div class="mo-ex">${item.sub}</div>`:''}</div>
+        </div>
+        <span class="mo-pr">${item.price>0?'+$'+item.price:'Incluido'}</span>
+      </div>`;
+    });
+    html+='</div>';
+  });
+  html+=`<div class="notes-wrap">
+    <span class="notes-lbl">Notas especiales (opcional)</span>
+    <textarea class="notes-ta" id="sheet-notes" rows="2" placeholder="Ej: Sin alga, extra picante, alergia a…" onchange="sheetNotes=this.value">${sheetNotes}</textarea>
+  </div>`;
+  document.getElementById('psh-body').innerHTML=html;
+  renderSheetFooter();
+}
+
+function renderSheetFooter(){
+  const canAdd=canAddSheet();
+  const totalPrice=calcSheetTotal();
+  document.getElementById('psh-footer').innerHTML=`
+    <div class="psh-qrow">
+      <span class="psh-qlbl">Cantidad</span>
+      <div class="psh-qctrl">
+        <button class="pshqb" onclick="sheetQty=Math.max(1,sheetQty-1);renderSheetFooter()">−</button>
+        <span class="pshqn">${sheetQty}</span>
+        <button class="pshqb" onclick="sheetQty++;renderSheetFooter()">+</button>
+      </div>
+    </div>
+    <button class="psh-add" onclick="addFromSheet()" ${canAdd?'':'disabled'}>
+      Agregar al pedido <span class="psh-tot">$${totalPrice}</span>
+    </button>`;
+}
+
+function toggleMod(gid,itemId,isRadio){
+  if(!sheetSels[gid])sheetSels[gid]=new Set();
+  if(isRadio){
+    sheetSels[gid]=new Set([itemId]);
+  }else{
+    if(sheetSels[gid].has(itemId))sheetSels[gid].delete(itemId);
+    else sheetSels[gid].add(itemId);
+  }
+  renderSheet();
+}
+
+function canAddSheet(){
+  if(!sheetProd)return false;
+  return (sheetProd.mods||[]).every(gid=>{
+    const grp=MODS[gid];if(!grp)return true;
+    if(!grp.req)return true;
+    return (sheetSels[gid]||new Set()).size>0;
+  });
+}
+
+function calcSheetTotal(){
+  if(!sheetProd)return 0;
+  let total=sheetProd.price;
+  Object.entries(sheetSels).forEach(([gid,ids])=>{
+    const grp=MODS[gid];if(!grp)return;
+    ids.forEach(id=>{
+      const item=grp.items.find(i=>i.id===id);
+      if(item)total+=item.price;
+    });
+  });
+  return total*sheetQty;
+}
+
+function addFromSheet(){
+  if(!canAddSheet())return;
+  const notes=document.getElementById('sheet-notes')?.value||sheetNotes;
+  cartAdd(sheetProd,sheetQty,sheetSels,notes);
+  closeSheet();
+}
+
+// ═══════════════════════════════════════════════════
+//  MENU RENDER
+// ═══════════════════════════════════════════════════
+function openMenu(cat){
+  menuCat=cat||'all';
+  renderCats();renderMenu();
+  document.getElementById('mover').classList.add('open');
+  document.getElementById('mo-search').value='';
+  menuSearch='';
+  document.body.style.overflow='hidden';
+}
+function closeMenu(){
+  document.getElementById('mover').classList.remove('open');
+  if(!document.getElementById('cart').classList.contains('open'))
+    document.body.style.overflow='';
+}
+
+function renderCats(){
+  document.getElementById('cats-bar').innerHTML=CATS.map(c=>
+    `<button class="cp${menuCat===c.id?' on':''}" onclick="filterCat('${c.id}')">${c.lbl}</button>`
+  ).join('');
+}
+
+function filterCat(id){
+  menuCat=id;renderCats();renderMenu();
+  document.getElementById('mo-body').scrollTop=0;
+}
+
+function onSearch(q){
+  menuSearch=q.trim().toLowerCase();renderMenu();
+}
+
+function renderMenu(){
+  const body=document.getElementById('mo-body');
+  const groups=menuCat==='all'?[...new Set(MENU.map(i=>i.cat))]:[menuCat];
+  let html='';
+  let anyResult=false;
+  groups.forEach(cat=>{
+    let items=MENU.filter(i=>i.cat===cat);
+    if(menuSearch)items=items.filter(i=>
+      i.name.toLowerCase().includes(menuSearch)||
+      (i.desc&&i.desc.toLowerCase().includes(menuSearch))||
+      i.cat.toLowerCase().includes(menuSearch)
+    );
+    if(!items.length)return;
+    anyResult=true;
+    const isBundle=BUNDLE_CATS.includes(cat);
+    html+=`<div class="cg">
+      <div class="cg-hdr">
+        <span class="cg-name">${CAT_LBL[cat]||cat}</span>
+        ${isBundle?`<span class="cg-promo">Promo ${cat.startsWith('sig')?'2×$229':'2×$199'}</span>`:''}
+      </div>
+      <div class="pg">${items.map(renderCard).join('')}</div>
+    </div>`;
+  });
+  if(!anyResult)html=`<div class="no-res"><span class="no-res-ico">🔍</span>Sin resultados para "${menuSearch}"</div>`;
+  body.innerHTML=html;
+}
+
+function renderCard(item){
+  const inCart=cart.filter(c=>c.id===item.id).reduce((s,c)=>s+c.qty,0);
+  const hasMods=(item.mods&&item.mods.length>0);
+  const addControl=inCart>0&&!hasMods
+    ?`<div class="pqc"><button class="pqcb" onclick="event.stopPropagation();quickDec('${item.id}')">−</button><span class="pqcn">${inCart}</span><button class="pqcb" onclick="event.stopPropagation();quickInc('${item.id}')">+</button></div>`
+    :`<button class="padd" onclick="event.stopPropagation();${hasMods?`openSheet('${item.id}')`:`quickAdd('${item.id}')`}" title="${hasMods?'Personalizar':'Agregar'}">+</button>`;
+  return `<div class="pcard" onclick="${hasMods?`openSheet('${item.id}')`:`quickAdd('${item.id}')`}">
+    <div class="pi"><div class="pi-bg" style="background:${item.gr||'#111'}"></div>
+      ${item.badge?`<span class="pi-badge main">${item.badge}</span>`:''}
+      ${item.deal&&!item.badge?`<span class="pi-badge deal">${item.deal}</span>`:''}
+    </div>
+    <div class="pb">
+      <div class="pn">${item.name}</div>
+      <div class="pd">${item.desc||''}</div>
+      <div class="pf">
+        <div><span class="pp">$${item.price}</span>${item.deal?`<span class="p-deal">Promo ${item.deal}</span>`:''}</div>
+        ${addControl}
+      </div>
+    </div>
+  </div>`;
+}
+
+function quickAdd(id){
+  const prod=MENU.find(p=>p.id===id);if(!prod)return;
+  cartAdd(prod,1,{},''
+  );
+}
+function quickInc(id){
+  const last=cart.slice().reverse().find(c=>c.id===id);
+  if(last)cartChangeQty(last.cartId,1); else quickAdd(id);
+  renderMenu();
+}
+function quickDec(id){
+  const last=cart.slice().reverse().find(c=>c.id===id);
+  if(last){cartChangeQty(last.cartId,-1);renderMenu();}
+}
+
+// ═══════════════════════════════════════════════════
+//  CART RENDER
+// ═══════════════════════════════════════════════════
+function openCart(){
+  renderCart();
+  document.getElementById('cart').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeCart(){
+  document.getElementById('cart').classList.remove('open');
+  if(!document.getElementById('mover').classList.contains('open'))
+    document.body.style.overflow='';
+}
+
+function renderCart(){
+  const body=document.getElementById('cart-body');
+  const foot=document.getElementById('cart-foot');
+  if(!cart.length){
+    body.innerHTML=`<div class="ce">
+      <div class="ce-ico"><svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></div>
+      <div class="ce-t">Tu pedido está vacío</div>
+      <div class="ce-s">Explora el menú y agrega tus platillos favoritos</div>
+      <button class="btn btn-r" style="margin-top:12px;font-size:.83rem;padding:11px 20px" onclick="closeCart();openMenu()">Ver Menú</button>
+    </div>`;
+    foot.style.display='none';return;
+  }
+  const calc=cartCalc();
+  // Items
+  let html=cart.map(ci=>`
+    <div class="ci">
+      <div class="ci-inf">
+        <div class="ci-name">${ci.name}</div>
+        ${ci.mods.length?`<div class="ci-mods">${ci.mods.map(m=>m.name+(m.price>0?' +$'+m.price:'')).join(' · ')}</div>`:''}
+        ${ci.notes?`<div class="ci-notes">${ci.notes}</div>`:''}
+      </div>
+      <div class="ci-r">
+        <span class="ci-price">$${ci.lineTotal}</span>
+        <div class="ci-ctrl">
+          <button class="cib" onclick="cartChangeQty('${ci.cartId}',-1)">−</button>
+          <span class="cin">${ci.qty}</span>
+          <button class="cib" onclick="cartChangeQty('${ci.cartId}',1)">+</button>
+          <button class="cib del" onclick="cartRemove('${ci.cartId}')" title="Eliminar">✕</button>
+        </div>
+      </div>
+    </div>`).join('');
+  // Bundle tip
+  if(calc.cPairs>0)html+=`<div class="bundle-tip"><div class="bt-lbl">🎉 Promo 2×$199 aplicada</div><div class="bt-txt">${calc.cPairs} par${calc.cPairs>1?'es':''} de Rollos Clásicos — <span class="bt-save">ahorro $${calc.cPairs*51}</span></div></div>`;
+  if(calc.sPairs>0)html+=`<div class="bundle-tip"><div class="bt-lbl">🎉 Promo 2×$229 aplicada</div><div class="bt-txt">${calc.sPairs} par${calc.sPairs>1?'es':''} de Signature Rolls — <span class="bt-save">ahorro $${calc.sPairs*41}</span></div></div>`;
+  // Upsell chips
+  const ups=getUpsells();
+  if(ups.length)html+=`<div class="cupsell"><div class="cup-lbl">¿Agregar algo más?</div><div class="cup-row">${ups.map(u=>`<div class="cup-chip" onclick="quickAdd('${u.id}');renderCart()"><span class="cup-nm">${u.name}</span><span class="cup-pr">+$${u.price}</span><span class="cup-plus">+</span></div>`).join('')}</div></div>`;
+  body.innerHTML=html;
+  // Footer
+  let fhtml=`<div class="cart-lines">`;
+  fhtml+=`<div class="cl"><span class="cl-lbl">Subtotal</span><span class="cl-val">$${calc.subtotal}</span></div>`;
+  if(calc.bundleSaving>0)fhtml+=`<div class="cl saving"><span class="cl-lbl">Promo aplicada</span><span class="cl-val">−$${calc.bundleSaving}</span></div>`;
+  fhtml+=`<div class="cl total"><span class="cl-lbl">Total del pedido</span><span class="cl-val">$${calc.total}</span></div>`;
+  fhtml+=`</div>
+    <button class="cart-wa" onclick="sendWA()">
+      <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Enviar pedido por WhatsApp
+    </button>
+    <p class="cart-note">Tu nombre y datos de entrega se confirman por WhatsApp. El pedido final lo afina Temaky contigo directamente.</p>`;
+  foot.innerHTML=fhtml;foot.style.display='block';
+}
+
+function getUpsells(){
+  const ids=cart.map(c=>c.id);
+  const result=[];
+  if(!ids.includes('refresco'))result.push(MENU.find(p=>p.id==='refresco'));
+  if(!ids.includes('carlota'))result.push(MENU.find(p=>p.id==='carlota'));
+  if(!ids.includes('edamames')&&ids.some(id=>MENU.find(p=>p.id===id&&p.bundle)))result.push(MENU.find(p=>p.id==='edamames'));
+  if(!ids.includes('gyosas'))result.push(MENU.find(p=>p.id==='gyosas'));
+  return result.filter(Boolean).slice(0,4);
+}
+
+function updateCartUI(){
+  const count=cart.reduce((s,ci)=>s+ci.qty,0);
+  const{total}=cartCalc();
+  document.getElementById('nc-count').textContent=count;
+  document.getElementById('n-cart').style.display=count?'flex':'none';
+  document.getElementById('cfab-total').textContent='$'+total;
+  document.getElementById('cfab-cnt').textContent=count+' item'+(count!==1?'s':'');
+  document.getElementById('cfab').classList.toggle('show',count>0);
+}
+
+// ═══════════════════════════════════════════════════
+//  WHATSAPP CHECKOUT
+// ═══════════════════════════════════════════════════
+function sendWA(){
+  if(!cart.length)return;
+  const calc=cartCalc();
+  let msg='Hola Temaky Sushi 🍣 quiero hacer este pedido:\n\n';
+  msg+='📋 *MI PEDIDO:*\n';
+  cart.forEach(ci=>{
+    msg+=`• ${ci.qty}× ${ci.name}`;
+    if(ci.mods.length){
+      ci.mods.forEach(m=>{
+        msg+='\n  · '+m.name+(m.price>0?' (+$'+m.price+')':'');
+      });
+    }
+    if(ci.notes)msg+='\n  · Nota: '+ci.notes;
+    msg+=' — $'+ci.lineTotal+'\n';
+  });
+  msg+='\n';
+  if(calc.cPairs>0)msg+=`✅ Promo 2×$199: ${calc.cPairs} par(es) de Clásicos (−$${calc.cPairs*51})\n`;
+  if(calc.sPairs>0)msg+=`✅ Promo 2×$229: ${calc.sPairs} par(es) de Signature (−$${calc.sPairs*41})\n`;
+  msg+=`\n💰 *TOTAL: $${calc.total}*\n`;
+  msg+='\nComparto mi nombre y datos de entrega por aquí. ¡Gracias! 🙏';
+  window.open('https://wa.me/528127474440?text='+encodeURIComponent(msg),'_blank');
+}
+
+// ═══════════════════════════════════════════════════
+//  NAV & UI
+// ═══════════════════════════════════════════════════
+function toggleDrawer(){
+  const d=document.getElementById('ndrawer'),o=document.getElementById('nov'),b=document.getElementById('nhbg');
+  const open=d.classList.contains('open');
+  d.classList.toggle('open',!open);o.classList.toggle('on',!open);b.classList.toggle('x',!open);
+  document.body.style.overflow=open?'':'hidden';
+}
+function closeDrawer(){
+  document.getElementById('ndrawer').classList.remove('open');
+  document.getElementById('nov').classList.remove('on');
+  document.getElementById('nhbg').classList.remove('x');
+  document.body.style.overflow='';
+}
+function closeAll(){closeDrawer();closeMenu();closeCart();}
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.style.opacity='0',2400);
+}
+
+window.addEventListener('scroll',()=>{
+  document.getElementById('nav').classList.toggle('solid',window.scrollY>40);
+},{passive:true});
+document.getElementById('nhbg').addEventListener('click',toggleDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAll();});
+
+// ═══════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════
+renderCats();
+updateCartUI();
+if(cart.length){renderCart();}
+</script>
+</body>
+</html>

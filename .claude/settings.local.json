@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "Bash(npx create-astro@latest . --template minimal --typescript strict --install --no-git)",
+      "Bash(npm install *)",
+      "Bash(node -e \"const p=require\\('./node_modules/astro/package.json'\\); console.log\\('astro:', p.version\\)\")",
+      "Bash(node -e \"const p=require\\('./node_modules/tailwindcss/package.json'\\); console.log\\('tailwind:', p.version\\)\")",
+      "Bash(npm uninstall *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

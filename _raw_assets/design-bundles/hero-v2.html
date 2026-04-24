@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Temaky Sushi — Hero A / B</title>
+
+<!-- Google Fonts: DM Sans + Cormorant Garamond Italic · fallbacks para MADEC: Oswald + Bebas Neue -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* MADEC local (el usuario tiene el archivo); fallbacks en Oswald/Bebas Neue */
+@font-face{
+  font-family:'MADEC';
+  src: url('MADEC___.TTF') format('truetype'),
+       url('/fonts/MADEC___.TTF') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ═══════════════════════════════════════
+   TOKENS — Temaky Sushi
+═══════════════════════════════════════ */
+:root{
+  --rojo:         #B8102E;
+  --rojo-dark:    #8B0D22;
+  --negro:        #000000;
+  --blanco:       #FFFFFF;
+  --glass:        rgba(255,255,255,0.07);
+  --borde:        rgba(255,255,255,0.15);
+
+  --display: 'MADEC', 'Oswald', 'Bebas Neue', Impact, sans-serif;
+  --serif:   'Cormorant Garamond', 'Times New Roman', serif;
+  --sans:    'DM Sans', system-ui, sans-serif;
+
+  --r-pill:  999px;
+  --r-card:  14px;
+  --r-btn:   10px;
+}
+
+/* ═══════════════════════════════════════
+   RESET
+═══════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--negro);color:var(--blanco);font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+img,video{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+
+/* Divisor entre variaciones */
+.variant-label{
+  display:flex;align-items:center;gap:14px;
+  max-width:1440px;margin:0 auto;padding:28px 6% 10px;
+  font-family:var(--sans);font-size:.72rem;font-weight:600;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+}
+.variant-label::before{content:"";flex:0 0 28px;height:1px;background:var(--rojo);}
+.variant-label .tag{color:var(--rojo);font-family:var(--serif);font-style:italic;letter-spacing:0;text-transform:none;font-size:1.1rem;}
+
+/* ═══════════════════════════════════════
+   HERO — shared shell
+═══════════════════════════════════════ */
+.hero{
+  position:relative;
+  width:100%;
+  min-height:100svh;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 50%, #1a0608 0%, #000 70%);
+  display:flex;
+  align-items:stretch;
+}
+
+/* Video de fondo — 100% del hero */
+.hero-video{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  z-index:0;
+  pointer-events:none;
+}
+/* Fallback (si el video no carga, el poster-gradient toma su lugar) */
+.hero-poster{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 65% 55%, rgba(184,16,46,0.22) 0%, rgba(0,0,0,0.95) 60%),
+    linear-gradient(180deg,#15060a 0%, #000 100%);
+}
+
+/* Grano sutil para romper la compresión del video */
+.hero-grain{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* Top chrome — logo + pequeña localía */
+.hero-top{
+  position:absolute;top:0;left:0;right:0;z-index:5;
+  display:flex;align-items:center;justify-content:space-between;
+  padding: 22px 6%;
+}
+.hero-logo{height:38px;width:auto;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6));}
+.hero-top-meta{
+  font-family:var(--sans);font-size:.68rem;font-weight:500;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.55);
+}
+
+/* Eyebrow genérico */
+.eyebrow{
+  font-family:var(--sans);
+  font-size:.70rem;font-weight:500;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.60);
+}
+.eyebrow .dot{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--rojo);vertical-align:middle;margin:0 .65em;transform:translateY(-2px);}
+
+/* H1 display */
+.hh1{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(3rem, 9vw, 7rem);
+  line-height:0.88;
+  letter-spacing:-0.01em;
+  text-transform:uppercase;
+}
+.hh1 .l-w{display:block;color:var(--blanco);}
+.hh1 .l-r{display:block;color:var(--rojo);}
+
+/* Badge de autoridad — vidrio */
+.badge-auth{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 20px;
+  border-radius:var(--r-pill);
+  background:var(--glass);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border:1px solid var(--borde);
+  font-family:var(--sans);
+  font-size:.78rem;font-weight:500;
+  color:rgba(255,255,255,0.92);
+  white-space:nowrap;
+}
+.badge-auth .star{color:#F5C542;font-size:.9rem;}
+.badge-auth .sep{color:rgba(255,255,255,0.3);}
+
+/* Bloque Combo — rectángulo rojo */
+.combo{
+  display:block;
+  border-radius:var(--r-card);
+  background:var(--rojo);
+  padding:18px 22px;
+  color:var(--blanco);
+  transition: background .2s ease, transform .2s ease;
+  cursor:pointer;
+  min-width:260px;
+}
+.combo:hover{background:var(--rojo-dark);transform:translateY(-2px);}
+.combo-eyebrow{
+  display:block;min-height:22px;line-height:22px;
+  font-family:var(--sans);
+  font-size:.66rem;font-weight:600;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.75);
+}
+.combo-price{
+  display:block;min-height:56px;line-height:1;
+  margin-top:6px;
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:clamp(3rem, 8vw, 5rem);
+  color:var(--blanco);
+}
+.combo-sep{
+  height:1px;background:rgba(255,255,255,0.22);
+  margin:10px 0 10px;
+}
+.combo-desc{
+  display:block;min-height:24px;line-height:1.35;
+  font-family:var(--sans);font-size:.86rem;
+  color:rgba(255,255,255,0.92);
+}
+
+/* CTAs */
+.ctas{display:flex;flex-direction:column;gap:12px;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:15px 26px;
+  border-radius:var(--r-btn);
+  font-family:var(--sans);font-size:.92rem;font-weight:600;
+  letter-spacing:.01em;
+  line-height:1;
+  text-align:center;
+  transition: background .2s ease, border-color .2s ease, transform .15s ease;
+  min-height:52px;
+}
+.btn-solid{background:var(--rojo);color:var(--blanco);}
+.btn-solid:hover{background:var(--rojo-dark);transform:translateY(-1px);}
+.btn-outline{background:transparent;color:var(--blanco);border:1.5px solid var(--borde);}
+.btn-outline:hover{border-color:var(--blanco);background:rgba(255,255,255,0.04);}
+.btn .wa{fill:#25D366;flex-shrink:0;}
+.btn-solid .wa{fill:var(--blanco);}
+
+/* Scroll indicator */
+.scroll-cue{
+  position:absolute;left:50%;bottom:32px;
+  transform:translateX(-50%);
+  z-index:5;
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--sans);font-size:.68rem;font-weight:500;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);
+  animation: cue-bounce 2s ease-in-out infinite;
+}
+.scroll-cue .arrow{font-size:1rem;color:rgba(255,255,255,0.6);}
+@keyframes cue-bounce{
+  0%,100%{transform:translate(-50%, 0);}
+  50%{transform:translate(-50%, 8px);}
+}
+
+/* Entrada */
+@keyframes rise{
+  from{opacity:0;transform:translateY(20px);}
+  to  {opacity:1;transform:translateY(0);}
+}
+.rise{animation: rise .8s cubic-bezier(.2,.7,.2,1) both;}
+.d1{animation-delay:.05s;} .d2{animation-delay:.15s;} .d3{animation-delay:.25s;}
+.d4{animation-delay:.35s;} .d5{animation-delay:.45s;} .d6{animation-delay:.55s;}
+
+/* ═══════════════════════════════════════
+   VARIANTE A · texto izquierda · overlay pesado
+═══════════════════════════════════════ */
+.hero-a .overlay{
+  position:absolute;inset:0;z-index:2;
+  background:
+    linear-gradient(90deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.55) 40%, rgba(0,0,0,0.25) 75%, rgba(0,0,0,0.1) 100%),
+    radial-gradient(ellipse at 70% 50%, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.85) 70%);
+}
+.hero-a .container{
+  position:relative;z-index:4;
+  width:100%;max-width:1440px;margin:0 auto;
+  padding: 120px 6% 110px;
+  display:flex;align-items:center;
+}
+.hero-a .content{
+  width:100%;max-width:600px;
+  display:flex;flex-direction:column;gap:26px;
+}
+.hero-a .meta-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.hero-a .combo{align-self:flex-start;}
+.hero-a .ctas{width:100%;max-width:420px;}
+
+/* ═══════════════════════════════════════
+   VARIANTE B · centrada · más aire
+═══════════════════════════════════════ */
+.hero-b .overlay{
+  position:absolute;inset:0;z-index:2;
+  background:
+    radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0.78) 80%),
+    linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.15) 35%, rgba(0,0,0,0.25) 65%, rgba(0,0,0,0.75) 100%);
+}
+.hero-b .container{
+  position:relative;z-index:4;
+  width:100%;max-width:1200px;margin:0 auto;
+  padding: 120px 6% 110px;
+  display:flex;align-items:center;justify-content:center;
+}
+.hero-b .content{
+  width:100%;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:26px;
+}
+.hero-b .hh1{text-align:center;}
+.hero-b .ctas{flex-direction:column;width:100%;max-width:340px;}
+
+/* Rule divider (dentro de B) – detalle de lujo */
+.hero-b .rule{
+  width:48px;height:1px;background:var(--rojo);opacity:.85;
+}
+
+/* ═══════════════════════════════════════
+   DESKTOP (≥ 900px) — ajustes específicos
+═══════════════════════════════════════ */
+@media (min-width: 900px){
+  .hero{min-height:100vh;}
+  .hero-a .content{max-width:640px;gap:30px;}
+  .hero-a .ctas{flex-direction:row;max-width:none;}
+  .hero-a .btn{flex:1 1 auto;min-width:200px;}
+  .hero-b .ctas{flex-direction:row;max-width:520px;}
+  .hero-b .ctas .btn{flex:1 1 0;}
+  .hero-top{padding: 28px 6%;}
+  .hero-logo{height:44px;}
+}
+
+/* Móvil bien apretado */
+@media (max-width: 420px){
+  .hero-a .container, .hero-b .container{padding: 108px 6% 120px;}
+  .badge-auth{font-size:.72rem;padding:9px 16px;}
+  .combo{min-width:0;width:100%;}
+  .hh1{letter-spacing:-.015em;}
+}
+
+/* Divisor visual entre A y B */
+.split{
+  position:relative;
+  height:1px;background:rgba(255,255,255,0.08);
+  margin: 0;
+}
+
+/* Recomendación final */
+.verdict{
+  max-width:900px;margin:0 auto;
+  padding: 48px 6% 64px;
+  font-family:var(--sans);
+  color:rgba(255,255,255,0.78);
+  font-size:.95rem;line-height:1.7;
+}
+.verdict h3{
+  font-family:var(--display);
+  font-size:1.4rem;letter-spacing:.04em;text-transform:uppercase;
+  color:var(--blanco);margin-bottom:18px;
+}
+.verdict h3 .k{color:var(--rojo);}
+.verdict p{margin-bottom:10px;}
+.verdict .pick{
+  display:inline-block;
+  padding:3px 10px;margin-right:6px;
+  border-radius:6px;
+  background:rgba(184,16,46,0.14);
+  color:var(--rojo);
+  font-family:var(--sans);font-size:.72rem;font-weight:700;
+  letter-spacing:.16em;text-transform:uppercase;
+}
+</style>
+</head>
+
+<body>
+
+<!-- ─── Etiqueta A ─── -->
+<div class="variant-label"><span>Variación A</span><span class="tag">texto izquierda · overlay pesado</span></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HERO · VARIANTE A — texto alineado a la izquierda
+══════════════════════════════════════════════════════════════ -->
+<section class="hero hero-a" aria-label="Hero Temaky A">
+  <!-- Poster de respaldo -->
+  <div class="hero-poster" aria-hidden="true"></div>
+
+  <!-- Video de fondo -->
+  <video class="hero-video"
+         autoplay muted loop playsinline preload="metadata"
+         poster=""
+         aria-hidden="true">
+    <source src="Temaky-video.webm" type="video/webm">
+  </video>
+
+  <!-- Overlay (oscuro hacia la izquierda) -->
+  <div class="overlay" aria-hidden="true"></div>
+
+  <!-- Grano -->
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <!-- Chrome superior -->
+  <div class="hero-top">
+    <img class="hero-logo" src="logo-temaky.webp" alt="Temaky Sushi — desde 1999">
+    <span class="hero-top-meta">Villa Obispado · Mty</span>
+  </div>
+
+  <!-- Contenido -->
+  <div class="container">
+    <div class="content">
+
+      <p class="eyebrow rise d1">Monterrey <span class="dot"></span> Desde 1999</p>
+
+      <h1 class="hh1 rise d2">
+        <span class="l-w">El Sushi</span>
+        <span class="l-r">de Monterrey</span>
+      </h1>
+
+      <div class="meta-row rise d3">
+        <span class="badge-auth">
+          <span class="star">★</span>
+          <span>4.4</span>
+          <span class="sep">·</span>
+          <span>946 reseñas en Google</span>
+        </span>
+      </div>
+
+      <a class="combo rise d4" href="#menu" aria-label="Combo Clásico $139">
+        <span class="combo-eyebrow">Combo Clásico</span>
+        <span class="combo-price">$139</span>
+        <span class="combo-sep" aria-hidden="true"></span>
+        <span class="combo-desc">Rollo a elegir + ½ arroz frito</span>
+      </a>
+
+      <div class="ctas rise d5">
+        <a class="btn btn-solid" href="#menu">
+          Ver el Menú
+        </a>
+        <a class="btn btn-outline"
+           href="https://wa.me/528127474440?text=Hola%20Temaky!%20Quiero%20hacer%20un%20pedido%20🍣"
+           target="_blank" rel="noopener">
+          <svg class="wa" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <a class="scroll-cue" href="#b-start" aria-label="Descubre el menú">
+    <span class="arrow">↓</span>
+    <span>Descubre el menú</span>
+  </a>
+</section>
+
+<div class="split" id="b-start"></div>
+
+<!-- ─── Etiqueta B ─── -->
+<div class="variant-label"><span>Variación B</span><span class="tag">centrada · más minimal · video protagonista</span></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     HERO · VARIANTE B — centrado, overlay suave
+══════════════════════════════════════════════════════════════ -->
+<section class="hero hero-b" aria-label="Hero Temaky B">
+  <div class="hero-poster" aria-hidden="true"></div>
+
+  <video class="hero-video"
+         autoplay muted loop playsinline preload="metadata"
+         poster=""
+         aria-hidden="true">
+    <source src="Temaky-video.webm" type="video/webm">
+  </video>
+
+  <div class="overlay" aria-hidden="true"></div>
+  <div class="hero-grain" aria-hidden="true"></div>
+
+  <div class="hero-top">
+    <img class="hero-logo" src="logo-temaky.webp" alt="Temaky Sushi — desde 1999">
+    <span class="hero-top-meta">Villa Obispado · Mty</span>
+  </div>
+
+  <div class="container">
+    <div class="content">
+
+      <p class="eyebrow rise d1">Monterrey <span class="dot"></span> Desde 1999</p>
+
+      <span class="badge-auth rise d2">
+        <span class="star">★</span>
+        <span>4.4</span>
+        <span class="sep">·</span>
+        <span>946 reseñas en Google</span>
+      </span>
+
+      <h1 class="hh1 rise d3">
+        <span class="l-w">El Sushi</span>
+        <span class="l-r">de Monterrey</span>
+      </h1>
+
+      <div class="rule rise d4" aria-hidden="true"></div>
+
+      <a class="combo rise d5" href="#menu" aria-label="Combo Clásico $139" style="max-width:360px;">
+        <span class="combo-eyebrow">Combo Clásico</span>
+        <span class="combo-price">$139</span>
+        <span class="combo-sep" aria-hidden="true"></span>
+        <span class="combo-desc">Rollo a elegir + ½ arroz frito</span>
+      </a>
+
+      <div class="ctas rise d6">
+        <a class="btn btn-solid" href="#menu">Ver el Menú</a>
+        <a class="btn btn-outline"
+           href="https://wa.me/528127474440?text=Hola%20Temaky!%20Quiero%20hacer%20un%20pedido%20🍣"
+           target="_blank" rel="noopener">
+          <svg class="wa" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Pedir por WhatsApp
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <a class="scroll-cue" href="#verdict" aria-label="Descubre el menú">
+    <span class="arrow">↓</span>
+    <span>Descubre el menú</span>
+  </a>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════
+     VERDICT — mini-nota de diseño
+══════════════════════════════════════════════════════════════ -->
+<section class="verdict" id="verdict">
+  <h3>Recomendación<span class="k">.</span></h3>
+  <p><span class="pick">Recomiendo</span> <strong>Variación A</strong> como baseline de producción: el overlay izquierdo-pesado garantiza legibilidad del H1 MADEC incluso si el video cambia a planos claros, y deja el lado derecho del plano libre para que la comida respire — más cerca de la guía de marca ("imágenes de sushi protagonistas, mínimo 60% del espacio").</p>
+  <p><span class="pick">Alternativa</span> <strong>Variación B</strong> funciona mejor para campañas o landings efímeras (temporadas, lanzamientos): la simetría centrada eleva la percepción de lujo y deja al video contar la historia, pero castiga la jerarquía comercial — el Combo Clásico compite con el H1 en lugar de apoyarlo.</p>
+  <p><span class="pick">Mezcla</span> si quieres lo mejor de ambos: compón A con la <em>rule roja</em> de B entre badge y CTAs — añade un detalle editorial sin perder el gancho de conversión.</p>
+</section>
+
+</body>
+</html>

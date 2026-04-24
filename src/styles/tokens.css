@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'MADEC';
+  src: url('/fonts/MADEC___.TTF') format('truetype');
+  font-weight: 700;
+  font-display: swap;
+}
+
+@theme {
+  /* Colors */
+  --color-negro: #000000;
+  --color-blanco: #ffffff;
+  --color-rojo: #B8102E;
+  --color-rojo-dark: #8B0D22;
+  --color-amarillo: #FFB90E;
+  --color-verde-wa: #25D366;
+  --color-s1: #111111;
+  --color-s2: #141414;
+  --color-s3: #1c1c1c;
+
+  /* Glass / alpha */
+  --color-g04: rgba(255, 255, 255, 0.04);
+  --color-g06: rgba(255, 255, 255, 0.06);
+  --color-g10: rgba(255, 255, 255, 0.10);
+  --color-g15: rgba(255, 255, 255, 0.15);
+  --color-g40: rgba(255, 255, 255, 0.40);
+  --color-g55: rgba(255, 255, 255, 0.55);
+  --color-g70: rgba(255, 255, 255, 0.70);
+  --color-g85: rgba(255, 255, 255, 0.85);
+
+  /* Typography */
+  --font-display: 'MADEC', 'Oswald', 'Impact', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-price: 'Cormorant Garamond', serif;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-pill: 50px;
+}
+
+/* Raw CSS custom properties (for JS access and non-Tailwind usage) */
+:root {
+  --negro: #000000;
+  --blanco: #ffffff;
+  --rojo: #B8102E;
+  --rojo-dark: #8B0D22;
+  --amarillo: #FFB90E;
+  --verde-wa: #25D366;
+  --s1: #111111;
+  --s2: #141414;
+  --s3: #1c1c1c;
+  --g04: rgba(255, 255, 255, 0.04);
+  --g06: rgba(255, 255, 255, 0.06);
+  --g10: rgba(255, 255, 255, 0.10);
+  --g15: rgba(255, 255, 255, 0.15);
+  --g40: rgba(255, 255, 255, 0.40);
+  --g55: rgba(255, 255, 255, 0.55);
+  --g70: rgba(255, 255, 255, 0.70);
+  --g85: rgba(255, 255, 255, 0.85);
+  --madec: 'MADEC', 'Oswald', 'Impact', sans-serif;
+  --sans: 'DM Sans', sans-serif;
+  --serif: 'Cormorant Garamond', serif;
+}
+
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--sans);
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.10); border-radius: 4px; }

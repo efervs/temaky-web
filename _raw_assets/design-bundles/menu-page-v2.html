@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Temaky — Menú</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+@font-face{
+  font-family:'MADEC';
+  src: url('MADEC___.TTF') format('truetype');
+  font-weight: 400 900; font-style: normal; font-display: swap;
+}
+
+/* ═══════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════ */
+:root{
+  --rojo:#B8102E; --rojo-dark:#8B0D22;
+  --amarillo:#FFB90E;
+  --negro:#000;
+  --s1:#111; --s2:#141414; --s3:#1c1c1c;
+  --g04:rgba(255,255,255,0.04);
+  --g06:rgba(255,255,255,0.06);
+  --g10:rgba(255,255,255,0.10);
+  --g55:rgba(255,255,255,0.55);
+
+  --display:'MADEC','Oswald','Bebas Neue',Impact,sans-serif;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+
+  --r-pill:999px; --r-btn:10px; --r-card:16px; --r-sheet:20px;
+}
+
+/* Reset */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--negro);color:#fff;font-family:var(--sans);-webkit-font-smoothing:antialiased;}
+body{min-height:100dvh;}
+img{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer;}
+input,textarea{font:inherit;color:inherit;background:none;border:none;outline:none;}
+
+/* Fondo simulando la página base detrás del overlay */
+.page-bg{position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 30% 20%,rgba(184,16,46,0.10) 0%,transparent 60%),
+    #050505;
+}
+
+/* ═══════════════════════════════════════
+   MENU OVERLAY
+═══════════════════════════════════════ */
+.menu-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:var(--negro);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+
+/* Header sticky */
+.m-hdr{
+  position:sticky;top:0;z-index:4;
+  height:60px;flex-shrink:0;
+  display:flex;align-items:center;gap:12px;
+  padding:0 16px;
+  background:rgba(0,0,0,0.97);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--g06);
+}
+.m-title{
+  font-family:var(--display);font-size:1.25rem;letter-spacing:.04em;
+  text-transform:uppercase;color:#fff;flex-shrink:0;
+}
+.m-search{
+  flex:1;position:relative;max-width:420px;
+}
+.m-search .si{
+  position:absolute;left:14px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,0.4);pointer-events:none;
+  width:16px;height:16px;
+}
+.m-search input{
+  width:100%;height:40px;
+  background:var(--g06);
+  border:1px solid transparent;
+  border-radius:var(--r-pill);
+  padding:0 14px 0 38px;
+  font-size:.88rem;color:#fff;
+  transition:background .2s ease, border-color .2s ease;
+}
+.m-search input::placeholder{color:rgba(255,255,255,0.4);}
+.m-search input:focus{background:var(--g10);border-color:var(--g10);}
+.m-x{
+  flex-shrink:0;width:40px;height:40px;border-radius:50%;
+  background:var(--g06);
+  display:grid;place-items:center;
+  transition:background .2s ease;
+}
+.m-x:hover{background:var(--g10);}
+.m-x svg{width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;}
+
+/* Cats bar sticky */
+.m-cats{
+  position:sticky;top:60px;z-index:3;
+  display:flex;gap:8px;overflow-x:auto;
+  padding:12px 16px;flex-shrink:0;
+  background:rgba(0,0,0,0.94);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--g04);
+  scrollbar-width:none;
+}
+.m-cats::-webkit-scrollbar{display:none;}
+.chip{
+  flex-shrink:0;
+  min-height:36px;
+  padding:0 16px;
+  display:inline-flex;align-items:center;gap:6px;
+  border-radius:var(--r-pill);
+  background:var(--g06);
+  color:var(--g55);
+  font-size:.82rem;font-weight:500;
+  letter-spacing:.01em;
+  white-space:nowrap;
+  transition:background .15s ease, color .15s ease, transform .15s ease;
+}
+.chip:hover{color:#fff;background:var(--g10);}
+.chip.on{background:var(--rojo);color:#fff;}
+.chip .em{font-size:.9em;}
+
+/* Body scrollable */
+.m-body{
+  flex:1;
+  overflow-y:auto;
+  padding:20px 16px 120px;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Section header (category group) */
+.cg-hdr{
+  display:flex;align-items:baseline;gap:10px;
+  margin-bottom:14px;
+}
+.cg-title{
+  font-family:var(--display);
+  font-size:.95rem;letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+}
+.cg-rule{flex:1;height:1px;background:var(--g06);}
+.cg-count{font-size:.72rem;color:rgba(255,255,255,0.3);letter-spacing:.05em;}
+
+/* Grid */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:8px;
+  margin-bottom:26px;
+}
+@media (min-width:768px){
+  .grid{grid-template-columns:repeat(3,1fr);gap:12px;}
+}
+@media (min-width:1200px){
+  .grid{grid-template-columns:repeat(4,1fr);gap:16px;}
+  .m-body{padding:24px 28px 140px;}
+  .m-hdr{padding:0 28px;}
+  .m-cats{padding:14px 28px;}
+}
+
+/* ═══════════════════════════════════════
+   PRODUCT CARD
+═══════════════════════════════════════ */
+.pcard{
+  background:var(--s2);
+  border:1px solid var(--g06);
+  border-radius:var(--r-card);
+  overflow:hidden;
+  display:flex;flex-direction:column;
+  position:relative;
+  transition:transform .22s cubic-bezier(.2,.7,.2,1),
+             border-color .22s ease,
+             box-shadow .22s ease;
+  cursor:pointer;
+  text-align:left;
+  width:100%;
+}
+.pcard:hover{
+  transform:translateY(-3px);
+  border-color:rgba(184,16,46,0.4);
+  box-shadow:0 14px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(184,16,46,0.08);
+}
+
+/* Image 4/3 */
+.pi{
+  position:relative;
+  aspect-ratio:4/3;
+  overflow:hidden;
+  background:linear-gradient(145deg,#1a0303,#2d0808);
+}
+.pi img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.2,.7,.2,1);
+}
+.pcard:hover .pi img{transform:scale(1.06);}
+
+/* Fallback cuando no hay foto */
+.pi.placeholder{
+  display:grid;place-items:center;
+  color:rgba(255,255,255,0.35);
+  font-family:var(--sans);
+  font-size:.72rem;font-weight:500;
+  letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;padding:16px;
+}
+.pi.placeholder .ph-ico{font-size:1.5rem;margin-bottom:6px;display:block;}
+
+/* Badges sobre la imagen */
+.pi-badges{
+  position:absolute;inset:8px 8px auto 8px;
+  display:flex;justify-content:space-between;align-items:flex-start;
+  gap:6px;pointer-events:none;z-index:2;
+}
+.b-promo, .b-top{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:4px 9px;
+  border-radius:var(--r-pill);
+  font-size:.64rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+  line-height:1;white-space:nowrap;
+  box-shadow:0 4px 10px rgba(0,0,0,0.35);
+}
+.b-promo{background:var(--amarillo);color:#1a0a00;}
+.b-top{background:var(--rojo);color:#fff;margin-left:auto;}
+
+/* Card body */
+.pb{
+  padding:12px 12px 12px;
+  display:flex;flex-direction:column;gap:6px;flex:1;
+}
+.pn{
+  font-family:var(--display);
+  font-size:1rem;letter-spacing:.02em;
+  text-transform:uppercase;line-height:1.1;
+  color:#fff;
+}
+.pd{
+  font-size:.76rem;line-height:1.4;
+  color:rgba(255,255,255,0.5);
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+  flex:1;
+}
+.pf{
+  margin-top:4px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.pp{
+  font-family:var(--serif);font-style:italic;font-weight:500;
+  font-size:1.4rem;line-height:1;color:#fff;
+}
+.pp .currency{font-family:var(--sans);font-style:normal;font-size:.7rem;font-weight:500;color:rgba(255,255,255,0.45);margin-right:2px;vertical-align:4px;letter-spacing:.04em;}
+.padd{
+  flex-shrink:0;
+  width:34px;height:34px;border-radius:50%;
+  background:var(--rojo);color:#fff;
+  display:grid;place-items:center;
+  font-size:1.2rem;line-height:1;font-weight:500;
+  transition:background .15s ease, transform .15s ease;
+}
+.padd:hover{background:var(--rojo-dark);transform:scale(1.08);}
+
+/* ═══════════════════════════════════════
+   PRODUCT SHEET (bottom)
+═══════════════════════════════════════ */
+.sheet-scrim{
+  position:fixed;inset:0;z-index:180;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+  opacity:1;
+  transition:opacity .3s ease;
+}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:200;
+  max-height:88dvh;
+  display:flex;flex-direction:column;
+  background:var(--s1);
+  border-top-left-radius:var(--r-sheet);
+  border-top-right-radius:var(--r-sheet);
+  box-shadow:0 -20px 60px rgba(0,0,0,0.6);
+  transform:translateY(0);
+  transition:transform .34s cubic-bezier(.32,.72,0,1);
+  overflow:hidden;
+}
+@media (min-width:768px){
+  .sheet{
+    left:50%;right:auto;bottom:auto;top:50%;
+    transform:translate(-50%,-50%);
+    width:min(560px, calc(100vw - 40px));
+    max-height:92vh;
+    border-radius:var(--r-sheet);
+  }
+  .sheet.hidden{transform:translate(-50%,-40%);opacity:0;}
+}
+.sheet.hidden{transform:translateY(100%);}
+
+.sheet-handle{
+  flex-shrink:0;
+  display:flex;justify-content:center;padding:10px 0 6px;
+}
+.sheet-handle::after{
+  content:"";width:44px;height:4px;border-radius:4px;
+  background:rgba(255,255,255,0.2);
+}
+
+.sheet-hero{
+  position:relative;
+  aspect-ratio:16/9;
+  background:linear-gradient(145deg,#1a0303,#2d0808);
+  overflow:hidden;flex-shrink:0;
+}
+.sheet-hero img{width:100%;height:100%;object-fit:cover;}
+.sheet-hero::after{
+  content:"";position:absolute;inset:auto 0 0 0;height:55%;
+  background:linear-gradient(180deg,transparent 0%,rgba(17,17,17,0.95) 100%);
+}
+.sheet-close{
+  position:absolute;top:10px;right:14px;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:grid;place-items:center;
+}
+.sheet-close svg{width:14px;height:14px;stroke:#fff;stroke-width:2;fill:none;}
+
+.sheet-body{
+  flex:1;overflow-y:auto;
+  padding:20px 20px 24px;
+  -webkit-overflow-scrolling:touch;
+}
+.sh-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:8px;}
+.sh-name{font-family:var(--display);font-size:1.75rem;line-height:1;letter-spacing:.02em;text-transform:uppercase;}
+.sh-price{font-family:var(--serif);font-style:italic;font-size:2rem;line-height:1;color:#fff;white-space:nowrap;}
+.sh-price .currency{font-family:var(--sans);font-style:normal;font-size:.75rem;font-weight:500;color:rgba(255,255,255,0.5);margin-right:2px;vertical-align:6px;letter-spacing:.04em;}
+
+.sh-tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 10px;}
+.sh-tag{
+  padding:4px 10px;border-radius:var(--r-pill);
+  font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.sh-tag.promo{background:var(--amarillo);color:#1a0a00;}
+.sh-tag.cat{background:var(--g06);color:var(--g55);}
+
+.sh-desc{font-size:.88rem;line-height:1.55;color:rgba(255,255,255,0.65);margin-bottom:20px;}
+
+/* Modifier group */
+.mod-group{margin-bottom:20px;}
+.mod-head{
+  display:flex;align-items:baseline;justify-content:space-between;gap:10px;
+  margin-bottom:10px;
+}
+.mod-label{
+  font-family:var(--sans);font-size:.7rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--rojo);
+}
+.mod-hint{font-size:.72rem;color:rgba(255,255,255,0.4);}
+.mod-list{display:flex;flex-direction:column;gap:6px;}
+.mod-item{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 14px;
+  background:var(--s2);
+  border:1px solid var(--g06);
+  border-radius:12px;
+  transition:background .15s ease, border-color .15s ease;
+  cursor:pointer;
+}
+.mod-item:hover{background:var(--s3);border-color:var(--g10);}
+.mod-item.sel{border-color:rgba(184,16,46,0.55);background:rgba(184,16,46,0.08);}
+.mod-box{
+  flex-shrink:0;width:20px;height:20px;
+  border:1.5px solid rgba(255,255,255,0.3);
+  display:grid;place-items:center;
+  transition:border-color .15s ease, background .15s ease;
+}
+.mod-box.radio{border-radius:50%;}
+.mod-box.check{border-radius:5px;}
+.mod-item.sel .mod-box{border-color:var(--rojo);background:var(--rojo);}
+.mod-box .inner{
+  width:8px;height:8px;border-radius:50%;background:#fff;opacity:0;
+  transition:opacity .15s ease;
+}
+.mod-box.check .inner{
+  width:10px;height:10px;border-radius:0;background:transparent;
+  border-right:2px solid #fff;border-bottom:2px solid #fff;
+  transform:rotate(45deg) translate(-1px,-1px);
+}
+.mod-item.sel .mod-box .inner{opacity:1;}
+.mod-name{flex:1;font-size:.88rem;color:#fff;}
+.mod-plus{font-size:.8rem;color:rgba(255,255,255,0.5);font-family:var(--serif);font-style:italic;white-space:nowrap;}
+.mod-plus.free{color:rgba(255,255,255,0.3);}
+
+/* Notes */
+.sh-notes{
+  width:100%;
+  min-height:72px;resize:vertical;
+  background:var(--s2);
+  border:1px solid var(--g06);
+  border-radius:12px;
+  padding:12px 14px;
+  font-size:.88rem;color:#fff;line-height:1.5;
+  transition:border-color .2s ease;
+  font-family:var(--sans);
+}
+.sh-notes::placeholder{color:rgba(255,255,255,0.35);}
+.sh-notes:focus{border-color:var(--g10);}
+
+/* Footer sticky */
+.sh-foot{
+  flex-shrink:0;
+  display:flex;align-items:center;gap:12px;
+  padding:14px 20px calc(14px + env(safe-area-inset-bottom));
+  background:rgba(0,0,0,0.92);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-top:1px solid var(--g06);
+}
+.qty{
+  display:inline-flex;align-items:center;
+  background:var(--s2);
+  border:1px solid var(--g06);
+  border-radius:var(--r-pill);
+  overflow:hidden;
+  flex-shrink:0;
+}
+.qty-btn{
+  width:40px;height:44px;
+  font-size:1.2rem;font-weight:500;
+  color:#fff;
+  display:grid;place-items:center;
+  transition:background .15s ease;
+}
+.qty-btn:hover{background:var(--g06);}
+.qty-btn:disabled{color:rgba(255,255,255,0.25);cursor:not-allowed;}
+.qty-val{
+  min-width:32px;text-align:center;
+  font-family:var(--serif);font-style:italic;font-size:1.15rem;
+}
+.add-btn{
+  flex:1;height:52px;
+  display:inline-flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:0 20px;
+  border-radius:var(--r-btn);
+  background:var(--rojo);color:#fff;
+  font-size:.92rem;font-weight:600;letter-spacing:.01em;
+  transition:background .15s ease, transform .15s ease;
+}
+.add-btn:hover{background:var(--rojo-dark);transform:translateY(-1px);}
+.add-btn .label{display:flex;align-items:center;gap:8px;}
+.add-btn .label svg{width:18px;height:18px;fill:currentColor;}
+.add-btn .price{font-family:var(--serif);font-style:italic;font-size:1.1rem;}
+
+/* Keyboard focus */
+:focus-visible{outline:2px solid var(--rojo);outline-offset:2px;border-radius:6px;}
+
+/* Transitions for card and sheet */
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms !important; transition-duration:.01ms !important;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="page-bg" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MENU OVERLAY (abierto)
+══════════════════════════════════════════════════════════════ -->
+<div class="menu-overlay" id="menu" role="dialog" aria-label="Menú Temaky Sushi" aria-modal="true">
+
+  <!-- HEADER -->
+  <header class="m-hdr">
+    <h1 class="m-title">Menú</h1>
+    <div class="m-search">
+      <svg class="si" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+      </svg>
+      <input type="search" placeholder="Buscar rollo, platillo…" aria-label="Buscar en el menú">
+    </div>
+    <button class="m-x" aria-label="Cerrar menú" onclick="history.back()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </header>
+
+  <!-- CATEGORÍAS -->
+  <nav class="m-cats" aria-label="Categorías">
+    <button class="chip on" data-cat="all">Todo</button>
+    <button class="chip" data-cat="combos"><span class="em">⭐</span> Combos</button>
+    <button class="chip" data-cat="entradas">Entradas</button>
+    <button class="chip" data-cat="frios">Clásicos Fríos</button>
+    <button class="chip" data-cat="emp">Clásicos Emp.</button>
+    <button class="chip" data-cat="sig">Signature Fríos</button>
+    <button class="chip" data-cat="arroces">Arroces</button>
+    <button class="chip" data-cat="teppanyaki">Teppanyaki</button>
+    <button class="chip" data-cat="alitas">Alitas</button>
+    <button class="chip" data-cat="kids">Kids</button>
+    <button class="chip" data-cat="postres">Postres</button>
+    <button class="chip" data-cat="bebidas">Bebidas</button>
+  </nav>
+
+  <!-- BODY -->
+  <main class="m-body">
+
+    <!-- ── Combos ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">⭐ Combos</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">02</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" data-id="combo-clasico" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <div class="pi-badges">
+              <span class="b-promo">Top ventas</span>
+            </div>
+            <span class="ph-ico">📷</span>
+            <span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Combo Clásico</span>
+            <p class="pd">Rollo a elegir + ½ arroz frito. La oferta insignia de Temaky desde 1999.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>139</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" data-id="combo-signature" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span>
+            <span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Combo Signature</span>
+            <p class="pd">Rollo signature + arroz completo + gyozas. Para compartir o comer fuerte.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>289</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── Entradas ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">Entradas</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">06</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span></span><span class="b-top">Top</span></div>
+            <img src="menu/cangrejo-nevado.jpg" loading="lazy" decoding="async" alt="Ensalada Cangrejo Nevado">
+          </div>
+          <div class="pb">
+            <span class="pn">Cangrejo Nevado</span>
+            <p class="pd">Surimi fresco, cebollín, furikake y ajonjolí tostado.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>129</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Kushiages</span>
+            <p class="pd">Brochetas empanizadas de pollo con salsa tonkatsu de la casa.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>139</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <div class="pi-badges"><span class="b-promo">2×$159</span></div>
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Yasai Tempura</span>
+            <p class="pd">Verduras capeadas ligeras: camote, pimiento, ejote y brócoli.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>99</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Ebi Furai</span>
+            <p class="pd">Camarón empanizado panko, acompañado de salsa agridulce.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>149</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Dumplings</span>
+            <p class="pd">Al vapor, rellenos de cerdo y verdura con salsa ponzu.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>109</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <div class="pi-badges"><span></span><span class="b-top">Top</span></div>
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Edamames</span>
+            <p class="pd">Vaina de soya al vapor con sal de mar, la botana por excelencia.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>69</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Gyosas</span>
+            <p class="pd">Selladas a la plancha, crujientes por abajo y jugosas por dentro.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>115</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── Clásicos Fríos ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">Clásicos Fríos</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">04</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span class="b-promo">2×$199</span><span class="b-top">Top</span></div>
+            <img src="menu/philadelphia.jpg" loading="lazy" decoding="async" alt="Rollo Philadelphia">
+          </div>
+          <div class="pb">
+            <span class="pn">Philadelphia</span>
+            <p class="pd">Salmón fresco, queso crema y ajonjolí tostado. El clásico más pedido.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>129</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span class="b-promo">2×$199</span></div>
+            <img src="menu/cantinflas.jpg" loading="lazy" decoding="async" alt="Rollo Cantinflas">
+          </div>
+          <div class="pb">
+            <span class="pn">Cantinflas</span>
+            <p class="pd">Aguacate fresco encima, camarón y queso crema por dentro.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>129</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <img src="menu/leyes.jpg" loading="lazy" decoding="async" alt="Rollo Leyes">
+          </div>
+          <div class="pb">
+            <span class="pn">Regional</span>
+            <p class="pd">Ajonjolí tostado, salmón y queso crema. Una versión norteña del clásico.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>125</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span></span><span class="b-top">Top</span></div>
+            <img src="menu/barry.jpg" loading="lazy" decoding="async" alt="Rollo Barry">
+          </div>
+          <div class="pb">
+            <span class="pn">Intrepid</span>
+            <p class="pd">Doble rollo: salmón con queso crema + surimi y aguacate.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>189</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── Clásicos Empanizados ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">Clásicos Empanizados</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">03</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span class="b-promo">2×$219</span><span class="b-top">Top</span></div>
+            <img src="menu/dallas.jpg" loading="lazy" decoding="async" alt="Rollo Kiko">
+          </div>
+          <div class="pb">
+            <span class="pn">Kiko</span>
+            <p class="pd">Empanizado crujiente, relleno de salmón, queso crema y pimiento.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>139</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <div class="pi-badges"><span class="b-promo">2×$219</span></div>
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Popito</span>
+            <p class="pd">Empanizado en ajonjolí negro, atún, aguacate y salsa spicy.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>145</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Obispado</span>
+            <p class="pd">Rollo firma de la casa. Empanizado, surimi, queso crema y tampico.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>159</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── Signature Fríos ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">Signature Fríos</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">02</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <div class="pi-badges"><span></span><span class="b-top">Top</span></div>
+            <img src="menu/lino.jpg" loading="lazy" decoding="async" alt="Rollo Lino">
+          </div>
+          <div class="pb">
+            <span class="pn">Colorado</span>
+            <p class="pd">Aguacate laminado, salmón, surimi y pepino. Presentación premium.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>169</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi placeholder">
+            <span class="ph-ico">📷</span><span>foto pendiente</span>
+          </div>
+          <div class="pb">
+            <span class="pn">Kids Rollito</span>
+            <p class="pd">Mini rollo suave para los más chicos, sin picante.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>79</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ── Arroces ── -->
+    <section class="cg">
+      <div class="cg-hdr">
+        <span class="cg-title">Arroces y Teppanyaki</span>
+        <span class="cg-rule"></span>
+        <span class="cg-count">01</span>
+      </div>
+      <div class="grid">
+
+        <button class="pcard" onclick="openSheet('philadelphia')">
+          <div class="pi">
+            <img src="menu/arroz-pollo.jpg" loading="lazy" decoding="async" alt="Arroz Frito con Pollo">
+          </div>
+          <div class="pb">
+            <span class="pn">Arroz Frito c/ Pollo</span>
+            <p class="pd">Wokeado en soya, zanahoria, cebollín y huevo. Teppanyaki auténtico.</p>
+            <div class="pf">
+              <span class="pp"><span class="currency">$</span>119</span>
+              <span class="padd" aria-label="Agregar">+</span>
+            </div>
+          </div>
+        </button>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     PRODUCT SHEET — Philadelphia (abierto)
+══════════════════════════════════════════════════════════════ -->
+<div class="sheet-scrim" id="scrim" onclick="closeSheet()"></div>
+
+<aside class="sheet" id="sheet" role="dialog" aria-label="Rollo Philadelphia" aria-modal="true">
+
+  <div class="sheet-handle" aria-hidden="true"></div>
+
+  <div class="sheet-hero">
+    <img src="menu/philadelphia.jpg" alt="Rollo Philadelphia">
+    <button class="sheet-close" aria-label="Cerrar ficha" onclick="closeSheet()">
+      <svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="sheet-body">
+
+    <div class="sh-head">
+      <h2 class="sh-name">Philadelphia</h2>
+      <span class="sh-price"><span class="currency">$</span>129</span>
+    </div>
+
+    <div class="sh-tags">
+      <span class="sh-tag promo">2×$199</span>
+      <span class="sh-tag cat">Clásico Frío</span>
+    </div>
+
+    <p class="sh-desc">El rollo más pedido de Temaky. Salmón fresco, queso crema Philadelphia
+      y ajonjolí tostado. Ocho piezas montadas al momento.</p>
+
+    <!-- Modifier group 1 — Extras (multi check) -->
+    <div class="mod-group">
+      <div class="mod-head">
+        <span class="mod-label">Extras</span>
+        <span class="mod-hint">Opcional · múltiples</span>
+      </div>
+      <div class="mod-list">
+        <label class="mod-item sel">
+          <input type="checkbox" checked hidden>
+          <span class="mod-box check"><span class="inner"></span></span>
+          <span class="mod-name">Extra queso crema</span>
+          <span class="mod-plus">+$18</span>
+        </label>
+        <label class="mod-item">
+          <input type="checkbox" hidden>
+          <span class="mod-box check"><span class="inner"></span></span>
+          <span class="mod-name">Extra salmón</span>
+          <span class="mod-plus">+$35</span>
+        </label>
+        <label class="mod-item">
+          <input type="checkbox" hidden>
+          <span class="mod-box check"><span class="inner"></span></span>
+          <span class="mod-name">Empanizar (tempura)</span>
+          <span class="mod-plus">+$22</span>
+        </label>
+        <label class="mod-item">
+          <input type="checkbox" hidden>
+          <span class="mod-box check"><span class="inner"></span></span>
+          <span class="mod-name">Salsa spicy extra</span>
+          <span class="mod-plus free">Gratis</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Modifier group 2 — Cantidad de piezas (radio single) -->
+    <div class="mod-group">
+      <div class="mod-head">
+        <span class="mod-label">Presentación</span>
+        <span class="mod-hint">Elige una</span>
+      </div>
+      <div class="mod-list">
+        <label class="mod-item sel">
+          <input type="radio" name="pres" checked hidden>
+          <span class="mod-box radio"><span class="inner"></span></span>
+          <span class="mod-name">8 piezas (estándar)</span>
+          <span class="mod-plus free">Incluido</span>
+        </label>
+        <label class="mod-item">
+          <input type="radio" name="pres" hidden>
+          <span class="mod-box radio"><span class="inner"></span></span>
+          <span class="mod-name">10 piezas (XL)</span>
+          <span class="mod-plus">+$28</span>
+        </label>
+        <label class="mod-item">
+          <input type="radio" name="pres" hidden>
+          <span class="mod-box radio"><span class="inner"></span></span>
+          <span class="mod-name">Combo ½ arroz</span>
+          <span class="mod-plus">+$39</span>
+        </label>
+      </div>
+    </div>
+
+    <div class="mod-group" style="margin-bottom:0;">
+      <div class="mod-head">
+        <span class="mod-label">Notas para cocina</span>
+      </div>
+      <textarea class="sh-notes" placeholder="Ej. sin ajonjolí, soya baja en sodio…"></textarea>
+    </div>
+
+  </div>
+
+  <!-- FOOTER sticky -->
+  <div class="sh-foot">
+    <div class="qty" role="group" aria-label="Cantidad">
+      <button class="qty-btn" id="qMinus" aria-label="Restar">−</button>
+      <span class="qty-val" id="qVal">1</span>
+      <button class="qty-btn" id="qPlus" aria-label="Sumar">+</button>
+    </div>
+    <button class="add-btn" id="addBtn">
+      <span class="label">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4H6zM3.8 6h16.4M16 10a4 4 0 0 1-8 0"/></svg>
+        Agregar
+      </span>
+      <span class="price" id="totalPrice">$147</span>
+    </button>
+  </div>
+
+</aside>
+
+<script>
+/* ═══════════════════════════════════════
+   Lógica ligera — sólo para demo visual.
+   La arquitectura real (bundle, modifiers,
+   cart state) vive en spec-v3.html y no se
+   toca aquí.
+═══════════════════════════════════════ */
+const BASE = 129;
+const EXTRAS = {
+  'Extra queso crema':18,'Extra salmón':35,'Empanizar (tempura)':22,'Salsa spicy extra':0
+};
+const PRES = {
+  '8 piezas (estándar)':0,'10 piezas (XL)':28,'Combo ½ arroz':39
+};
+
+function recomputeTotal(){
+  let sum = BASE;
+  document.querySelectorAll('.mod-group')[0].querySelectorAll('.mod-item.sel .mod-name').forEach(n=>{
+    sum += EXTRAS[n.textContent.trim()] || 0;
+  });
+  const pres = document.querySelectorAll('.mod-group')[1].querySelector('.mod-item.sel .mod-name');
+  if (pres) sum += PRES[pres.textContent.trim()] || 0;
+  const q = parseInt(document.getElementById('qVal').textContent,10) || 1;
+  document.getElementById('totalPrice').textContent = '$' + (sum * q);
+}
+
+/* Toggle modifiers */
+document.querySelectorAll('.mod-item').forEach(item=>{
+  item.addEventListener('click', e=>{
+    e.preventDefault();
+    const input = item.querySelector('input');
+    if (!input) return;
+    if (input.type === 'radio'){
+      item.parentElement.querySelectorAll('.mod-item').forEach(i=>i.classList.remove('sel'));
+      item.classList.add('sel');
+    } else {
+      item.classList.toggle('sel');
+    }
+    recomputeTotal();
+  });
+});
+
+/* Quantity */
+let qty = 1;
+const qVal = document.getElementById('qVal');
+document.getElementById('qPlus').addEventListener('click',()=>{
+  if (qty < 20){ qty++; qVal.textContent = qty; recomputeTotal(); }
+});
+document.getElementById('qMinus').addEventListener('click',()=>{
+  if (qty > 1){ qty--; qVal.textContent = qty; recomputeTotal(); }
+});
+
+/* Sheet open/close */
+function openSheet(id){
+  const s = document.getElementById('sheet');
+  const sc = document.getElementById('scrim');
+  s.classList.remove('hidden');
+  sc.style.display = 'block';
+  sc.style.opacity = 1;
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet(){
+  const s = document.getElementById('sheet');
+  const sc = document.getElementById('scrim');
+  s.classList.add('hidden');
+  sc.style.opacity = 0;
+  setTimeout(()=>{ sc.style.display = 'none'; }, 300);
+  document.body.style.overflow = '';
+}
+/* El sheet inicia abierto (por requerimiento del brief) */
+document.getElementById('scrim').style.display = 'block';
+
+/* Escape key */
+document.addEventListener('keydown', e=>{
+  if (e.key === 'Escape') closeSheet();
+});
+
+/* Category chips (demo-only visual toggle) */
+document.querySelectorAll('.m-cats .chip').forEach(c=>{
+  c.addEventListener('click',()=>{
+    document.querySelectorAll('.m-cats .chip').forEach(x=>x.classList.remove('on'));
+    c.classList.add('on');
+  });
+});
+
+recomputeTotal();
+</script>
+
+</body>
+</html>

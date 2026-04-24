@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Temaky — Modal Fuera de Horario</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&family=DM+Sans:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+@font-face{
+  font-family:'MADEC';
+  src:url('MADEC___.TTF') format('truetype');
+  font-weight:400 900;font-style:normal;font-display:swap;
+}
+
+:root{
+  --rojo:#B8102E; --rojo-dark:#8B0D22;
+  --negro:#000; --s2:#141414; --s3:#1c1c1c;
+  --blanco:#fff;
+  --g06:rgba(255,255,255,0.06);
+  --g08:rgba(255,255,255,0.08);
+  --g35:rgba(255,255,255,0.35);
+  --g55:rgba(255,255,255,0.55);
+
+  --display:'MADEC','Oswald','Bebas Neue',Impact,sans-serif;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+
+  --r-panel:20px; --r-btn:10px; --r-pill:999px;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{
+  background:var(--negro);color:var(--blanco);
+  font-family:var(--sans);-webkit-font-smoothing:antialiased;
+  min-height:100dvh;
+}
+
+/* Fondo de página (simula el sitio detrás del modal) */
+.page-bg{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse at 40% 20%, rgba(184,16,46,0.09) 0%, transparent 60%),
+    #050505;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:14px;
+  padding:24px;
+}
+.page-label{
+  font-family:var(--sans);font-size:.68rem;font-weight:600;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.22);
+  text-align:center;
+}
+.page-demo-btns{
+  display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:6px;
+}
+.demo-btn{
+  padding:9px 18px;border-radius:var(--r-pill);
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.10);
+  color:rgba(255,255,255,0.65);font-family:var(--sans);font-size:.8rem;font-weight:500;
+  cursor:pointer;transition:background .15s ease, color .15s ease;
+}
+.demo-btn:hover{background:rgba(255,255,255,0.10);color:#fff;}
+.demo-btn.act{background:var(--rojo);border-color:var(--rojo);color:#fff;}
+
+/* ═══════════════════════════════════════
+   MODAL BACKDROP
+═══════════════════════════════════════ */
+.modal-bd{
+  position:fixed;inset:0;z-index:400;
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+
+  /* Entrada */
+  opacity:0;
+  animation:bd-in .3s ease forwards;
+}
+.modal-bd.closing{animation:bd-out .25s ease forwards;}
+
+@keyframes bd-in  {to{opacity:1;}}
+@keyframes bd-out {to{opacity:0;}}
+
+/* ═══════════════════════════════════════
+   PANEL
+═══════════════════════════════════════ */
+.modal-panel{
+  position:relative;
+  width:100%;max-width:440px;
+  background:var(--s2);
+  border:1px solid var(--g08);
+  border-radius:var(--r-panel);
+  padding:32px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:18px;
+
+  /* Entrada con slide-up */
+  transform:translateY(28px);opacity:0;
+  animation:panel-in .38s cubic-bezier(.2,.7,.2,1) .08s forwards;
+}
+.modal-bd.closing .modal-panel{animation:panel-out .22s ease forwards;}
+
+@keyframes panel-in  {to{transform:translateY(0);opacity:1;}}
+@keyframes panel-out {to{transform:translateY(20px);opacity:0;}}
+
+/* Botón X cerrar */
+.modal-close{
+  position:absolute;top:14px;right:14px;
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(255,255,255,0.06);
+  display:grid;place-items:center;
+  transition:background .15s ease;
+}
+.modal-close:hover{background:rgba(255,255,255,0.11);}
+.modal-close svg{width:13px;height:13px;stroke:#fff;stroke-width:2;fill:none;}
+
+/* Ícono reloj animado */
+.clock-wrap{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(184,16,46,0.12);
+  border:1px solid rgba(184,16,46,0.25);
+  display:grid;place-items:center;
+  flex-shrink:0;
+}
+.clock-ico{
+  font-size:28px;line-height:1;
+  display:block;
+  animation:clock-tick 1.2s steps(12, end) infinite;
+  transform-origin:center;
+}
+@keyframes clock-tick{
+  0%  {content:"🕛";}
+  8%  {content:"🕐";}
+  16% {content:"🕑";}
+  25% {content:"🕒";}
+  33% {content:"🕓";}
+  41% {content:"🕔";}
+  50% {content:"🕕";}
+  58% {content:"🕖";}
+  66% {content:"🕗";}
+  75% {content:"🕘";}
+  83% {content:"🕙";}
+  91% {content:"🕚";}
+  100%{content:"🕛";}
+}
+/* Fallback CSS para el emoji animado */
+.clock-ico::before{content:"🕑";}
+.clock-ico[data-h="0"]::before{content:"🕛";}
+.clock-ico[data-h="1"]::before{content:"🕐";}
+.clock-ico[data-h="2"]::before{content:"🕑";}
+.clock-ico[data-h="3"]::before{content:"🕒";}
+.clock-ico[data-h="4"]::before{content:"🕓";}
+.clock-ico[data-h="5"]::before{content:"🕔";}
+.clock-ico[data-h="6"]::before{content:"🕕";}
+.clock-ico[data-h="7"]::before{content:"🕖";}
+.clock-ico[data-h="8"]::before{content:"🕗";}
+.clock-ico[data-h="9"]::before{content:"🕘";}
+.clock-ico[data-h="10"]::before{content:"🕙";}
+.clock-ico[data-h="11"]::before{content:"🕚";}
+
+/* Título */
+.modal-h3{
+  font-family:var(--display);
+  font-size:clamp(1.35rem,4vw,1.75rem);
+  letter-spacing:.04em;text-transform:uppercase;
+  line-height:1;color:var(--blanco);
+}
+
+/* Separador rojo */
+.modal-rule{
+  width:32px;height:2px;border-radius:2px;
+  background:var(--rojo);flex-shrink:0;
+}
+
+/* Cuerpo de texto */
+.modal-body{
+  font-size:.92rem;line-height:1.6;
+  color:var(--g55);max-width:340px;
+}
+
+/* Hora detectada */
+.modal-hora{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:9px 18px;
+  border-radius:var(--r-pill);
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--g08);
+  font-family:var(--serif);font-style:italic;font-size:1.05rem;
+  color:rgba(255,255,255,0.80);
+  white-space:nowrap;
+}
+.modal-hora .dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--rojo);flex-shrink:0;
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1);}
+  50%{opacity:.45;transform:scale(.75);}
+}
+
+/* Botones */
+.modal-actions{
+  display:flex;flex-direction:column;gap:10px;
+  width:100%;margin-top:4px;
+}
+.m-btn{
+  width:100%;height:50px;
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  border-radius:var(--r-btn);
+  font-family:var(--sans);font-size:.9rem;font-weight:600;
+  letter-spacing:.01em;line-height:1;
+  transition:background .18s ease, border-color .18s ease, transform .14s ease;
+}
+.m-btn-outline{
+  background:transparent;color:var(--blanco);
+  border:1.5px solid rgba(255,255,255,0.28);
+}
+.m-btn-outline:hover{border-color:var(--blanco);background:rgba(255,255,255,0.04);transform:translateY(-1px);}
+.m-btn-solid{background:var(--rojo);color:var(--blanco);border:none;}
+.m-btn-solid:hover{background:var(--rojo-dark);transform:translateY(-1px);}
+.m-btn .wa-ico{fill:var(--blanco);flex-shrink:0;width:18px;height:18px;}
+
+/* ═══ MOBILE ═══ */
+@media (max-width:480px){
+  .modal-panel{padding:26px 20px;}
+}
+
+:focus-visible{outline:2px solid var(--rojo);outline-offset:2px;border-radius:6px;}
+</style>
+</head>
+
+<body>
+
+<!-- Fondo de página (contexto demo) -->
+<div class="page-bg" aria-hidden="false">
+  <p class="page-label">Simulador · Modal fuera de horario</p>
+  <div class="page-demo-btns">
+    <button class="demo-btn act" onclick="showModal({pendingUrl:'#demo', pendingMsg:null})">Ver modal</button>
+    <button class="demo-btn" onclick="testHorario()">Probar isOpen() ahora</button>
+  </div>
+  <p id="openStatus" style="font-size:.78rem;color:rgba(255,255,255,0.35);margin-top:4px;text-align:center;"></p>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MODAL
+══════════════════════════════════════════════════════════════ -->
+<div class="modal-bd" id="modalBd" role="dialog" aria-modal="true"
+     aria-labelledby="modalTitle"
+     onclick="handleBdClick(event)">
+
+  <div class="modal-panel">
+
+    <button class="modal-close" aria-label="Cerrar" onclick="closeModal()">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+
+    <!-- Ícono reloj -->
+    <div class="clock-wrap" aria-hidden="true">
+      <span class="clock-ico" id="clockIco"></span>
+    </div>
+
+    <!-- Título -->
+    <h3 class="modal-h3" id="modalTitle">Estamos cerrados<br>por ahora</h3>
+
+    <div class="modal-rule" aria-hidden="true"></div>
+
+    <!-- Cuerpo -->
+    <p class="modal-body">
+      Nuestro horario es <strong style="color:#fff;">lunes a sábado de 12:00 a 22:00.</strong>
+      Podemos recibir tu pedido cuando abramos; también puedes mandarnos el mensaje
+      y te lo confirmamos en cuanto iniciemos operaciones.
+    </p>
+
+    <!-- Hora actual -->
+    <span class="modal-hora">
+      <span class="dot" aria-hidden="true"></span>
+      Hora en Monterrey: <strong id="mtyHora" style="color:#fff;font-style:normal;">—</span>
+    </span>
+
+    <!-- Acciones -->
+    <div class="modal-actions">
+      <button class="m-btn m-btn-outline" id="btnMandar" onclick="mandarIgual()">
+        <svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Mandar mensaje igual
+      </button>
+      <button class="m-btn m-btn-solid" onclick="closeModal()">Cerrar y esperar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     JS — isOpen() + modal logic
+══════════════════════════════════════════════════════════════ -->
+<script>
+/*
+ * ═══════════════════════════════════════════════════════════════
+ *  HORARIO TEMAKY — lógica de validación
+ *  Exportable para integrar en spec-v3.html
+ *
+ *  Uso:
+ *    const { isOpen, getMtyTime } = TemakyClock;
+ *    if (!isOpen()) { showModal({ pendingUrl, pendingMsg }); return; }
+ * ═══════════════════════════════════════════════════════════════
+ */
+const TemakyClock = (() => {
+  const TZ = 'America/Monterrey';
+
+  /**
+   * Obtiene la hora actual en Monterrey como objeto { year, month, day, weekday, hour, minute }
+   * weekday: 0=domingo … 6=sábado (mismo convenio que Date.getDay())
+   */
+  function getMtyTime(now = new Date()) {
+    // Usamos Intl.DateTimeFormat para resolver el offset de CST/CDT automáticamente
+    const parts = new Intl.DateTimeFormat('es-MX', {
+      timeZone: TZ,
+      year:    'numeric',
+      month:   '2-digit',
+      day:     '2-digit',
+      hour:    '2-digit',
+      minute:  '2-digit',
+      hour12:  false,
+      weekday: 'short'  // lun, mar, mié, jue, vie, sáb, dom
+    }).formatToParts(now);
+
+    const get = t => parts.find(p => p.type === t)?.value;
+
+    const weekdayStr = get('weekday'); // 'lun','mar',…,'dom'
+    const weekdayMap = {
+      'lun':1,'mar':2,'mié':3,'jue':4,'vie':5,'sáb':6,'dom':0
+    };
+    const weekday = weekdayMap[weekdayStr] ?? -1;
+
+    return {
+      year:    parseInt(get('year'),  10),
+      month:   parseInt(get('month'), 10),
+      day:     parseInt(get('day'),   10),
+      weekday,                               // 0=dom, 1=lun … 6=sáb
+      hour:    parseInt(get('hour'),  10),   // 0–23 (Intl hour12:false)
+      minute:  parseInt(get('minute'),10),
+      raw:     now
+    };
+  }
+
+  /**
+   * Retorna true si el restaurante está abierto en este momento.
+   * Horario: Lunes–Sábado 12:00–22:00 (hora Monterrey).
+   * Domingo: CERRADO.
+   */
+  function isOpen(now = new Date()) {
+    const t = getMtyTime(now);
+    if (t.weekday === 0) return false;       // Domingo cerrado
+    if (t.hour < 12)     return false;       // Antes de mediodía
+    if (t.hour >= 22)    return false;       // 22:00 en adelante cerrado
+    return true;
+  }
+
+  /**
+   * Formatea la hora Monterrey como "HH:MM (lun–sáb / dom)"
+   */
+  function formatMtyHour(now = new Date()) {
+    const t = getMtyTime(now);
+    const hh = String(t.hour).padStart(2, '0');
+    const mm = String(t.minute).padStart(2, '0');
+    const days = ['dom','lun','mar','mié','jue','vie','sáb'];
+    return `${hh}:${mm} · ${days[t.weekday] ?? '?'}`;
+  }
+
+  return { getMtyTime, isOpen, formatMtyHour };
+})();
+
+/*
+ * ═══════════════════════════════════════════════════════════════
+ *  INTERCEPTOR — envuelve cualquier submit/CTA
+ *
+ *  En spec-v3.html, reemplaza la llamada directa a wa.me por:
+ *
+ *    interceptSubmit({ pendingUrl: waUrl, pendingMsg: msgText });
+ *
+ *  Si isOpen() → abre wa.me directamente.
+ *  Si cerrado  → abre el modal y almacena la URL para "mandar igual".
+ * ═══════════════════════════════════════════════════════════════
+ */
+let _pendingUrl = null;
+let _pendingMsg = null;
+
+function interceptSubmit({ pendingUrl, pendingMsg = null }) {
+  if (TemakyClock.isOpen()) {
+    // Dentro de horario — enviar directo
+    window.open(pendingUrl, '_blank', 'noopener,noreferrer');
+  } else {
+    // Fuera de horario — abrir modal
+    showModal({ pendingUrl, pendingMsg });
+  }
+}
+
+/* ═══ Modal UI ═══ */
+function showModal({ pendingUrl = '#', pendingMsg = null } = {}) {
+  _pendingUrl = pendingUrl;
+  _pendingMsg = pendingMsg;
+
+  const bd = document.getElementById('modalBd');
+  bd.classList.remove('closing');
+  bd.style.display = 'flex';
+  // Reiniciar animación
+  bd.style.animation = 'none';
+  bd.offsetHeight; // reflow
+  bd.style.animation = '';
+
+  updateModalClock();
+  document.body.style.overflow = 'hidden';
+  document.getElementById('btnMandar').focus();
+}
+
+function closeModal() {
+  const bd = document.getElementById('modalBd');
+  bd.classList.add('closing');
+  bd.addEventListener('animationend', () => {
+    bd.style.display = 'none';
+    bd.classList.remove('closing');
+    document.body.style.overflow = '';
+  }, { once: true });
+}
+
+function handleBdClick(e) {
+  if (e.target === document.getElementById('modalBd')) closeModal();
+}
+
+function mandarIgual() {
+  if (!_pendingUrl) return;
+
+  // Agrega nota "PEDIDO FUERA DE HORARIO" al mensaje
+  let url = _pendingUrl;
+  if (_pendingMsg !== null) {
+    const msgConNota = _pendingMsg + '\n\n⚠️ PEDIDO FUERA DE HORARIO — favor de confirmar.';
+    url = `https://wa.me/528127474440?text=${encodeURIComponent(msgConNota)}`;
+  } else if (url.includes('wa.me')) {
+    // Si la URL ya tiene el texto codificado, añadir al final
+    const nota = encodeURIComponent('\n\n⚠️ PEDIDO FUERA DE HORARIO — favor de confirmar.');
+    url = url + nota;
+  }
+
+  const w = window.open(url, '_blank', 'noopener,noreferrer');
+  if (!w) { window.location.href = url; }
+  closeModal();
+}
+
+/* Actualiza el ícono del reloj y la hora en pantalla */
+function updateModalClock() {
+  const t = TemakyClock.getMtyTime();
+  const ico = document.getElementById('clockIco');
+  if (ico) ico.setAttribute('data-h', String(t.hour % 12));
+
+  const horaEl = document.getElementById('mtyHora');
+  if (horaEl) horaEl.textContent = TemakyClock.formatMtyHour();
+}
+
+/* Escape key */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ═══ DEMO ═══ */
+function testHorario() {
+  const now = new Date();
+  const abierto = TemakyClock.isOpen(now);
+  const hora = TemakyClock.formatMtyHour(now);
+  const statusEl = document.getElementById('openStatus');
+  statusEl.textContent = `isOpen() → ${abierto} · Monterrey: ${hora}`;
+  statusEl.style.color = abierto ? '#4ade80' : '#f87171';
+
+  document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('act'));
+  event.target.classList.add('act');
+}
+
+/* Mostrar modal al cargar (demo), actualizar reloj cada minuto */
+window.addEventListener('DOMContentLoaded', () => {
+  updateModalClock();
+  setInterval(updateModalClock, 30_000);
+});
+</script>
+
+</body>
+</html>
