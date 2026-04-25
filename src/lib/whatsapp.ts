@@ -13,9 +13,10 @@ export interface OrderCustomer {
 
 export interface ReservationForm {
   name: string;
+  email?: string;
   date: string;
   time: string;
-  guests: number;
+  guests: number | string;
   phone?: string;
   notes?: string;
 }
@@ -69,11 +70,12 @@ export function buildReservationMessage(form: ReservationForm): string {
     'Hola Temaky! Quiero hacer una reservación 🍱',
     '',
     `Nombre: ${form.name}`,
-    `Fecha: ${form.date}`,
-    `Hora: ${form.time}`,
-    `Personas: ${form.guests}`,
   ];
-  if (form.phone) lines.push(`Teléfono: ${form.phone}`);
+  if (form.email) lines.push(`Correo: ${form.email}`);
+  if (form.phone) lines.push(`WhatsApp: +52 ${form.phone}`);
+  lines.push(`Fecha: ${form.date}`);
+  lines.push(`Hora: ${form.time}`);
+  lines.push(`Personas: ${form.guests}`);
   if (form.notes) {
     lines.push('');
     lines.push(`Notas: ${form.notes}`);

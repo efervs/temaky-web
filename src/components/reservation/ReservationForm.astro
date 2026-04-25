@@ -1,0 +1,536 @@
+---
+// No server-side props — all logic is client-side
+---
+
+<section id="reserva" aria-labelledby="res-titulo" class="reserva-section">
+
+  <!-- Header -->
+  <div class="res-hdr">
+    <p class="res-eyebrow">Reservaciones</p>
+    <h2 class="res-h2" id="res-titulo">
+      <span class="w">Aparta tu mesa.</span>
+      <span class="r">Hoy mismo.</span>
+    </h2>
+    <p class="res-sub">
+      Plaza Villa Obispado · Terraza con vista.<br />
+      Responde en minutos por WhatsApp.
+    </p>
+  </div>
+
+  <!-- Card -->
+  <div class="res-card">
+    <form id="resForm" novalidate>
+
+      <!-- Nombre -->
+      <div class="field">
+        <label class="f-label" for="rNombre">Nombre completo</label>
+        <input
+          class="f-input"
+          id="rNombre"
+          type="text"
+          required
+          minlength="2"
+          placeholder="¿Cómo te llamamos?"
+          autocomplete="name"
+        />
+      </div>
+
+      <!-- Correo -->
+      <div class="field">
+        <label class="f-label" for="rCorreo">Correo electrónico</label>
+        <input
+          class="f-input"
+          id="rCorreo"
+          type="email"
+          required
+          placeholder="tuemail@ejemplo.com"
+          autocomplete="email"
+        />
+      </div>
+
+      <!-- WhatsApp -->
+      <div class="field">
+        <label class="f-label" for="rWA">WhatsApp</label>
+        <div class="wa-wrap">
+          <span class="wa-prefix" aria-hidden="true">+52</span>
+          <input
+            class="f-input"
+            id="rWA"
+            type="tel"
+            required
+            pattern="[0-9]{10}"
+            placeholder="10 dígitos · ej. 8127474440"
+            maxlength="10"
+            inputmode="numeric"
+            autocomplete="tel-national"
+          />
+        </div>
+      </div>
+
+      <!-- Fecha y hora -->
+      <div class="field">
+        <label class="f-label">Fecha y hora</label>
+        <div class="dt-row">
+          <div class="dt-date-wrap">
+            <input
+              class="f-input"
+              id="rFecha"
+              type="date"
+              required
+              aria-label="Fecha de reserva"
+            />
+            <p id="sundayWarn" class="sunday-warn" hidden>
+              Los domingos estamos cerrados. Elige de lunes a sábado.
+            </p>
+          </div>
+          <select class="f-input f-select" id="rHora" required aria-label="Hora de reserva">
+            <option value="" disabled selected>Hora</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Personas -->
+      <div class="field">
+        <label class="f-label" for="rPersonas">Personas</label>
+        <select class="f-input f-select" id="rPersonas" required>
+          <option value="" disabled selected>¿Cuántas personas?</option>
+          <option value="1">1 persona</option>
+          <option value="2">2 personas</option>
+          <option value="3">3 personas</option>
+          <option value="4">4 personas</option>
+          <option value="5">5 personas</option>
+          <option value="6">6 personas</option>
+          <option value="7">7 personas</option>
+          <option value="8">8 personas</option>
+          <option value="9">9 personas</option>
+          <option value="10">10 personas</option>
+          <option value="Más de 10 (grupo)">Más de 10 (grupo)</option>
+        </select>
+      </div>
+
+      <!-- Ocasión (opcional) -->
+      <div class="field">
+        <label class="f-label" for="rOcasion">
+          Ocasión o mensaje
+          <span class="optional-hint">(opcional)</span>
+        </label>
+        <textarea
+          class="f-input f-textarea"
+          id="rOcasion"
+          rows="3"
+          placeholder="Ej. cumpleaños, aniversario, evento corporativo…"
+        ></textarea>
+      </div>
+
+      <!-- Submit -->
+      <button class="res-btn" type="submit" id="resBtn" disabled>
+        <svg class="wa-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Reservar por WhatsApp
+      </button>
+
+      <!-- Fallback si popup bloqueado -->
+      <div class="wa-fallback" id="waFallback" hidden>
+        <a id="waFallbackLink" href="#" target="_blank" rel="noopener noreferrer">
+          <svg style="width:18px;height:18px;fill:#fff;flex-shrink:0" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Abrir WhatsApp
+        </a>
+      </div>
+
+      <p class="res-legal">
+        Al enviar aceptas que te contactemos por WhatsApp. No guardamos tus datos.
+      </p>
+
+    </form>
+  </div>
+
+  <!-- Divider -->
+  <div class="res-divider">
+    <span>o visítanos sin reserva</span>
+  </div>
+
+  <!-- Info -->
+  <div class="res-info">
+    <span class="ri">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2a7 7 0 0 1 7 7c0 5-7 13-7 13S5 14 5 9a7 7 0 0 1 7-7z"/>
+        <circle cx="12" cy="9" r="2.5"/>
+      </svg>
+      Plaza Villa Obispado · Piso 2
+    </span>
+    <span class="ri">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 3"/>
+      </svg>
+      Lun–Sáb · 12:00–22:00
+    </span>
+    <span class="ri">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M22 16.92V19a2 2 0 0 1-2.18 2A19.79 19.79 0 0 1 3 4.18 2 2 0 0 1 5 2h2.09A2 2 0 0 1 9 3.72l.87 3.61a2 2 0 0 1-.57 1.93l-.82.82a15.78 15.78 0 0 0 6.44 6.44l.82-.82a2 2 0 0 1 1.93-.57l3.61.87A2 2 0 0 1 22 16.92z"/>
+      </svg>
+      +52 81 8346-2758
+    </span>
+  </div>
+
+</section>
+
+<script>
+  import { buildReservationMessage, buildWhatsAppUrl } from '../../lib/whatsapp';
+
+  (function () {
+
+    /* ── Populate time slots 12:00–21:30 every 30 min ── */
+    const selHora = document.getElementById('rHora') as HTMLSelectElement;
+    for (let h = 12; h <= 21; h++) {
+      for (const m of ['00', '30']) {
+        const val = `${String(h).padStart(2, '0')}:${m}`;
+        const hh = h > 12 ? h - 12 : 12;
+        const label = `${hh}:${m} pm`;
+        selHora.add(new Option(label, val));
+      }
+    }
+
+    /* ── Date bounds: today → +60 days ── */
+    const fechaEl = document.getElementById('rFecha') as HTMLInputElement;
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const fmtISO = (d: Date) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+    const today = new Date();
+    const maxDate = new Date(today);
+    maxDate.setDate(maxDate.getDate() + 60);
+    fechaEl.min = fmtISO(today);
+    fechaEl.max = fmtISO(maxDate);
+
+    /* ── Sunday check ── */
+    const sundayWarn = document.getElementById('sundayWarn') as HTMLParagraphElement;
+    function isSunday(dateStr: string) {
+      if (!dateStr) return false;
+      const [y, mo, d] = dateStr.split('-').map(Number);
+      return new Date(y, mo - 1, d).getDay() === 0;
+    }
+
+    fechaEl.addEventListener('change', () => {
+      sundayWarn.hidden = !isSunday(fechaEl.value);
+      checkValidity();
+    });
+
+    /* ── Enable submit when all required fields valid ── */
+    const form = document.getElementById('resForm') as HTMLFormElement;
+    const btn = document.getElementById('resBtn') as HTMLButtonElement;
+    const REQUIRED_IDS = ['rNombre', 'rCorreo', 'rWA', 'rFecha', 'rHora', 'rPersonas'];
+
+    function checkValidity() {
+      const sundayBlocked = isSunday(fechaEl.value);
+      const allFilled = REQUIRED_IDS.every(id => {
+        const el = document.getElementById(id) as HTMLInputElement | HTMLSelectElement;
+        return el && el.value.trim() !== '' && el.checkValidity();
+      });
+      btn.disabled = !allFilled || sundayBlocked;
+    }
+
+    form.addEventListener('input', checkValidity);
+    form.addEventListener('change', checkValidity);
+
+    /* Digits only for WA field */
+    const waEl = document.getElementById('rWA') as HTMLInputElement;
+    waEl.addEventListener('input', () => {
+      waEl.value = waEl.value.replace(/\D/g, '').slice(0, 10);
+      checkValidity();
+    });
+
+    /* ── Submit → build message → open wa.me ── */
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      if (isSunday(fechaEl.value)) {
+        sundayWarn.hidden = false;
+        return;
+      }
+
+      const nombre  = (document.getElementById('rNombre') as HTMLInputElement).value.trim();
+      const correo  = (document.getElementById('rCorreo') as HTMLInputElement).value.trim();
+      const wa      = waEl.value.trim();
+      const rawDate = fechaEl.value;
+      const [y, mo, d] = rawDate.split('-');
+      const dateFormatted = `${d}/${mo}/${y}`;
+      const hora    = selHora.value;
+      const personas = (document.getElementById('rPersonas') as HTMLSelectElement).value;
+      const ocasion  = (document.getElementById('rOcasion') as HTMLTextAreaElement).value.trim();
+
+      const msg = buildReservationMessage({
+        name: nombre,
+        email: correo,
+        phone: wa,
+        date: dateFormatted,
+        time: hora,
+        guests: personas,
+        notes: ocasion || undefined,
+      });
+
+      const url = buildWhatsAppUrl(msg);
+
+      const fallback    = document.getElementById('waFallback') as HTMLDivElement;
+      const fallbackLink = document.getElementById('waFallbackLink') as HTMLAnchorElement;
+      fallbackLink.href = url;
+
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      fallback.hidden = !(!win || win.closed || typeof win.closed === 'undefined');
+    });
+
+  })();
+</script>
+
+<style>
+  /* Section */
+  .reserva-section {
+    background: #000;
+    background-image: radial-gradient(ellipse at 50% 0%, rgba(184, 16, 46, 0.08) 0%, transparent 65%);
+    padding: clamp(72px, 8vw, 100px) 5%;
+  }
+
+  /* Header */
+  .res-hdr { text-align: center; margin-bottom: 52px; }
+
+  .res-eyebrow {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #B8102E;
+    margin-bottom: 16px;
+  }
+
+  .res-h2 {
+    font-family: var(--madec);
+    font-size: clamp(2rem, 5vw, 4rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .res-h2 .w { display: block; color: #fff; }
+  .res-h2 .r { display: block; color: #B8102E; }
+
+  .res-sub {
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.55);
+    line-height: 1.55;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  /* Card */
+  .res-card {
+    max-width: 520px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+  }
+
+  /* Fields */
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+  .field:last-of-type { margin-bottom: 0; }
+
+  .f-label {
+    font-family: var(--sans);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  .optional-hint {
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 400;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .f-input {
+    width: 100%;
+    height: 52px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: #fff;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .f-input::placeholder { color: rgba(255, 255, 255, 0.28); }
+  .f-input:focus {
+    outline: none;
+    border-color: rgba(184, 16, 46, 0.55);
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  /* Custom select arrow */
+  .f-select {
+    padding-right: 36px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.4)'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  :global(select.f-select option) { background: #141414; color: #fff; }
+
+  /* WA prefix */
+  .wa-wrap { position: relative; display: flex; align-items: center; }
+  .wa-prefix {
+    position: absolute;
+    left: 14px;
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.55);
+    pointer-events: none;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .wa-wrap .f-input { padding-left: 52px; }
+
+  /* Date + time row */
+  .dt-row { display: flex; gap: 10px; align-items: flex-start; }
+  .dt-date-wrap { flex: 1; }
+  .dt-row .f-select { flex: 1; }
+
+  /* Sunday warning */
+  .sunday-warn {
+    margin-top: 6px;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: rgba(220, 70, 70, 0.9);
+    line-height: 1.4;
+  }
+
+  /* Textarea */
+  .f-textarea {
+    height: auto;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    resize: vertical;
+    line-height: 1.55;
+  }
+
+  /* Submit button */
+  .res-btn {
+    width: 100%;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 12px;
+    background: #B8102E;
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: none;
+    cursor: pointer;
+    margin-top: 26px;
+    transition: background 0.18s ease, transform 0.15s ease, opacity 0.18s ease;
+  }
+  .res-btn:hover:not(:disabled) { background: #8B0D22; transform: translateY(-1px); }
+  .res-btn:active:not(:disabled) { transform: translateY(0); }
+  .res-btn:focus-visible { outline: 2px solid #B8102E; outline-offset: 2px; }
+  .res-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .wa-ico { flex-shrink: 0; fill: #fff; width: 20px; height: 20px; }
+
+  /* Fallback link */
+  .wa-fallback { margin-top: 14px; text-align: center; }
+  .wa-fallback a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 999px;
+    background: #25D366;
+    color: #fff;
+    font-weight: 600;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    text-decoration: none;
+  }
+  .wa-fallback a:hover { background: #1da855; }
+
+  /* Legal */
+  .res-legal {
+    margin-top: 14px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.5;
+  }
+
+  /* Divider */
+  .res-divider {
+    max-width: 520px;
+    margin: 32px auto 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .res-divider::before,
+  .res-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
+  }
+  .res-divider span {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.25);
+    white-space: nowrap;
+  }
+
+  /* Info row */
+  .res-info {
+    max-width: 520px;
+    margin: 16px auto 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .ri {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .ri svg {
+    width: 15px;
+    height: 15px;
+    stroke: #B8102E;
+    stroke-width: 1.8;
+    fill: none;
+    flex-shrink: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    .res-card { padding: 22px 18px; }
+    .dt-row { flex-direction: column; gap: 10px; }
+    .dt-row .f-select { width: 100%; }
+    .res-info { gap: 14px; }
+  }
+</style>
