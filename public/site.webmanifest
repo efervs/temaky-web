@@ -1,7 +1,7 @@
 {
   "name": "Temaky Sushi",
   "short_name": "Temaky",
-  "description": "El mejor sushi de Monterrey desde 1999",
+  "description": "El mejor sushi de Monterrey desde 1999. Plaza Villa Obispado.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#000000",

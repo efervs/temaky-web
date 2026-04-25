@@ -1,5 +1,5 @@
 ---
-const structuredData = {
+const schema = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
   "name": "Temaky Sushi",
@@ -42,5 +42,4 @@ const structuredData = {
   "menu": "https://temakysushi.mx/menu-temaky.pdf"
 };
 ---
-
-<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />
