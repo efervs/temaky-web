@@ -25,7 +25,8 @@
       "Bash(npm test *)",
       "Bash(node docs/screenshots/_capture-f3-6.mjs)",
       "Bash(URL=http://localhost:4324/ node docs/screenshots/_capture-f3-6.mjs)",
-      "Bash(npx astro *)"
+      "Bash(npx astro *)",
+      "Bash(URL=http://localhost:4325/ node docs/screenshots/_validate-offhours.mjs)"
     ]
   }
 }

@@ -1,0 +1,367 @@
+---
+// Global off-hours modal — listens for window 'offhours:open' CustomEvent.
+// e.detail.pendingUrl is the wa.me URL that was about to open.
+---
+
+<div
+  id="offhours-bd"
+  class="oh-bd"
+  hidden
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="ohTitle"
+>
+  <div class="oh-panel">
+
+    <!-- Close X -->
+    <button class="oh-close" id="oh-close" aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </button>
+
+    <!-- Animated clock icon -->
+    <div class="oh-clock-wrap" aria-hidden="true">
+      <span class="oh-clock-ico" id="oh-clock-ico"></span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="oh-h3" id="ohTitle">
+      Estamos cerrados<br/>por ahora
+    </h3>
+
+    <div class="oh-rule" aria-hidden="true"></div>
+
+    <!-- Body -->
+    <p class="oh-body">
+      Nuestro horario es <strong>lunes a sábado de 12:00 a 22:00.</strong>
+      Podemos recibir tu pedido cuando abramos; también puedes mandarnos el mensaje
+      y te lo confirmamos en cuanto iniciemos operaciones.
+    </p>
+
+    <!-- Current Monterrey time -->
+    <span class="oh-hora">
+      <span class="oh-dot" aria-hidden="true"></span>
+      Hora en Monterrey: <strong id="oh-mty-hora">—</strong>
+    </span>
+
+    <!-- Actions -->
+    <div class="oh-actions">
+      <button class="oh-btn oh-btn-outline" id="oh-mandar" type="button">
+        <svg class="oh-wa-ico" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        Mandar mensaje igual
+      </button>
+      <button class="oh-btn oh-btn-solid" id="oh-cerrar" type="button">
+        Cerrar y esperar
+      </button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  (() => {
+    let pendingUrl: string | null = null;
+    let clockInterval: ReturnType<typeof setInterval> | null = null;
+
+    /* ── Monterrey time helpers ── */
+    function getMtyTime() {
+      const now = new Date();
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Monterrey',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        weekday: 'short',
+      }).formatToParts(now);
+      const get = (t: string) => parts.find(p => p.type === t)?.value ?? '';
+      const hour = parseInt(get('hour'), 10);
+      const minute = get('minute');
+      const DAY: Record<string, string> = {
+        Sun: 'dom', Mon: 'lun', Tue: 'mar', Wed: 'mié',
+        Thu: 'jue', Fri: 'vie', Sat: 'sáb',
+      };
+      return { hour, minute, day: DAY[get('weekday')] ?? '' };
+    }
+
+    function updateClock() {
+      const { hour, minute, day } = getMtyTime();
+      const horaEl = document.getElementById('oh-mty-hora');
+      if (horaEl) horaEl.textContent = `${String(hour).padStart(2, '0')}:${minute} · ${day}`;
+      const ico = document.getElementById('oh-clock-ico');
+      if (ico) ico.setAttribute('data-h', String(hour % 12));
+    }
+
+    /* ── Modal open / close ── */
+    function openModal(url: string) {
+      pendingUrl = url;
+      const bd = document.getElementById('offhours-bd') as HTMLDivElement;
+      bd.hidden = false;
+      bd.classList.remove('closing');
+      /* restart animations */
+      void bd.offsetHeight;
+      updateClock();
+      clockInterval = setInterval(updateClock, 30_000);
+      document.body.style.overflow = 'hidden';
+      document.getElementById('oh-mandar')?.focus();
+    }
+
+    function closeModal() {
+      const bd = document.getElementById('offhours-bd') as HTMLDivElement;
+      bd.classList.add('closing');
+      bd.addEventListener('animationend', () => {
+        bd.hidden = true;
+        bd.classList.remove('closing');
+        document.body.style.overflow = '';
+        if (clockInterval !== null) {
+          clearInterval(clockInterval);
+          clockInterval = null;
+        }
+      }, { once: true });
+    }
+
+    /* ── "Mandar igual" ── */
+    function mandarIgual() {
+      if (!pendingUrl) return;
+      const nota = encodeURIComponent('\n\n*** PEDIDO FUERA DE HORARIO ***');
+      const url = pendingUrl + nota;
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if (!win) window.location.href = url;
+      closeModal();
+    }
+
+    /* ── Wire up listeners ── */
+    window.addEventListener('offhours:open', (e: Event) => {
+      const url = (e as CustomEvent<{ pendingUrl: string }>).detail?.pendingUrl;
+      if (url) openModal(url);
+    });
+
+    document.getElementById('oh-mandar')?.addEventListener('click', mandarIgual);
+    document.getElementById('oh-cerrar')?.addEventListener('click', closeModal);
+    document.getElementById('oh-close')?.addEventListener('click', closeModal);
+
+    /* Backdrop click */
+    document.getElementById('offhours-bd')?.addEventListener('click', (e) => {
+      if (e.target === document.getElementById('offhours-bd')) closeModal();
+    });
+
+    /* Escape key */
+    document.addEventListener('keydown', (e) => {
+      const bd = document.getElementById('offhours-bd') as HTMLDivElement;
+      if (e.key === 'Escape' && !bd.hidden) closeModal();
+    });
+  })();
+</script>
+
+<style>
+  /* Backdrop */
+  .oh-bd {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    animation: oh-bd-in 0.3s ease forwards;
+  }
+  .oh-bd[hidden] { display: none; }
+  .oh-bd.closing { animation: oh-bd-out 0.25s ease forwards; }
+
+  @keyframes oh-bd-in  { to { opacity: 1; } }
+  @keyframes oh-bd-out { to { opacity: 0; } }
+
+  /* Panel */
+  .oh-panel {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background: #141414;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 18px;
+    transform: translateY(28px);
+    opacity: 0;
+    animation: oh-panel-in 0.38s cubic-bezier(0.2, 0.7, 0.2, 1) 0.08s forwards;
+  }
+  .oh-bd.closing .oh-panel { animation: oh-panel-out 0.22s ease forwards; }
+
+  @keyframes oh-panel-in  { to { transform: translateY(0); opacity: 1; } }
+  @keyframes oh-panel-out { to { transform: translateY(20px); opacity: 0; } }
+
+  /* Close button */
+  .oh-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    display: grid;
+    place-items: center;
+    border: 0;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .oh-close:hover { background: rgba(255, 255, 255, 0.11); }
+  .oh-close svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2; fill: none; }
+
+  /* Clock icon */
+  .oh-clock-wrap {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(184, 16, 46, 0.12);
+    border: 1px solid rgba(184, 16, 46, 0.25);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+  }
+  .oh-clock-ico {
+    font-size: 28px;
+    line-height: 1;
+    display: block;
+  }
+  /* Clock face emoji via data-h attribute */
+  .oh-clock-ico::before                { content: "🕑"; }
+  .oh-clock-ico[data-h="0"]::before   { content: "🕛"; }
+  .oh-clock-ico[data-h="1"]::before   { content: "🕐"; }
+  .oh-clock-ico[data-h="2"]::before   { content: "🕑"; }
+  .oh-clock-ico[data-h="3"]::before   { content: "🕒"; }
+  .oh-clock-ico[data-h="4"]::before   { content: "🕓"; }
+  .oh-clock-ico[data-h="5"]::before   { content: "🕔"; }
+  .oh-clock-ico[data-h="6"]::before   { content: "🕕"; }
+  .oh-clock-ico[data-h="7"]::before   { content: "🕖"; }
+  .oh-clock-ico[data-h="8"]::before   { content: "🕗"; }
+  .oh-clock-ico[data-h="9"]::before   { content: "🕘"; }
+  .oh-clock-ico[data-h="10"]::before  { content: "🕙"; }
+  .oh-clock-ico[data-h="11"]::before  { content: "🕚"; }
+
+  /* Title */
+  .oh-h3 {
+    font-family: var(--madec);
+    font-size: clamp(1.35rem, 4vw, 1.75rem);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #fff;
+  }
+
+  /* Red rule */
+  .oh-rule {
+    width: 32px;
+    height: 2px;
+    border-radius: 2px;
+    background: #B8102E;
+    flex-shrink: 0;
+  }
+
+  /* Body text */
+  .oh-body {
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.55);
+    max-width: 340px;
+  }
+  .oh-body strong { color: #fff; }
+
+  /* Monterrey time pill */
+  .oh-hora {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.8);
+    white-space: nowrap;
+  }
+  .oh-hora strong {
+    color: #fff;
+    font-style: normal;
+    font-family: var(--serif);
+  }
+  .oh-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #B8102E;
+    flex-shrink: 0;
+    animation: oh-pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes oh-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.75); }
+  }
+
+  /* Action buttons */
+  .oh-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    margin-top: 4px;
+  }
+  .oh-btn {
+    width: 100%;
+    height: 50px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.14s ease;
+  }
+  .oh-btn-outline {
+    background: transparent;
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.28);
+  }
+  .oh-btn-outline:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-1px);
+  }
+  .oh-btn-solid {
+    background: #B8102E;
+    color: #fff;
+    border: none;
+  }
+  .oh-btn-solid:hover { background: #8B0D22; transform: translateY(-1px); }
+  .oh-wa-ico { fill: #fff; flex-shrink: 0; width: 18px; height: 18px; }
+
+  /* Focus */
+  .oh-btn:focus-visible,
+  .oh-close:focus-visible {
+    outline: 2px solid #B8102E;
+    outline-offset: 2px;
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .oh-panel { padding: 26px 20px; }
+  }
+</style>

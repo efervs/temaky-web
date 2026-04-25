@@ -6,6 +6,7 @@ import MenuOverlay from '../components/menu/MenuOverlay.astro';
 import ProductSheet from '../components/menu/ProductSheet.astro';
 import Cart from '../components/cart/Cart.astro';
 import ReservationForm from '../components/reservation/ReservationForm.astro';
+import OffHoursModal from '../components/common/OffHoursModal.astro';
 ---
 
 <BaseLayout>
@@ -28,4 +29,7 @@ import ReservationForm from '../components/reservation/ReservationForm.astro';
   <MenuOverlay />
   <ProductSheet />
   <Cart />
+
+  <!-- Global modal — listens for offhours:open event -->
+  <OffHoursModal />
 </BaseLayout>
