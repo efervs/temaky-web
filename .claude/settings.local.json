@@ -27,7 +27,8 @@
       "Bash(URL=http://localhost:4324/ node docs/screenshots/_capture-f3-6.mjs)",
       "Bash(npx astro *)",
       "Bash(URL=http://localhost:4325/ node docs/screenshots/_validate-offhours.mjs)",
-      "Bash(URL=http://localhost:4326/ node docs/screenshots/_capture-full-page.mjs)"
+      "Bash(URL=http://localhost:4326/ node docs/screenshots/_capture-full-page.mjs)",
+      "Bash(node *)"
     ]
   }
 }

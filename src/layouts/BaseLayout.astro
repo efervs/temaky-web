@@ -1,5 +1,6 @@
 ---
 import '../styles/tokens.css';
+import StructuredData from '../components/seo/StructuredData.astro';
 
 interface Props {
   title?: string;
@@ -9,11 +10,14 @@ interface Props {
 }
 
 const {
-  title = 'Temaky Sushi — Sushi de Monterrey desde 1999',
-  description = 'El mejor sushi de Monterrey desde 1999. Rollos clásicos y signature, combos desde $139. Plaza Villa Obispado.',
-  ogImage = '/images/og-default.jpg',
+  title = 'Temaky Sushi — Sushi Monterrey desde 1999',
+  description = 'El mejor sushi de Monterrey desde 1999. Rollos clásicos y signature, Combo Clásico desde $139. Plaza Villa Obispado, Lun–Sáb 12–22 h.',
+  ogImage = '/og.jpg',
   canonicalURL = Astro.url.href,
 } = Astro.props;
+
+const site = 'https://temakysushi.mx';
+const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage}`;
 ---
 
 <!doctype html>
@@ -27,26 +31,39 @@ const {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
 
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="es_MX" />
     <meta property="og:site_name" content="Temaky Sushi" />
+
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
 
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Oswald:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,600&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap"
       rel="stylesheet"
     />
 
+    <!-- Favicons & Manifest -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Structured Data -->
+    <StructuredData />
   </head>
   <body>
     <slot />

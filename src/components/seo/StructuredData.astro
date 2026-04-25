@@ -1,0 +1,46 @@
+---
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "Temaky Sushi",
+  "image": ["https://temakysushi.mx/og.jpg"],
+  "@id": "https://temakysushi.mx",
+  "url": "https://temakysushi.mx",
+  "telephone": "+528127474440",
+  "priceRange": "$$",
+  "servesCuisine": ["Japanese", "Sushi"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Francisco Garza Sada 2940, Piso 2 Local 204, Plaza Villa Obispado",
+    "addressLocality": "Monterrey",
+    "addressRegion": "NL",
+    "postalCode": "64760",
+    "addressCountry": "MX"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 25.6717,
+    "longitude": -100.3435
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "12:00",
+      "closes": "22:00"
+    }
+  ],
+  "sameAs": [
+    "https://www.instagram.com/temakysushimty/",
+    "https://maps.app.goo.gl/gZdvYsTJmWGkcaNL6"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.4",
+    "reviewCount": "946"
+  },
+  "menu": "https://temakysushi.mx/menu-temaky.pdf"
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
