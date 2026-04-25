@@ -48,6 +48,9 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageAbsolute} />
 
+    <!-- Preload LCP element (navbar logo) with explicit high priority -->
+    <link rel="preload" as="image" href="/images/logo/logo-temaky-sm.webp" fetchpriority="high" />
+
     <!-- Fonts: preconnect + async load to avoid render-blocking -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -68,8 +71,6 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
         rel="stylesheet"
       />
     </noscript>
-    <!-- Preload LCP element (navbar logo) -->
-    <link rel="preload" as="image" href="/images/logo/logo-temaky-sm.webp" />
 
     <!-- Favicons & Manifest -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />

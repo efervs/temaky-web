@@ -162,12 +162,12 @@
   const drawer = document.getElementById('nav-drawer') as HTMLElement;
   const overlay = document.getElementById('nav-overlay') as HTMLElement;
 
-  // Scroll → solid class
+  // Scroll → solid class (deferred to rAF to avoid forced-reflow on initial paint)
   function updateSolid() {
     siteNav.classList.toggle('solid', window.scrollY > 80);
   }
   window.addEventListener('scroll', updateSolid, { passive: true });
-  updateSolid();
+  requestAnimationFrame(updateSolid);
 
   // Drawer helpers
   function openDrawer() {
