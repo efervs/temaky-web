@@ -1,3 +1,4 @@
+import { trapFocus } from '../../lib/focus-trap';
 import { MENU, MODS, findProduct } from '../../data/menu';
 import type { Product, SheetSelections } from '../../types/menu';
 
@@ -14,6 +15,9 @@ const state: SheetState = {
   sels: {},
   notes: '',
 };
+
+let lastFocus: HTMLElement | null = null;
+let releaseTrap: (() => void) | null = null;
 
 function esc(html: string): string {
   return html.replace(/[&<>"']/g, ch =>
@@ -59,11 +63,17 @@ function openSheet(prodId: string) {
   const sheet = document.getElementById('psheet');
   const scrim = document.getElementById('psheet-scrim');
   if (sheet && scrim) {
+    lastFocus = document.activeElement as HTMLElement | null;
     sheet.hidden = false;
     scrim.hidden = false;
     requestAnimationFrame(() => {
       sheet.classList.add('open');
       scrim.classList.add('open');
+      requestAnimationFrame(() => {
+        document.getElementById('psh-close')?.focus();
+        releaseTrap?.();
+        releaseTrap = trapFocus(sheet);
+      });
     });
     sheet.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -77,9 +87,14 @@ function closeSheet() {
   sheet.classList.remove('open');
   scrim.classList.remove('open');
   sheet.setAttribute('aria-hidden', 'true');
+  releaseTrap?.();
+  releaseTrap = null;
+  const restoreTo = lastFocus;
+  lastFocus = null;
   setTimeout(() => {
     sheet.hidden = true;
     scrim.hidden = true;
+    restoreTo?.focus();
   }, 340);
   // only restore scroll if no other overlays open
   const menuOpen = document.getElementById('menu-overlay')?.classList.contains('open');
@@ -120,15 +135,20 @@ function renderSheet() {
     const grp = MODS[gid];
     if (!grp) return;
     const isRadio = grp.type === 'radio';
+    const groupRole = isRadio ? 'radiogroup' : 'group';
+    const labelId = `mod-lbl-${esc(gid)}`;
     html += `<div class="mod-group">
       <div class="mod-head">
-        <span class="mod-label">${esc(grp.lbl)}</span>
+        <span class="mod-label" id="${labelId}">${esc(grp.lbl)}</span>
         <span class="mod-hint">${grp.req ? 'Requerido' : 'Opcional'}</span>
       </div>
-      <div class="mod-list">`;
+      <div class="mod-list" role="${groupRole}" aria-labelledby="${labelId}">`;
     grp.items.forEach(item => {
       const selected = state.sels[gid]?.has(item.id) ?? false;
-      html += `<button class="mod-item${selected ? ' sel' : ''}" type="button" data-gid="${esc(gid)}" data-item="${esc(item.id)}" data-radio="${isRadio ? '1' : '0'}">
+      const itemRole = isRadio ? 'radio' : 'checkbox';
+      html += `<button class="mod-item${selected ? ' sel' : ''}" type="button"
+        role="${itemRole}" aria-checked="${selected ? 'true' : 'false'}"
+        data-gid="${esc(gid)}" data-item="${esc(item.id)}" data-radio="${isRadio ? '1' : '0'}">
         <span class="mod-box ${isRadio ? 'radio' : 'check'}"><span class="inner"></span></span>
         <span class="mod-name">${esc(item.name)}${item.sub ? ` <span class="mod-sub">· ${esc(item.sub)}</span>` : ''}</span>
         <span class="mod-plus${item.price === 0 ? ' free' : ''}">${item.price > 0 ? `+$${item.price}` : 'Incluido'}</span>
@@ -137,7 +157,7 @@ function renderSheet() {
     html += '</div></div>';
   });
   html += `<div class="mod-group">
-    <div class="mod-head"><span class="mod-label">Notas especiales</span><span class="mod-hint">Opcional</span></div>
+    <div class="mod-head"><label class="mod-label" for="psh-notes">Notas especiales</label><span class="mod-hint">Opcional</span></div>
     <textarea class="sh-notes" id="psh-notes" rows="2" placeholder="Ej: Sin alga, extra picante, alergia a…">${esc(state.notes)}</textarea>
   </div>`;
   body.innerHTML = html;
@@ -151,9 +171,9 @@ function renderFooter() {
   const enabled = canAdd();
   foot.innerHTML = `
     <div class="qty">
-      <button class="qty-btn" id="psh-dec" type="button" ${state.qty <= 1 ? 'disabled' : ''}>−</button>
-      <span class="qty-val">${state.qty}</span>
-      <button class="qty-btn" id="psh-inc" type="button">+</button>
+      <button class="qty-btn" id="psh-dec" type="button" aria-label="Disminuir cantidad" ${state.qty <= 1 ? 'disabled' : ''}>−</button>
+      <span class="qty-val" aria-hidden="true">${state.qty}</span>
+      <button class="qty-btn" id="psh-inc" type="button" aria-label="Aumentar cantidad">+</button>
     </div>
     <button class="add-btn" id="psh-add" type="button" ${enabled ? '' : 'disabled'}>
       <span class="label">Agregar al pedido</span>

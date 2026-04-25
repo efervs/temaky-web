@@ -132,6 +132,10 @@
     stroke-width: 2;
     fill: none;
   }
+  :global(.sheet-close:focus-visible) {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
 
   .sheet-body {
     flex: 1;
@@ -240,6 +244,7 @@
     font: inherit;
   }
   :global(.mod-item:hover) { background: var(--s3); border-color: var(--g10); }
+  :global(.mod-item:focus-visible) { outline: 2px solid var(--rojo); outline-offset: 1px; }
   :global(.mod-item.sel) {
     border-color: rgba(184,16,46,0.55);
     background: rgba(184,16,46,0.08);
@@ -309,6 +314,7 @@
   }
   :global(.sh-notes::placeholder) { color: rgba(255,255,255,0.35); }
   :global(.sh-notes:focus) { border-color: var(--g10); outline: none; }
+  :global(.sh-notes:focus-visible) { outline: 2px solid var(--rojo); outline-offset: -2px; }
 
   .sh-foot {
     flex-shrink: 0;
@@ -345,6 +351,7 @@
   }
   :global(.qty-btn:hover) { background: var(--g06); }
   :global(.qty-btn:disabled) { color: rgba(255,255,255,0.25); cursor: not-allowed; }
+  :global(.qty-btn:focus-visible) { outline: 2px solid #fff; outline-offset: -2px; }
   :global(.qty-val) {
     min-width: 32px;
     text-align: center;
@@ -373,6 +380,7 @@
     transition: background .15s ease, transform .15s ease;
   }
   :global(.add-btn:hover:not(:disabled)) { background: var(--rojo-dark); transform: translateY(-1px); }
+  :global(.add-btn:focus-visible) { outline: 2px solid #fff; outline-offset: 2px; }
   :global(.add-btn:disabled) { background: #3a0a15; color: rgba(255,255,255,0.4); cursor: not-allowed; }
   :global(.add-btn .label) {
     display: inline-flex;

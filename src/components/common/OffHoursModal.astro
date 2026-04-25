@@ -62,9 +62,13 @@
 </div>
 
 <script>
+  import { trapFocus } from '../../lib/focus-trap';
+
   (() => {
     let pendingUrl: string | null = null;
     let clockInterval: ReturnType<typeof setInterval> | null = null;
+    let lastFocus: HTMLElement | null = null;
+    let releaseTrap: (() => void) | null = null;
 
     /* ── Monterrey time helpers ── */
     function getMtyTime() {
@@ -97,20 +101,27 @@
     /* ── Modal open / close ── */
     function openModal(url: string) {
       pendingUrl = url;
+      lastFocus = document.activeElement as HTMLElement | null;
       const bd = document.getElementById('offhours-bd') as HTMLDivElement;
       bd.hidden = false;
       bd.classList.remove('closing');
-      /* restart animations */
       void bd.offsetHeight;
       updateClock();
       clockInterval = setInterval(updateClock, 30_000);
       document.body.style.overflow = 'hidden';
-      document.getElementById('oh-mandar')?.focus();
+      const firstBtn = document.getElementById('oh-mandar');
+      firstBtn?.focus();
+      releaseTrap?.();
+      releaseTrap = trapFocus(bd);
     }
 
     function closeModal() {
       const bd = document.getElementById('offhours-bd') as HTMLDivElement;
       bd.classList.add('closing');
+      releaseTrap?.();
+      releaseTrap = null;
+      const restoreTo = lastFocus;
+      lastFocus = null;
       bd.addEventListener('animationend', () => {
         bd.hidden = true;
         bd.classList.remove('closing');
@@ -119,6 +130,7 @@
           clearInterval(clockInterval);
           clockInterval = null;
         }
+        restoreTo?.focus();
       }, { once: true });
     }
 

@@ -21,8 +21,9 @@
       required
       autocomplete="name"
       placeholder="¿Cómo te decimos?"
+      aria-describedby="ck-err-name"
     />
-    <span class="ck-err" data-err="name" hidden>Necesitamos un nombre para el pedido.</span>
+    <span class="ck-err" id="ck-err-name" data-err="name" hidden>Necesitamos un nombre para el pedido.</span>
   </label>
 
   <fieldset class="ck-field ck-radio">
@@ -50,8 +51,9 @@
       name="address"
       rows="2"
       autocomplete="street-address"
-      placeholder="Calle, número, colonia, referencias…"></textarea>
-    <span class="ck-err" data-err="address" hidden>Agrega una dirección para la entrega.</span>
+      placeholder="Calle, número, colonia, referencias…"
+      aria-describedby="ck-err-address"></textarea>
+    <span class="ck-err" id="ck-err-address" data-err="address" hidden>Agrega una dirección para la entrega.</span>
   </label>
 
   <label class="ck-field">

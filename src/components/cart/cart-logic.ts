@@ -1,3 +1,4 @@
+import { trapFocus } from '../../lib/focus-trap';
 import { MODS } from '../../data/menu';
 import { isRestaurantOpen } from '../../lib/hours';
 import {
@@ -9,6 +10,9 @@ import {
 import type { CartCalc, CartItem, CartMod, Product, SheetSelections } from '../../types/menu';
 
 const STORAGE_KEY = 'temaky-v6-cart';
+
+let lastFocus: HTMLElement | null = null;
+let releaseTrap: (() => void) | null = null;
 
 interface AddDetail {
   product: Product;
@@ -141,10 +145,10 @@ function renderCart() {
       <div class="ci-r">
         <span class="ci-price"><span class="currency">$</span>${ci.lineTotal}</span>
         <div class="ci-ctrl">
-          <button class="cib" type="button" data-action="dec" data-id="${esc(ci.cartId)}">−</button>
-          <span class="cin">${ci.qty}</span>
-          <button class="cib" type="button" data-action="inc" data-id="${esc(ci.cartId)}">+</button>
-          <button class="cib del" type="button" data-action="rm" data-id="${esc(ci.cartId)}" aria-label="Eliminar">✕</button>
+          <button class="cib" type="button" data-action="dec" data-id="${esc(ci.cartId)}" aria-label="Disminuir cantidad de ${esc(ci.name)}">−</button>
+          <span class="cin" aria-hidden="true">${ci.qty}</span>
+          <button class="cib" type="button" data-action="inc" data-id="${esc(ci.cartId)}" aria-label="Aumentar cantidad de ${esc(ci.name)}">+</button>
+          <button class="cib del" type="button" data-action="rm" data-id="${esc(ci.cartId)}" aria-label="Eliminar ${esc(ci.name)}">✕</button>
         </div>
       </div>
     </div>`).join('');
@@ -200,10 +204,16 @@ function flashCartFab() {
 function openCart() {
   const overlay = document.getElementById('cart-overlay');
   if (!overlay) return;
+  lastFocus = document.activeElement as HTMLElement | null;
   overlay.hidden = false;
   overlay.classList.remove('step-2');
   renderCart();
-  requestAnimationFrame(() => overlay.classList.add('open'));
+  requestAnimationFrame(() => {
+    overlay.classList.add('open');
+    document.getElementById('cart-close')?.focus();
+    releaseTrap?.();
+    releaseTrap = trapFocus(overlay);
+  });
   overlay.setAttribute('aria-hidden', 'false');
   document.body.style.overflow = 'hidden';
 }
@@ -214,7 +224,14 @@ function closeCart() {
   overlay.classList.remove('open');
   overlay.classList.remove('step-2');
   overlay.setAttribute('aria-hidden', 'true');
-  setTimeout(() => { overlay.hidden = true; }, 300);
+  releaseTrap?.();
+  releaseTrap = null;
+  const restoreTo = lastFocus;
+  lastFocus = null;
+  setTimeout(() => {
+    overlay.hidden = true;
+    restoreTo?.focus();
+  }, 300);
   const menuOpen = document.getElementById('menu-overlay')?.classList.contains('open');
   const sheetOpen = document.getElementById('psheet')?.classList.contains('open');
   if (!menuOpen && !sheetOpen) {
@@ -256,11 +273,12 @@ function showOrderToast(msg: string) {
 }
 
 function setFieldError(fieldId: string, errKey: string, invalid: boolean) {
-  const input = document.getElementById(fieldId);
+  const input = document.getElementById(fieldId) as HTMLElement | null;
   const wrap = input?.closest('.ck-field');
   const err = document.querySelector<HTMLElement>(`[data-err="${errKey}"]`);
   wrap?.classList.toggle('invalid', invalid);
   if (err) err.hidden = !invalid;
+  input?.setAttribute('aria-invalid', invalid ? 'true' : 'false');
 }
 
 function clearAllCart() {

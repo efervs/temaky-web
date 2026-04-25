@@ -157,10 +157,14 @@
 </style>
 
 <script>
+  import { trapFocus } from '../../lib/focus-trap';
+
   const siteNav = document.getElementById('site-nav') as HTMLElement;
   const hamburger = document.getElementById('nav-hamburger') as HTMLButtonElement;
   const drawer = document.getElementById('nav-drawer') as HTMLElement;
   const overlay = document.getElementById('nav-overlay') as HTMLElement;
+
+  let releaseTrap: (() => void) | null = null;
 
   // Scroll → solid class (deferred to rAF to avoid forced-reflow on initial paint)
   function updateSolid() {
@@ -176,6 +180,8 @@
     drawer.classList.add('open');
     overlay.classList.add('on');
     document.body.style.overflow = 'hidden';
+    releaseTrap?.();
+    releaseTrap = trapFocus(drawer);
   }
 
   function closeDrawer() {
@@ -184,6 +190,9 @@
     drawer.classList.remove('open');
     overlay.classList.remove('on');
     document.body.style.overflow = '';
+    releaseTrap?.();
+    releaseTrap = null;
+    hamburger.focus();
   }
 
   hamburger.addEventListener('click', () => {
@@ -193,6 +202,10 @@
 
   // Close drawer when navigating via anchor links inside it
   drawer.querySelectorAll('a[href]').forEach(link => link.addEventListener('click', closeDrawer));
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) closeDrawer();
+  });
 
   // Menu overlay trigger (implemented in F3-4 — dispatches custom event)
   document.querySelectorAll('[data-action="open-menu"]').forEach(el => {
