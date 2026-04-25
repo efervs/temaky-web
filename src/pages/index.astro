@@ -2,10 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/nav/Navbar.astro';
 import Hero from '../components/hero/Hero.astro';
+import StripBar from '../components/common/StripBar.astro';
+import ProcessBar from '../components/common/ProcessBar.astro';
+import SocialProof from '../components/proof/SocialProof.astro';
+import ReservationForm from '../components/reservation/ReservationForm.astro';
+import LocationSection from '../components/location/LocationSection.astro';
+import Footer from '../components/common/Footer.astro';
+import WhatsAppFab from '../components/common/WhatsAppFab.astro';
 import MenuOverlay from '../components/menu/MenuOverlay.astro';
 import ProductSheet from '../components/menu/ProductSheet.astro';
 import Cart from '../components/cart/Cart.astro';
-import ReservationForm from '../components/reservation/ReservationForm.astro';
 import OffHoursModal from '../components/common/OffHoursModal.astro';
 ---
 
@@ -13,23 +19,20 @@ import OffHoursModal from '../components/common/OffHoursModal.astro';
   <Navbar />
   <main>
     <Hero />
-
-    <div id="after-hero"></div>
-
-    <!-- TODO F3-5: ComboSection — Combo Clásico detalle + upsells -->
-    <!-- TODO F3-6: SocialProof — Reviews de Google + contador de reseñas -->
-
+    <StripBar />
+    <ProcessBar />
+    <SocialProof />
+    <!-- Menu es overlay, no sección de flujo -->
     <ReservationForm />
-
-    <!-- TODO F3-7: Ubicacion — Mapa + datos de contacto + delivery badges -->
-    <!-- TODO F3-8: Footer — Links, redes sociales, delivery, copyright -->
+    <LocationSection />
   </main>
+  <Footer />
 
-  <!-- Menu + sheet + cart overlays — outside <main> flow -->
+  <WhatsAppFab />
+
+  <!-- Overlays -->
   <MenuOverlay />
   <ProductSheet />
   <Cart />
-
-  <!-- Global modal — listens for offhours:open event -->
   <OffHoursModal />
 </BaseLayout>
