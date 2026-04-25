@@ -9,6 +9,9 @@ export default defineConfig({
     sitemap(),
     react(),
   ],
+  build: {
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
