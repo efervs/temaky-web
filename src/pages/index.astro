@@ -22,7 +22,6 @@ import OffHoursModal from '../components/common/OffHoursModal.astro';
     <StripBar />
     <ProcessBar />
     <SocialProof />
-    <!-- Menu es overlay, no sección de flujo -->
     <ReservationForm />
     <LocationSection />
   </main>
@@ -30,9 +29,11 @@ import OffHoursModal from '../components/common/OffHoursModal.astro';
 
   <WhatsAppFab />
 
-  <!-- Overlays -->
+  <!-- Overlays — outside main flow -->
   <MenuOverlay />
   <ProductSheet />
   <Cart />
+
+  <!-- Global modal — listens for offhours:open event -->
   <OffHoursModal />
 </BaseLayout>
