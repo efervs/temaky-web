@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@600;700&display=swap');
 @import "tailwindcss";
 
 @font-face {
@@ -5,6 +6,7 @@
   src: url('/fonts/MADEC___.TTF') format('truetype');
   font-weight: 700;
   font-display: swap;
+  unicode-range: U+0020-007E, U+00B7;
 }
 
 @theme {
@@ -38,6 +40,20 @@
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-pill: 50px;
+}
+
+/* Z-index scale */
+:root {
+  --z-content: 1;
+  --z-strip: 100;
+  --z-nav: 500;
+  --z-fab-wa: 940;
+  --z-fab-cart: 1050;
+  --z-menu-overlay: 1000;
+  --z-cart-scrim: 1060;
+  --z-cart-overlay: 1070;
+  --z-product-sheet: 1080;
+  --z-modal: 1100;
 }
 
 /* Raw CSS custom properties (for JS access and non-Tailwind usage) */

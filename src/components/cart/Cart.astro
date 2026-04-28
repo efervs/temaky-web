@@ -17,8 +17,8 @@ import CheckoutForm from './CheckoutForm.astro';
     </svg>
   </span>
   <span class="fab-text">
-    <span id="cart-fab-count" class="fab-count">0 items</span>
     <span id="cart-fab-total" class="fab-total">$0</span>
+    <span id="cart-fab-count" class="fab-count">0 items</span>
   </span>
 </button>
 
@@ -49,9 +49,9 @@ import CheckoutForm from './CheckoutForm.astro';
 <style>
   .cart-fab {
     position: fixed;
-    bottom: 20px;
+    bottom: 86px;
     right: 16px;
-    z-index: 900;
+    z-index: var(--z-fab-cart);
     display: inline-flex;
     align-items: center;
     gap: 12px;
@@ -98,24 +98,27 @@ import CheckoutForm from './CheckoutForm.astro';
     align-items: flex-start;
     line-height: 1.05;
   }
-  .fab-count {
-    font-size: .7rem;
-    font-weight: 500;
-    color: rgba(255,255,255,0.8);
-    letter-spacing: .04em;
-  }
   .fab-total {
     font-family: var(--serif);
     font-style: italic;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     font-weight: 500;
     color: #fff;
+    line-height: 1;
+  }
+  .fab-count {
+    font-size: .66rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-top: 2px;
   }
 
   .cart-scrim {
     position: fixed;
     inset: 0;
-    z-index: 950;
+    z-index: var(--z-cart-scrim);
     background: rgba(0,0,0,0.55);
     backdrop-filter: blur(4px);
     -webkit-backdrop-filter: blur(4px);
@@ -130,7 +133,7 @@ import CheckoutForm from './CheckoutForm.astro';
     right: 0;
     bottom: 0;
     width: min(440px, 100vw);
-    z-index: 960;
+    z-index: var(--z-cart-overlay);
     background: var(--s1);
     border-left: 1px solid var(--g06);
     display: flex;

@@ -13,7 +13,7 @@
         width="46"
         height="44"
         fetchpriority="high"
-        class="h-[44px] w-auto block [filter:drop-shadow(0_2px_8px_rgba(0,0,0,.6))]"
+        class="h-[44px] md:h-[58px] w-auto block [filter:drop-shadow(0_2px_8px_rgba(0,0,0,.6))]"
       />
     </a>
 
@@ -40,7 +40,7 @@
     <div class="flex items-center gap-2">
       <button
         data-action="open-menu"
-        class="hidden md:inline-flex items-center bg-rojo text-white px-5 py-[9px] rounded-[8px] text-[.84rem] font-semibold transition-[background,transform] duration-200 hover:bg-rojo-dark hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-rojo active:translate-y-0"
+        class="hidden md:inline-flex items-center bg-rojo text-white px-7 py-3 rounded-[10px] text-[.95rem] font-semibold transition-[background,transform] duration-200 hover:bg-rojo-dark hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-rojo active:translate-y-0 cursor-pointer"
       >
         Ver Menú
       </button>
@@ -72,8 +72,11 @@
 <aside
   id="nav-drawer"
   aria-label="Navegación móvil"
-  class="fixed top-0 z-[900] w-[min(290px,88vw)] h-[100dvh] bg-[#0a0a0a] border-l border-white/[.07] flex flex-col justify-between pt-20 px-6 pb-[34px]"
+  class="fixed top-0 z-[900] w-[min(290px,88vw)] h-[100dvh] bg-[#0a0a0a] border-l border-white/[.07] flex flex-col justify-between pt-6 px-6 pb-[34px]"
 >
+  <div class="flex items-center justify-between mb-6">
+    <img src="/images/logo/logo-temaky-sm.webp" alt="Temaky Sushi" width="44" height="42" class="h-[42px] w-auto" />
+  </div>
   <ul class="list-none flex flex-col m-0 p-0">
     <li>
       <button data-action="open-menu" class="drawer-link w-full text-left bg-transparent border-0 p-0 font-[inherit] cursor-pointer">

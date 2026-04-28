@@ -109,7 +109,7 @@
       </div>
 
       <!-- Ocasión (opcional) -->
-      <div class="field">
+      <div class="field field-full">
         <label class="f-label" for="rOcasion">
           Ocasión o mensaje
           <span class="optional-hint">(opcional)</span>
@@ -327,12 +327,28 @@
 
   /* Card */
   .res-card {
-    max-width: 520px;
+    max-width: 720px;
     margin: 0 auto;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 20px;
-    padding: 32px;
+    padding: 36px 40px;
+  }
+
+  /* PC: 2-column grid */
+  @media (min-width: 768px) {
+    #resForm {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px 22px;
+    }
+    #resForm .field { margin-bottom: 0; }
+    #resForm .field-full,
+    #resForm .res-btn,
+    #resForm .wa-fallback,
+    #resForm .res-legal {
+      grid-column: 1 / -1;
+    }
   }
 
   /* Fields */
@@ -446,7 +462,17 @@
   .res-btn:hover:not(:disabled) { background: #8B0D22; transform: translateY(-1px); }
   .res-btn:active:not(:disabled) { transform: translateY(0); }
   .res-btn:focus-visible { outline: 2px solid #B8102E; outline-offset: 2px; }
-  .res-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .res-btn:disabled {
+    opacity: 1;
+    background: rgba(184,16,46,0.45);
+    cursor: not-allowed;
+  }
+  .res-btn:disabled::after {
+    content: " · Completa los campos requeridos";
+    font-weight: 400;
+    font-size: 0.78rem;
+    opacity: 0.7;
+  }
   .wa-ico { flex-shrink: 0; fill: #fff; width: 20px; height: 20px; }
 
   /* Fallback link */
@@ -478,7 +504,7 @@
 
   /* Divider */
   .res-divider {
-    max-width: 520px;
+    max-width: 720px;
     margin: 32px auto 0;
     display: flex;
     align-items: center;
@@ -501,7 +527,7 @@
 
   /* Info row */
   .res-info {
-    max-width: 520px;
+    max-width: 720px;
     margin: 16px auto 0;
     display: flex;
     align-items: center;

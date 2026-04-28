@@ -192,6 +192,21 @@ function updateCartUI() {
   if (fabTotal) fabTotal.textContent = `$${total}`;
   if (fabCount) fabCount.textContent = `${count} item${count !== 1 ? 's' : ''}`;
   if (fab) fab.classList.toggle('show', count > 0);
+
+  const mini = document.getElementById('cart-mini');
+  const miniCount = document.getElementById('cart-mini-count');
+  const miniTotal = document.getElementById('cart-mini-total');
+  if (mini && miniCount && miniTotal) {
+    if (count > 0) {
+      mini.hidden = false;
+      mini.classList.add('show');
+      miniCount.textContent = `${count}`;
+      miniTotal.textContent = `$${total}`;
+    } else {
+      mini.classList.remove('show');
+      mini.hidden = true;
+    }
+  }
 }
 
 function flashCartFab() {
@@ -369,6 +384,10 @@ export function initCart() {
   window.addEventListener('temaky:close-cart', closeCart);
 
   document.getElementById('cart-fab')?.addEventListener('click', openCart);
+  document.getElementById('cart-mini')?.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('temaky:close-menu'));
+    openCart();
+  });
   document.getElementById('cart-close')?.addEventListener('click', closeCart);
   document.getElementById('cart-scrim')?.addEventListener('click', closeCart);
 
