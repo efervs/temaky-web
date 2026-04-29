@@ -6,7 +6,10 @@
   src: url('/fonts/MADEC___.TTF') format('truetype');
   font-weight: 700;
   font-display: swap;
-  unicode-range: U+0020-007E, U+00B7;
+  /* MADEC TTF only ships ASCII glyphs. Restrict unicode-range so accented
+     codepoints (Á É Í Ó Ú Ñ ¿ ¡ etc.) fall back to Oswald/Impact instead of
+     rendering as blank tofu. */
+  unicode-range: U+0020-007E;
 }
 
 @theme {
