@@ -4,8 +4,8 @@
   <div class="max-w-[1180px] mx-auto">
 
     <!-- Header fuera del grid para evitar overflow -->
-    <div class="mb-10 md:mb-14 text-center md:text-left max-w-[640px] mx-auto md:mx-0">
-      <p class="text-[.66rem] font-semibold tracking-[.28em] uppercase text-white/60 mb-3">
+    <div class="mb-10 md:mb-14 text-center max-w-[760px] mx-auto">
+      <p class="text-[.78rem] font-semibold tracking-[.02em] text-white/60 mb-3">
         Dónde encontrarnos
       </p>
       <h2 class="font-['MADEC','Oswald','Bebas_Neue',Impact,sans-serif] font-bold leading-[.92] uppercase">
@@ -20,7 +20,7 @@
       <div>
         <div class="bg-white/[.04] border border-white/[.07] rounded-[14px] p-[26px]">
           <!-- Address -->
-          <div class="flex items-center gap-2 text-[.64rem] font-semibold uppercase tracking-[.17em] text-white/60 mb-[6px]">
+          <div class="flex items-center gap-2 text-[.78rem] font-semibold tracking-[.01em] text-white/60 mb-[6px]">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
             Dirección
           </div>
@@ -39,7 +39,7 @@
           <div class="h-px bg-white/[.07] my-4"></div>
 
           <!-- Hours -->
-          <div class="flex items-center gap-2 text-[.64rem] font-semibold uppercase tracking-[.17em] text-white/60 mb-[6px]">
+          <div class="flex items-center gap-2 text-[.78rem] font-semibold tracking-[.01em] text-white/60 mb-[6px]">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
             Horario
           </div>
@@ -61,78 +61,21 @@
             </svg>
             Pedir · +52 81 2747-4440
           </a>
-
-          <!-- Delivery badges -->
-          <div class="flex gap-[7px] mt-[11px] flex-wrap">
-            <a
-              href="https://www.rappi.com.mx/restaurantes/1923215355-temaky-sushi"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
-            >
-              <span class="w-[7px] h-[7px] rounded-full bg-[#FF441F] shrink-0"></span>Rappi
-            </a>
-            <a
-              href="https://www.ubereats.com/mx/store/temaky-sushi/OqwiFbwtQea62BGRTsG1Ag"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
-            >
-              <span class="w-[7px] h-[7px] rounded-full bg-[#06C167] shrink-0"></span>UberEats
-            </a>
-            <a
-              href="https://web.didiglobal.com/mx/food/monterrey-nle/temaky-sushi/5764607773783097417/"
-              target="_blank"
-              rel="noopener"
-              class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
-            >
-              <span class="w-[7px] h-[7px] rounded-full bg-[#FF7900] shrink-0"></span>DiDi Food
-            </a>
-          </div>
         </div>
       </div>
 
-      <!-- Right: Google Maps facade (loads real map on click to avoid blocking JS) -->
-      <div
-        id="map-facade"
-        class="rounded-[14px] overflow-hidden h-[360px] max-[820px]:h-[250px] bg-[#111] border border-white/[.07] flex flex-col items-center justify-center gap-4 cursor-pointer group"
-        role="button"
-        tabindex="0"
-      >
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="text-white/40 group-hover:text-[#B8102E] transition-colors duration-200">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
-        </svg>
-        <div class="text-center">
-          <p class="text-white/70 text-[.85rem] font-medium">Plaza Villa Obispado</p>
-          <p class="text-white/65 text-[.75rem] mt-1">Haz click para ver el mapa</p>
-        </div>
+      <!-- Right: Google Maps iframe (lazy-loaded, no JS required) -->
+      <div class="rounded-[14px] overflow-hidden h-[420px] max-[820px]:h-[280px] border border-white/[.07] bg-[#111]">
+        <iframe
+          src="https://maps.google.com/maps?q=Temaky+Sushi,+Francisco+Garza+Sada+2940,+Nuevo+Obispado,+Monterrey,+NL,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="100%"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Temaky Sushi en Google Maps"
+          class="block border-0 rounded-[14px]"
+        ></iframe>
       </div>
-
-      <script>
-        (() => {
-          const facade = document.getElementById('map-facade');
-          if (!facade) return;
-
-          function loadMap() {
-            const wrapper = document.createElement('div');
-            wrapper.className = 'rounded-[14px] overflow-hidden h-[360px] max-[820px]:h-[250px]';
-            const iframe = document.createElement('iframe');
-            iframe.src = 'https://maps.google.com/maps?q=Temaky+Sushi,+Francisco+Garza+Sada+2940,+Nuevo+Obispado,+Monterrey,+NL,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed';
-            iframe.width = '100%';
-            iframe.height = '100%';
-            iframe.style.cssText = 'border:0;display:block;';
-            iframe.referrerPolicy = 'no-referrer-when-downgrade';
-            iframe.title = 'Temaky Sushi en Google Maps';
-            wrapper.appendChild(iframe);
-            facade.replaceWith(wrapper);
-          }
-
-          facade.addEventListener('click', loadMap);
-          facade.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); loadMap(); }
-          });
-        })();
-      </script>
 
     </div>
   </div>
