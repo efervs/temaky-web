@@ -1,0 +1,89 @@
+---
+const cards = [
+  {
+    name: 'Rappi',
+    color: '#FF441F',
+    tagline: 'Entrega en ~30 min',
+    cta: 'Pedir en Rappi →',
+    href: 'https://www.rappi.com.mx/restaurantes/1923215355-temaky-sushi',
+  },
+  {
+    name: 'UberEats',
+    color: '#06C167',
+    tagline: 'Promos frecuentes',
+    cta: 'Pedir en UberEats →',
+    href: 'https://www.ubereats.com/mx/store/temaky-sushi/OqwiFbwtQea62BGRTsG1Ag',
+  },
+  {
+    name: 'DiDi Food',
+    color: '#FF7900',
+    tagline: 'Cobertura amplia',
+    cta: 'Pedir en DiDi →',
+    href: 'https://web.didiglobal.com/mx/food/monterrey-nle/temaky-sushi/5764607773783097417/',
+  },
+];
+---
+<section
+  id="delivery"
+  class="bg-[#0a0a0a] px-6"
+  style="padding-top:clamp(64px,7vw,96px);padding-bottom:clamp(64px,7vw,96px);"
+>
+  <div class="max-w-[980px] mx-auto">
+    <!-- Header -->
+    <div class="text-center mb-10 max-w-[760px] mx-auto">
+      <p class="font-['MADEC','Oswald','Bebas_Neue',Impact,sans-serif] text-[.68rem] tracking-[.3em] uppercase text-[#E8304A] mb-3">
+        Pide a domicilio
+      </p>
+      <h2 class="font-['MADEC','Oswald','Bebas_Neue',Impact,sans-serif] font-bold leading-[.92] uppercase">
+        <span class="text-white block text-[clamp(2rem,4.2vw,3.4rem)]">Tambien llegamos</span>
+        <span class="text-[#B8102E] block text-[clamp(2rem,4.2vw,3.4rem)]">a tu casa.</span>
+      </h2>
+      <p class="text-[.88rem] text-white/55 mt-4">
+        Disponible en Rappi, UberEats y DiDi Food
+      </p>
+    </div>
+
+    <!-- Cards grid -->
+    <div class="grid grid-cols-3 max-[768px]:grid-cols-1 gap-4">
+      {cards.map((card) => (
+        <a
+          href={card.href}
+          target="_blank"
+          rel="noopener"
+          class="delivery-card group bg-white/[.04] border border-white/[.07] rounded-[14px] p-6 no-underline flex flex-col"
+        >
+          <div class="flex items-center gap-3 mb-2">
+            <span
+              class="w-4 h-4 rounded-full shrink-0"
+              style={`background-color:${card.color};`}
+              aria-hidden="true"
+            ></span>
+            <span class="font-['MADEC','Oswald','Bebas_Neue',Impact,sans-serif] text-[1.15rem] uppercase text-white tracking-wide">
+              {card.name}
+            </span>
+          </div>
+          <p class="text-[.84rem] text-white/55 leading-[1.5] mb-5">
+            {card.tagline}
+          </p>
+          <span class="text-[.85rem] font-semibold text-[#E8304A] mt-auto group-hover:underline">
+            {card.cta}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .delivery-card {
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+  .delivery-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(184, 16, 46, 0.4);
+  }
+  .delivery-card:focus-visible {
+    outline: 2px solid #B8102E;
+    outline-offset: 2px;
+  }
+</style>
