@@ -20,7 +20,11 @@
     <!-- Desktop nav links -->
     <ul class="hidden md:flex gap-7 list-none items-center m-0 p-0">
       <li>
-        <button data-action="open-menu" class="nav-link bg-transparent border-0 cursor-pointer p-0 font-[inherit]">
+        <button
+          data-action="open-menu"
+          class="nav-link bg-transparent border-0 cursor-pointer p-0 font-[inherit] leading-none align-baseline"
+          style="line-height: inherit; font-size: inherit;"
+        >
           Menú
         </button>
       </li>
@@ -126,6 +130,8 @@
 
   /* Desktop nav links */
   .nav-link {
+    display: inline-flex;
+    align-items: center;
     font-size: 0.84rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.55);
