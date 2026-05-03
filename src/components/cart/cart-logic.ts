@@ -124,8 +124,15 @@ function renderCart() {
 
   if (!cart.length) {
     body.innerHTML = `<div class="ce">
-      <div class="ce-ico">🛒</div>
-      <div class="ce-t">Tu pedido está vacío</div>
+      <div class="ce-ico">
+        <svg viewBox="0 0 56 56" width="52" height="52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M10 38 Q28 52 46 38" stroke="#B8102E" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+          <line x1="10" y1="38" x2="46" y2="38" stroke="#B8102E" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="18" y1="8" x2="30" y2="36" stroke="rgba(255,255,255,0.75)" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="26" y1="8" x2="38" y2="36" stroke="rgba(255,255,255,0.75)" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="ce-t">Tu pedido esta vacio</div>
       <div class="ce-s">Explora el menú y agrega tus platillos favoritos</div>
       <button class="ce-btn" type="button" id="ce-open-menu">Ver Menú</button>
     </div>`;
