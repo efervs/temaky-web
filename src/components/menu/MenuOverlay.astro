@@ -309,6 +309,13 @@ const groups = ORDERED_CATS.map(cat => ({
   @media (min-width: 900px) {
     .grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
   }
+  @media (min-width: 1024px) {
+    .m-cats {
+      flex-wrap: wrap;
+      overflow-x: visible;
+      row-gap: 8px;
+    }
+  }
   @media (min-width: 1200px) {
     .grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
     .m-body { padding: 24px 28px 140px; }
