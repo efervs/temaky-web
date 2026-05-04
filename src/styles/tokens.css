@@ -37,6 +37,7 @@
   --font-display: 'MADEC', 'Oswald', 'Impact', sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --font-price: 'Cormorant Garamond', serif;
+  --font-product: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
 
   /* Border radius */
   --radius-sm: 8px;
@@ -80,6 +81,7 @@
   --madec: 'MADEC', 'Oswald', 'Impact', sans-serif;
   --sans: 'DM Sans', sans-serif;
   --serif: 'Cormorant Garamond', serif;
+  --product: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
 }
 
 /* Base resets — inside @layer base so Tailwind utilities win */
