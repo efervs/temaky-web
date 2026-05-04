@@ -46,7 +46,8 @@ const groups = ORDERED_CATS.map(cat => ({
       <span class="cart-mini-sep" aria-hidden="true">·</span>
       <span id="cart-mini-total">$0</span>
     </button>
-    <button class="m-x" id="menu-close" aria-label="Cerrar menú" type="button">
+    <span class="m-hdr-sep" aria-hidden="true"></span>
+    <button class="m-x" id="menu-close" aria-label="Cerrar menú" title="Cerrar menú" type="button">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path d="M6 6l12 12M18 6L6 18" />
       </svg>
@@ -195,20 +196,27 @@ const groups = ORDERED_CATS.map(cat => ({
   .cart-mini:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   .cart-mini-sep { opacity: 0.5; }
 
+  .m-hdr-sep {
+    width: 1px;
+    height: 22px;
+    background: var(--g10);
+    flex-shrink: 0;
+    margin: 0 4px;
+  }
   .m-x {
     flex-shrink: 0;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    background: var(--g06);
+    background: transparent;
+    border: 1px solid var(--g15);
     display: grid;
     place-items: center;
-    border: 0;
     color: #fff;
     cursor: pointer;
-    transition: background .2s ease;
+    transition: background .2s ease, border-color .2s ease;
   }
-  .m-x:hover { background: var(--g10); }
+  .m-x:hover { background: var(--g10); border-color: var(--g40); }
   .m-x:focus-visible { outline: 2px solid var(--rojo); outline-offset: 2px; }
   .m-x svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 2; fill: none; }
 
