@@ -1,11 +1,11 @@
 ---
 const year = new Date().getFullYear();
 ---
-<footer class="bg-black border-t border-white/[.05] px-[5%] pt-11 pb-7">
+<footer class="bg-black border-t border-white/[.05] px-[5%] pt-8 md:pt-11 pb-6 md:pb-7">
   <div class="max-w-[1100px] mx-auto">
 
     <!-- 3-column grid -->
-    <div class="grid grid-cols-3 max-[680px]:grid-cols-1 gap-[26px] pb-[26px] border-b border-white/[.05] mb-5">
+    <div class="grid grid-cols-3 max-[680px]:grid-cols-1 gap-5 md:gap-[26px] pb-5 md:pb-[26px] border-b border-white/[.05] mb-5">
 
       <!-- Col 1: Logo + tagline + socials -->
       <div>
@@ -43,11 +43,11 @@ const year = new Date().getFullYear();
       <div>
         <span class="text-[.82rem] font-semibold tracking-[.01em] text-white/70 block mb-[9px]">Navegación</span>
         <ul class="list-none space-y-0">
-          <li><a href="#top" class="text-[.81rem] text-white/55 no-underline py-[6px] min-h-[44px] flex items-center hover:text-white transition-colors">Inicio</a></li>
-          <li><a href="#" onclick="window.dispatchEvent(new CustomEvent('temaky:open-menu'));return false" class="text-[.81rem] text-white/55 no-underline py-[6px] min-h-[44px] flex items-center hover:text-white transition-colors">Menú completo</a></li>
-          <li><a href="#ubic" class="text-[.81rem] text-white/55 no-underline py-[6px] min-h-[44px] flex items-center hover:text-white transition-colors">Ubicación</a></li>
-          <li><a href="https://wa.me/528127474440" target="_blank" rel="noopener" class="text-[.81rem] text-white/55 no-underline py-[6px] min-h-[44px] flex items-center hover:text-white transition-colors">Contacto</a></li>
-          <li><a href="tel:+528183462758" class="text-[.81rem] text-white/55 no-underline py-[6px] min-h-[44px] flex items-center hover:text-white transition-colors">Llamar</a></li>
+          <li><a href="#top" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Inicio</a></li>
+          <li><a href="#" onclick="window.dispatchEvent(new CustomEvent('temaky:open-menu'));return false" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Menú completo</a></li>
+          <li><a href="#ubic" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Ubicación</a></li>
+          <li><a href="https://wa.me/528127474440" target="_blank" rel="noopener" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Contacto</a></li>
+          <li class="max-md:hidden"><a href="tel:+528183462758" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Llamar</a></li>
         </ul>
       </div>
 
@@ -59,7 +59,7 @@ const year = new Date().getFullYear();
             href="https://www.rappi.com.mx/restaurantes/1923215355-temaky-sushi"
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
+            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[7px] md:py-[9px] min-h-[36px] md:min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
           >
             <span class="w-[7px] h-[7px] rounded-full bg-[#FF441F] shrink-0"></span>Rappi
           </a>
@@ -67,7 +67,7 @@ const year = new Date().getFullYear();
             href="https://web.didiglobal.com/mx/food/monterrey-nle/temaky-sushi/5764607773783097417/"
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
+            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[7px] md:py-[9px] min-h-[36px] md:min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
           >
             <span class="w-[7px] h-[7px] rounded-full bg-[#FF7900] shrink-0"></span>DiDi Food
           </a>
@@ -75,7 +75,7 @@ const year = new Date().getFullYear();
             href="https://www.ubereats.com/mx/store/temaky-sushi/OqwiFbwtQea62BGRTsG1Ag"
             target="_blank"
             rel="noopener"
-            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[9px] min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
+            class="inline-flex items-center gap-[7px] bg-white/[.04] border border-white/[.07] rounded-[8px] px-3 py-[7px] md:py-[9px] min-h-[36px] md:min-h-[44px] text-[.76rem] text-white/55 no-underline hover:border-white/20 transition-colors"
           >
             <span class="w-[7px] h-[7px] rounded-full bg-[#06C167] shrink-0"></span>UberEats
           </a>
