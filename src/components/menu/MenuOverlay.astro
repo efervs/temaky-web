@@ -303,14 +303,20 @@ const groups = ORDERED_CATS.map(cat => ({
   }
   :global(.pcard[hidden]) { display: none; }
 
-  @media (min-width: 768px) {
-    .grid { grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (min-width: 640px) {
+    .grid { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  }
+  @media (min-width: 900px) {
+    .grid { grid-template-columns: repeat(4, 1fr); gap: 12px; }
   }
   @media (min-width: 1200px) {
-    .grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+    .grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
     .m-body { padding: 24px 28px 140px; }
     .m-hdr { padding: 0 28px; }
     .m-cats { padding: 14px 28px; }
+  }
+  @media (min-width: 1440px) {
+    .grid { grid-template-columns: repeat(6, 1fr); gap: 14px; }
   }
 
   .no-res {
