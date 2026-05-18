@@ -66,6 +66,8 @@ function openSheet(prodId: string) {
     lastFocus = document.activeElement as HTMLElement | null;
     sheet.hidden = false;
     scrim.hidden = false;
+    const body = sheet.querySelector<HTMLElement>('.sheet-body');
+    if (body) body.scrollTop = 0;
     requestAnimationFrame(() => {
       sheet.classList.add('open');
       scrim.classList.add('open');

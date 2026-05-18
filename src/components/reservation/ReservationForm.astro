@@ -184,10 +184,11 @@
 
   (function () {
 
-    /* ── Populate time slots 12:00–21:30 every 30 min ── */
+    /* ── Populate time slots 12:00–21:00 every 30 min ── */
     const selHora = document.getElementById('rHora') as HTMLSelectElement;
     for (let h = 12; h <= 21; h++) {
-      for (const m of ['00', '30']) {
+      const mins = h === 21 ? ['00'] : ['00', '30'];
+      for (const m of mins) {
         const val = `${String(h).padStart(2, '0')}:${m}`;
         const hh = h > 12 ? h - 12 : 12;
         const label = `${hh}:${m} pm`;
