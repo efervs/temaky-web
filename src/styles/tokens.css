@@ -34,7 +34,7 @@
   --color-g85: rgba(255, 255, 255, 0.85);
 
   /* Typography */
-  --font-display: 'MADEC', 'Oswald', 'Impact', sans-serif;
+  --font-display: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --font-price: 'Cormorant Garamond', serif;
   --font-product: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
@@ -78,7 +78,7 @@
   --g55: rgba(255, 255, 255, 0.55);
   --g70: rgba(255, 255, 255, 0.70);
   --g85: rgba(255, 255, 255, 0.85);
-  --madec: 'MADEC', 'Oswald', 'Impact', sans-serif;
+  --madec: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
   --sans: 'DM Sans', sans-serif;
   --serif: 'Cormorant Garamond', serif;
   --product: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;

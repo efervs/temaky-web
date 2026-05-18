@@ -29,16 +29,16 @@ export const MENU: Product[] = [
   { id: 'combo-signature', cat: 'combos', name: 'Combo Signature', desc: 'Rollo Signature a elegir + ½ arroz a elegir + ½ ensalada de cangrejo ó ½ cangrejo nevado. Agrega 2 kushiages por $30 más.', price: 175, badge: 'Premium', gr: GR.combo, img: IMG('combo-especial'), mods: ['combo-s-rollo', 'combo-s-arroz', 'combo-ensalada', 'combo-addon'] },
 
   // ── ENTRADAS ───────────────────────────────────────
-  { id: 'kushiages', cat: 'entradas', name: '8 Kushiages', desc: 'Brochetas de queso empanizadas.', price: 109, gr: GR.entrada, img: IMG('2-kushiagues') },
+  { id: 'kushiages', cat: 'entradas', name: '8 Kushiages', desc: 'Brochetas de queso empanizadas.', price: 109, badge: 'TOP', gr: GR.entrada, img: IMG('2-kushiagues') },
   { id: 'brochetas-t', cat: 'entradas', name: 'Brochetas Temaky', desc: '2 camarón + 2 salmón + 2 kushiages con morrón y cebolla. Acompañadas de ½ arroz gohan.', price: 129, gr: GR.entrada, img: IMG('brochetas-temaky') },
   { id: 'brochetas-p', cat: 'entradas', name: '3 Brochetas de Pollo', desc: 'Con morrón y cebolla, acompañadas de ½ arroz gohan.', price: 139, gr: GR.entrada, img: IMG('brochetas-de-pollo-a-la-plancha') },
-  { id: 'cangrejo-nev', cat: 'entradas', name: 'Cangrejo Nevado', desc: '2 barras de surimi rellenas de queso Philadelphia, capeadas y bañadas en salsa de anguila con ajonjolí.', price: 115, gr: GR.entrada, img: IMG('cangrejo-nevado') },
-  { id: 'yasai', cat: 'entradas', name: 'Yasai Tempura', desc: 'Verduras capeadas. Puedes agregar 5 camarones por $60 más.', price: 99, gr: GR.entrada, img: IMG('yasal-tempura'), mods: ['yasai-addon'] },
+  { id: 'cangrejo-nev', cat: 'entradas', name: 'Cangrejo Nevado', desc: '2 barras de surimi rellenas de queso Philadelphia, capeadas y bañadas en salsa de anguila con ajonjolí.', price: 115, badge: 'TOP', gr: GR.entrada, img: IMG('cangrejo-nevado') },
+  { id: 'yasai', cat: 'entradas', name: 'Yasai Tempura', desc: 'Verduras capeadas. Puedes agregar 5 camarones por $60 más.', price: 99, badge: 'TOP', gr: GR.entrada, img: IMG('yasal-tempura'), mods: ['yasai-addon'] },
   { id: 'ebi-furai', cat: 'entradas', name: '5 Ebi Furai', desc: 'Camarones con queso empanizados.', price: 169, gr: GR.entrada, img: IMG('eby-furay') },
   { id: 'dumplings', cat: 'entradas', name: '6 Dumplings', desc: 'Rellenos de pollo y vegetales, al vapor.', price: 149, gr: GR.entrada, img: IMG('dumplings') },
   { id: 'shitakes', cat: 'entradas', name: '6 Shitakes', desc: 'Champiñones rellenos de queso gouda, pasta Tampico y empanizados.', price: 129, gr: GR.entrada, img: IMG('shitakes') },
   { id: 'rollos-prim', cat: 'entradas', name: '5 Rollos Primavera', desc: 'Mini rollos rellenos de verdura.', price: 129, gr: GR.entrada, img: IMG('rollos-primavera') },
-  { id: 'edamames', cat: 'entradas', name: 'Edamames', desc: 'Vainas de soja salteadas con salsa de soya y shishimi.', price: 109, gr: GR.entrada, img: IMG('edamame') },
+  { id: 'edamames', cat: 'entradas', name: 'Edamames', desc: 'Vainas de soja salteadas con salsa de soya y shishimi.', price: 109, badge: 'TOP', gr: GR.entrada, img: IMG('edamame') },
   { id: 'gyosas', cat: 'entradas', name: '8 Gyosas', desc: 'Empanaditas rellenas de pollo y verduras.', price: 109, gr: GR.entrada, img: IMG('gyosas') },
 
   // ── ENSALADAS / SUNOMONO ───────────────────────────
@@ -51,12 +51,11 @@ export const MENU: Product[] = [
   { id: 'a-pollo', cat: 'arroces', name: 'Arroz Frito de Pollo', desc: 'Arroz frito con zanahoria y morrón picados, con pollo.', price: 95, gr: GR.arroz, img: IMG('arroz-pollo') },
   { id: 'a-camaron', cat: 'arroces', name: 'Arroz Frito de Camarón', desc: 'Arroz frito con zanahoria y morrón picados, con camarón.', price: 105, gr: GR.arroz, img: IMG('arroz-camaron') },
   { id: 'a-carne', cat: 'arroces', name: 'Arroz Frito de Carne', desc: 'Arroz frito con zanahoria y morrón picados, con carne de res.', price: 99, gr: GR.arroz, img: IMG('arroz-carne') },
-  { id: 'a-temaky', cat: 'arroces', name: 'Arroz Frito Temaky', desc: 'Camarón, salmón y calamar.', price: 115, gr: GR.arroz, img: IMG('arroz-especial') },
-  { id: 'a-mixto', cat: 'arroces', name: 'Arroz Frito Mixto', desc: 'Pollo, carne de res y camarón.', price: 119, gr: GR.arroz, img: IMG('arroz-especial') },
+  { id: 'a-temaky', cat: 'arroces', name: 'Arroz Frito Temaky', desc: 'Camarón, salmón y calamar.', price: 115, gr: GR.arroz, img: IMG('arroz-temaky') },
+  { id: 'a-mixto', cat: 'arroces', name: 'Arroz Frito Mixto', desc: 'Pollo, carne de res y camarón.', price: 119, gr: GR.arroz, img: IMG('arroz-mixto') },
   { id: 'a-especial', cat: 'arroces', name: 'Arroz Frito Especial', desc: 'Pollo, carne de res, camarón, germen y champiñones.', price: 149, badge: 'Especial', gr: GR.arroz, img: IMG('arroz-especial') },
   { id: 'a-verduras', cat: 'arroces', name: 'Arroz Frito de Verduras', desc: 'Arroz frito con zanahoria y morrón picados.', price: 89, gr: GR.arroz, img: IMG('arroz-verduras') },
   { id: 'a-vegetariano', cat: 'arroces', name: 'Arroz Frito Vegetariano', desc: 'Con germen y champiñón.', price: 105, gr: GR.arroz, img: IMG('arroz-vegetariano') },
-  { id: 'gohan', cat: 'arroces', name: 'Gohan (Arroz al Vapor)', desc: '14 oz de arroz japonés al vapor.', price: 109, gr: GR.arroz, img: IMG('default-product-image') },
   { id: 'unagi-don', cat: 'arroces', name: 'Unagi Don', desc: 'Con anguilla y ajonjolí.', price: 115, gr: GR.arroz, img: IMG('unagi-don') },
   { id: 'gohan-especial', cat: 'arroces', name: 'Gohan Especial', desc: 'Con tampico.', price: 105, gr: GR.arroz, img: IMG('gohan-especial') },
 
@@ -64,12 +63,12 @@ export const MENU: Product[] = [
   { id: 'cali-esp', cat: 'clasicos-frios', name: 'California Especial', desc: 'Aguacate, pepino y camarón.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('california'), mods: ['extras-rollo'] },
   { id: 'california', cat: 'clasicos-frios', name: 'California', desc: 'Aguacate, pepino y cangrejo; ajonjolí por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('california'), mods: ['extras-rollo'] },
   { id: 'philadelphia', cat: 'clasicos-frios', name: 'Philadelphia', desc: 'Queso Philadelphia y salmón; ajonjolí por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('philadelphia'), mods: ['extras-rollo'] },
-  { id: 'lino', cat: 'clasicos-frios', name: 'Lino', desc: 'Queso Philadelphia y salmón; aguacate por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('lino'), mods: ['extras-rollo'] },
+  { id: 'lino', cat: 'clasicos-frios', name: 'Lino', desc: 'Queso Philadelphia y salmón; aguacate por fuera.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('lino'), mods: ['extras-rollo'] },
   { id: 'intrepid', cat: 'clasicos-frios', name: 'Intrepid', desc: 'Salmón, cangrejo y aguacate; aguacate y tártara por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
   { id: 'tampico-r', cat: 'clasicos-frios', name: 'Tampico', desc: 'Pasta tampico.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
-  { id: 'regional', cat: 'clasicos-frios', name: 'Regional', desc: 'Queso Philadelphia, aguacate y camarón empanizado; tampico por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', badge: 'Fan fav', gr: GR.clasico_frio, img: IMG('regional'), mods: ['extras-rollo'] },
-  { id: 'colorado', cat: 'clasicos-frios', name: 'Colorado', desc: 'Cangrejo, queso Philadelphia y aguacate; masago y salmón por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('colorado'), mods: ['extras-rollo'] },
-  { id: 'obispado', cat: 'clasicos-frios', name: 'Obispado', desc: 'Camarón, masago, cangrejo y pulpo; queso Philadelphia, aguacate y cangrejo por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('obispado'), mods: ['extras-rollo'] },
+  { id: 'regional', cat: 'clasicos-frios', name: 'Regional', desc: 'Queso Philadelphia, aguacate y camarón empanizado; tampico por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', badge: 'TOP', gr: GR.clasico_frio, img: IMG('regional'), mods: ['extras-rollo'] },
+  { id: 'colorado', cat: 'clasicos-frios', name: 'Colorado', desc: 'Cangrejo, queso Philadelphia y aguacate; masago y salmón por fuera.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('colorado'), mods: ['extras-rollo'] },
+  { id: 'obispado', cat: 'clasicos-frios', name: 'Obispado', desc: 'Camarón, masago, cangrejo y pulpo; queso Philadelphia, aguacate y cangrejo por fuera.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('obispado'), mods: ['extras-rollo'] },
   { id: 'garfield', cat: 'clasicos-frios', name: 'Garfield', desc: 'Queso Philadelphia, aguacate, salmón y cangrejo.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('garfield'), mods: ['extras-rollo'] },
   { id: 'popito', cat: 'clasicos-frios', name: 'Popito', desc: 'Arroz frito, queso Philadelphia, aguacate, salmón y chiles toreados.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
   { id: 'kiko', cat: 'clasicos-frios', name: 'Kiko', desc: 'Camarón empanizado y aguacate; masago por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('kiko'), mods: ['extras-rollo'] },
@@ -86,12 +85,12 @@ export const MENU: Product[] = [
   { id: 'zafira', cat: 'clasicos-emp', name: 'Zafira', desc: 'Queso Philadelphia, aguacate, cangrejo y camarón.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
   { id: 'esmeralda', cat: 'clasicos-emp', name: 'Esmeralda', desc: 'Queso Philadelphia, aguacate y chiles toreados.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
   { id: 'tribilin', cat: 'clasicos-emp', name: 'Tribilin', desc: 'Queso Philadelphia, aguacate y salmón empanizado.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('tribilin'), mods: ['extras-rollo'] },
-  { id: 'sayonara', cat: 'clasicos-emp', name: 'Sayonara', desc: 'Queso Philadelphia, aguacate, camarón empanizado y chiles toreados.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('sayonara'), mods: ['extras-rollo'] },
-  { id: 'leyes', cat: 'clasicos-emp', name: 'Leyes', desc: 'Arroz frito, gouda, aguacate y pollo a la plancha.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('leyes'), mods: ['extras-rollo'] },
-  { id: 'cordero', cat: 'clasicos-emp', name: 'Cordero', desc: 'Arroz frito, queso, aguacate, cebollín y carne de res.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'sayonara', cat: 'clasicos-emp', name: 'Sayonara', desc: 'Queso Philadelphia, aguacate, camarón empanizado y chiles toreados.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('sayonara'), mods: ['extras-rollo'] },
+  { id: 'leyes', cat: 'clasicos-emp', name: 'Leyes', desc: 'Arroz frito, gouda, aguacate y pollo a la plancha.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('leyes'), mods: ['extras-rollo'] },
+  { id: 'cordero', cat: 'clasicos-emp', name: 'Cordero', desc: 'Arroz frito, queso, aguacate, cebollín y carne de res.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
 
   // ── ROLLOS CLÁSICOS — CAPEADOS ────────────────────
-  { id: 'villarreal', cat: 'clasicos-cap', name: 'Villarreal', desc: 'Arroz frito, queso Philadelphia, aguacate y camarón empanizado.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('villarreal'), mods: ['extras-rollo'] },
+  { id: 'villarreal', cat: 'clasicos-cap', name: 'Villarreal', desc: 'Arroz frito, queso Philadelphia, aguacate y camarón empanizado.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('villarreal'), mods: ['extras-rollo'] },
   { id: 'zaru', cat: 'clasicos-cap', name: 'Zaru', desc: 'Queso Philadelphia, aguacate, camarón y cangrejo.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('zaru'), mods: ['extras-rollo'] },
   { id: 'vagabundo', cat: 'clasicos-cap', name: 'Vagabundo', desc: 'Arroz frito, queso Philadelphia, aguacate, cangrejo y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('vagabundo'), mods: ['extras-rollo'] },
   { id: 'nori-r', cat: 'clasicos-cap', name: 'Nori', desc: 'Queso Philadelphia, aguacate y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('default-product-image'), mods: ['extras-rollo'] },
@@ -99,28 +98,28 @@ export const MENU: Product[] = [
   { id: 'pittsburgh', cat: 'clasicos-cap', name: 'Pittsburgh', desc: 'Queso Philadelphia, aguacate y cangrejo.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('default-product-image'), mods: ['extras-rollo'] },
 
   // ── SIGNATURE ROLLS — FRÍOS ───────────────────────
-  { id: 'barry', cat: 'sig-frios', name: 'Barry', desc: 'Queso Philadelphia, aguacate, salmón y camarón; tampico por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('barry'), mods: ['extras-rollo'] },
+  { id: 'barry', cat: 'sig-frios', name: 'Barry', desc: 'Queso Philadelphia, aguacate, salmón y camarón; tampico por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('barry'), mods: ['extras-rollo'] },
   { id: 'plasma', cat: 'sig-frios', name: 'Plasma', desc: 'Queso Philadelphia, tampico, shishimi y masago; salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('plasma'), mods: ['extras-rollo'] },
   { id: 'temaky-r', cat: 'sig-frios', name: 'Temaky', desc: 'Queso Philadelphia, aguacate, tampico y anguila; masago por fuera.', price: 135, bundle: 'signature', deal: '2×$229', badge: 'Signature', gr: GR.sig_frio, img: IMG('temaky-masago'), mods: ['extras-rollo'] },
-  { id: 'arjona', cat: 'sig-frios', name: 'Arjona', desc: 'Arroz frito, queso Philadelphia, aguacate, cangrejo, salmón, camarón y pulpo.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('arjona'), mods: ['extras-rollo'] },
+  { id: 'arjona', cat: 'sig-frios', name: 'Arjona', desc: 'Arroz frito, queso Philadelphia, aguacate, cangrejo, salmón, camarón y pulpo.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('arjona'), mods: ['extras-rollo'] },
   { id: 'caricatura', cat: 'sig-frios', name: 'Caricatura', desc: 'Camarón, anguila, tampico y shishimi; masago por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('caricatura'), mods: ['extras-rollo'] },
   { id: 'coronavirus', cat: 'sig-frios', name: 'Coronavirus', desc: 'Tampico, camarón empanizado, chamoy y queso; aguacate y seaweed salad por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('coronavirus'), mods: ['extras-rollo'] },
   { id: 'chepevera', cat: 'sig-frios', name: 'Chepevera', desc: 'Cangrejo, camarón y tártara; queso Philadelphia, anguila, salsa de anguila y ajonjolí por fuera.', price: 135, bundle: 'signature', deal: '2×$229', badge: 'Fan fav', gr: GR.sig_frio, img: IMG('chepevera'), mods: ['extras-rollo'] },
   { id: 'oyster', cat: 'sig-frios', name: 'Oyster Roll', desc: 'Camarón, queso Philadelphia y aguacate; ostión y salsa de ostión por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
-  { id: 'tuna-spicy', cat: 'sig-frios', name: 'Tuna Spicy', desc: 'Queso Philadelphia, aguacate y surimi; atún, ajonjolí y salsa especial por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'tuna-spicy', cat: 'sig-frios', name: 'Tuna Spicy', desc: 'Queso Philadelphia, aguacate y surimi; atún, ajonjolí y salsa especial por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'sig-cap-1', cat: 'sig-frios', name: 'Dallas', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('dallas'), mods: ['extras-rollo'] },
 
   // ── SIGNATURE ROLLS — EMPANIZADOS ─────────────────
-  { id: 'cuarzo', cat: 'sig-emp', name: 'Cuarzo', desc: 'Queso Philadelphia, aguacate, cangrejo, camarón, salmón y pulpo.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('cuarzo'), mods: ['extras-rollo'] },
+  { id: 'cuarzo', cat: 'sig-emp', name: 'Cuarzo', desc: 'Queso Philadelphia, aguacate, cangrejo, camarón, salmón y pulpo.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('cuarzo'), mods: ['extras-rollo'] },
   { id: 'dinamita', cat: 'sig-emp', name: 'Dinamita Roll', desc: 'Arroz frito, queso Philadelphia, gouda, cebollín, aguacate, chiles toreados, salsa mango-habanero, camarón empanizado, pollo y carne de res.', price: 135, bundle: 'signature', deal: '2×$229', badge: 'Especial', gr: GR.sig_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
-  { id: 'chili', cat: 'sig-emp', name: 'Chili', desc: 'Aguacate, tampico, camarón, cebollín y shishimi; salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('rollo-chili'), mods: ['extras-rollo'] },
-  { id: 'sake', cat: 'sig-emp', name: 'Sake', desc: 'Queso Philadelphia, anguila, camarón y salmón.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('rollo-sake'), mods: ['extras-rollo'] },
-  { id: 'houston', cat: 'sig-emp', name: 'Houston', desc: 'Arroz frito, aguacate, anguila y camarón.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
-  { id: 'makisu', cat: 'sig-emp', name: 'Makisu', desc: 'Queso Philadelphia y anguila; cangrejo por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'sig-cap-2', cat: 'sig-emp', name: 'Rubi', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'sig-cap-3', cat: 'sig-emp', name: 'Cantinflas', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_emp, img: IMG('cantinflas'), mods: ['extras-rollo'] },
 
   // ── SIGNATURE ROLLS — CAPEADOS ────────────────────
-  { id: 'sig-cap-1', cat: 'sig-cap', name: 'Dallas', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('dallas'), mods: ['extras-rollo'] },
-  { id: 'sig-cap-2', cat: 'sig-cap', name: 'Rubi', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo'] },
-  { id: 'sig-cap-3', cat: 'sig-cap', name: 'Cantinflas', desc: 'Queso Philadelphia, anguila y salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('cantinflas'), mods: ['extras-rollo'] },
+  { id: 'chili', cat: 'sig-cap', name: 'Chili', desc: 'Aguacate, tampico, camarón, cebollín y shishimi; salmón por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('rollo-chili'), mods: ['extras-rollo'] },
+  { id: 'sake', cat: 'sig-cap', name: 'Sake', desc: 'Queso Philadelphia, anguila, camarón y salmón.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('rollo-sake'), mods: ['extras-rollo'] },
+  { id: 'houston', cat: 'sig-cap', name: 'Houston', desc: 'Arroz frito, aguacate, anguila y camarón.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo'] },
+  { id: 'makisu', cat: 'sig-cap', name: 'Makisu', desc: 'Queso Philadelphia y anguila; cangrejo por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo'] },
 
   // ── ESPECIALIDADES ────────────────────────────────
   { id: 'misoshiru', cat: 'especialidades', name: 'Misoshiru', desc: 'Pasta de soya con cebollín y tofu.', price: 95, gr: GR.esp, img: IMG('sopa-miso') },
@@ -130,15 +129,15 @@ export const MENU: Product[] = [
 
   // ── TEPPANYAKI ────────────────────────────────────
   { id: 'teppan-veg', cat: 'teppanyaki', name: 'Teppanyaki de Verduras', desc: 'Brócoli, coliflor, zanahoria, cebolla, morrón y germen con el sazón de la casa.', price: 159, gr: GR.teppan, img: IMG('teppanyaki-verduras'), mods: ['teppan-extras'] },
-  { id: 'teppan-pollo', cat: 'teppanyaki', name: 'Teppanyaki de Pollo', desc: 'Con elote, naruto, aguacate, brócoli, zanahoria, huevo, cebollín, alga Nori y pollo.', price: 189, gr: GR.teppan, img: IMG('default-product-image'), mods: ['teppan-extras'] },
+  { id: 'teppan-pollo', cat: 'teppanyaki', name: 'Teppanyaki de Pollo', desc: 'Con elote, naruto, aguacate, brócoli, zanahoria, huevo, cebollín, alga Nori y pollo.', price: 189, badge: 'TOP', gr: GR.teppan, img: IMG('teppanyaki-pollo'), mods: ['teppan-extras'] },
   { id: 'teppan-mixto', cat: 'teppanyaki', name: 'Teppanyaki Mixto', desc: 'Pollo, res y camarón con verduras al sazón de la casa.', price: 245, badge: 'Especial', gr: GR.teppan, img: IMG('teppanyaki-mixto'), mods: ['teppan-extras'] },
 
   // ── ALITAS ────────────────────────────────────────
   { id: 'alitas', cat: 'alitas', name: 'Alitas (10 piezas)', desc: 'Elige tu sabor: Buffalo, Mango Habanero, BBQ, Teriyaki o Lemon Pepper.', price: 165, gr: GR.alita, img: IMG('alitas'), mods: ['alitas-sabor'] },
-  { id: 'boneless', cat: 'alitas', name: 'Boneless', desc: 'Elige tu sabor: Buffalo, Mango Habanero, BBQ, Teriyaki o Lemon Pepper.', price: 165, gr: GR.alita, img: IMG('default-product-image'), mods: ['alitas-sabor'] },
+  { id: 'boneless', cat: 'alitas', name: 'Boneless (300 gr)', desc: 'Elige tu sabor: Buffalo, Mango Habanero, BBQ, Teriyaki o Lemon Pepper.', price: 165, gr: GR.alita, img: IMG('default-product-image'), mods: ['alitas-sabor'] },
 
   // ── KIDS ──────────────────────────────────────────
-  { id: 'kids-1', cat: 'kids', name: 'Combo Kids 1', desc: '16 nuggets de pollo empanizado + papas a la francesa.', price: 129, gr: GR.kids, img: IMG('default-product-image') },
+  { id: 'kids-1', cat: 'kids', name: 'Combo Kids 1', desc: '6 nuggets de pollo empanizado + papas a la francesa.', price: 129, gr: GR.kids, img: IMG('default-product-image') },
   { id: 'kids-2', cat: 'kids', name: 'Combo Kids 2', desc: 'Mini rollo de pollo y queso gouda empanizado + 3 kushiages.', price: 129, gr: GR.kids, img: IMG('default-product-image') },
 
   // ── POSTRES ───────────────────────────────────────
@@ -150,7 +149,7 @@ export const MENU: Product[] = [
 
   // ── BEBIDAS ───────────────────────────────────────
   { id: 'refresco', cat: 'bebidas', name: 'Refresco', desc: '355 ml.', price: 42, gr: GR.bebida, img: IMG('default-product-image') },
-  { id: 'agua-sab', cat: 'bebidas', name: 'Agua de Sabores', desc: '600 ml.', price: 49, gr: GR.bebida, img: IMG('default-product-image') },
+  { id: 'agua-sab', cat: 'bebidas', name: 'Agua de Sabores', desc: '600 ml. En caso de no tener el sabor disponible, te contactaremos.', price: 49, gr: GR.bebida, img: IMG('default-product-image'), mods: ['agua-sabor'] },
   { id: 'agua-bot', cat: 'bebidas', name: 'Botella de Agua', desc: '500 ml.', price: 45, gr: GR.bebida, img: IMG('default-product-image') },
   { id: 'agua-min', cat: 'bebidas', name: 'Agua Mineral', desc: '600 ml.', price: 49, gr: GR.bebida, img: IMG('default-product-image') },
   { id: 'limonada', cat: 'bebidas', name: 'Limonada Natural', desc: '500 ml.', price: 49, gr: GR.bebida, img: IMG('default-product-image') },
@@ -223,6 +222,13 @@ export const MODS: ModsMap = {
       { id: 'tp-res', name: 'Res', price: 39 },
       { id: 'tp-camaron', name: 'Camarón', price: 39 },
       { id: 'tp-tampico', name: 'Tampico', price: 39 },
+    ],
+  },
+  'agua-sabor': {
+    lbl: 'Elige tu sabor', type: 'radio', req: true,
+    items: [
+      { id: 'jamaica', name: 'Jamaica', price: 0 },
+      { id: 'mango', name: 'Mango', price: 0 },
     ],
   },
 };
