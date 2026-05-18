@@ -1,16 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'MADEC';
-  src: url('/fonts/MADEC___.TTF') format('truetype');
-  font-weight: 700;
-  font-display: swap;
-  /* MADEC TTF only ships ASCII glyphs. Restrict unicode-range so accented
-     codepoints (Á É Í Ó Ú Ñ ¿ ¡ etc.) fall back to Oswald/Impact instead of
-     rendering as blank tofu. */
-  unicode-range: U+0020-007E;
-}
-
 @theme {
   /* Colors */
   --color-negro: #000000;
@@ -78,7 +67,7 @@
   --g55: rgba(255, 255, 255, 0.55);
   --g70: rgba(255, 255, 255, 0.70);
   --g85: rgba(255, 255, 255, 0.85);
-  --madec: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
+  --display: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
   --sans: 'DM Sans', sans-serif;
   --serif: 'Cormorant Garamond', serif;
   --product: 'Open Sauce Sans', 'DM Sans', system-ui, sans-serif;
