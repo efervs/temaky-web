@@ -5,7 +5,7 @@
   target="_blank"
   rel="noopener"
   aria-label="Pedir por WhatsApp"
-  class="waf fixed bottom-[18px] right-[16px] z-[940] w-[56px] h-[56px] bg-[#25D366] rounded-full flex items-center justify-center no-underline"
+  class="waf fixed right-[16px] z-[940] w-[56px] h-[56px] bg-[#25D366] rounded-full flex items-center justify-center no-underline"
   style="box-shadow:0 4px 15px rgba(37,211,102,.35);animation:wap 3s infinite;"
 >
   <svg width="26" height="26" viewBox="-1 -1 26 26" fill="white" style="margin-left:1px;margin-top:1px">
@@ -17,5 +17,9 @@
   @keyframes wap {
     0%, 100% { box-shadow: 0 4px 15px rgba(37,211,102,.35); }
     50%       { box-shadow: 0 4px 24px rgba(37,211,102,.55), 0 0 0 7px rgba(37,211,102,.09); }
+  }
+  .waf { bottom: 18px; }
+  @media (max-width: 767px) {
+    .waf { bottom: calc(72px + env(safe-area-inset-bottom) + 16px); }
   }
 </style>
