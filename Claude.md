@@ -32,10 +32,14 @@ propia sección. No es un descuento — es una oferta de entrada irresistible.
 
 ## Tipografía
 
-* Display (H1, H2, logo-text): MADEC — archivo local en /public/fonts/MADEC\_\_\_.TTF
-@font-face { font-family: 'MADEC'; src: url('/fonts/MADEC\_\_\_.TTF'); }
-* Cuerpo (párrafos, descripciones): DM Sans, Google Fonts
-* Acento (precios, citas): Cormorant Garamond Italic, Google Fonts
+* Display (H1, H2, logo-text): **Open Sauce Sans** (500/600/700), Google Fonts
+  — token CSS `var(--display)` o utility Tailwind `font-display`.
+* Cuerpo (párrafos, descripciones): DM Sans, Google Fonts → `var(--sans)`.
+* Acento (precios, citas): Cormorant Garamond Italic, Google Fonts → `var(--serif)`.
+
+Nota: La fuente MADEC se retiró el 2026-05-18 (decisión T1 — opción B). El TTF
+local nunca renderizaba en producción porque el token `--madec` resolvía a
+Open Sauce Sans; el font-face MADEC se descargaba sin uso real.
 
 ## Menú — Rollos Principales
 
@@ -56,7 +60,7 @@ EXTRAS: Arroz Frito (completo / medio), Gyozas, Teppanyaki de pollo
 ## Principios de Diseño (NO NEGOCIABLES)
 
 1. Fondo negro ABSOLUTO #000000 — no gris, no charcoal, NEGRO
-2. La fuente MADEC va en TODOS los títulos H1 y H2
+2. Open Sauce Sans (token `--display` / utility `font-display`) en TODOS los H1 y H2 — uppercase + font-weight 700 por defecto
 3. El rojo #B8102E solo en CTAs, precios destacados y detalles — no en bloques grandes
 4. Imágenes de sushi siempre protagonistas — mínimo 60% del espacio visual
 5. Mobile-first: diseñar primero para 375px, luego escalar a desktop
@@ -194,15 +198,15 @@ Bundles automáticos (lógica en cart):
 
 \## Tipografía
 
-\- Display (H1, H2, logo): \*\*MADEC\*\* — /public/fonts/MADEC\_\_\_.TTF
+\- Display (H1, H2, logo): \*\*Open Sauce Sans\*\* (500/600/700) — Google Fonts.
 
-&#x20; @font-face { font-family: 'MADEC'; src: url('/fonts/MADEC\_\_\_.TTF'); 
+&#x20; Token CSS: `var(--display)` · Utility Tailwind: `font-display`.
 
-&#x20;              font-weight: 700; font-display: swap; }
+\- Cuerpo: \*\*DM Sans\*\* (400, 500, 600) — Google Fonts → `var(--sans)`.
 
-\- Cuerpo: \*\*DM Sans\*\* (400, 500, 600) — Google Fonts.
+\- Precios y acentos: \*\*Cormorant Garamond\*\* italic (400, 600) — Google Fonts → `var(--serif)`.
 
-\- Precios y acentos: \*\*Cormorant Garamond\*\* italic (400, 600) — Google Fonts.
+\- MADEC retirada (2026-05-18, T1-B): el TTF local nunca renderizaba en producción.
 
 
 
@@ -210,7 +214,7 @@ Bundles automáticos (lógica en cart):
 
 1\. Fondo negro absoluto #000000. No gris, no charcoal.
 
-2\. MADEC en TODOS los H1 y H2.
+2\. Open Sauce Sans (`var(--display)` / `font-display`) en TODOS los H1 y H2.
 
 3\. Rojo #B8102E solo en CTAs, precios destacados, detalles — NO en bloques 
 
