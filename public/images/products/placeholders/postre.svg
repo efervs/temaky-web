@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Postre">
+  <defs>
+    <radialGradient id="bg-p" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <radialGradient id="scoop-p" cx="42%" cy="38%" r="62%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.12)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.05)"/>
+    </radialGradient>
+    <radialGradient id="shine-p" cx="35%" cy="32%" r="40%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.18)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg-p)"/>
+
+  <!-- Ice cream scoop (main dome) -->
+  <ellipse cx="200" cy="188" rx="84" ry="76" fill="url(#scoop-p)" stroke="rgba(255,255,255,0.09)" stroke-width="1.5"/>
+  <!-- Shine on scoop -->
+  <ellipse cx="174" cy="158" rx="28" ry="22" fill="url(#shine-p)"/>
+
+  <!-- Mochi texture dots -->
+  <circle cx="164" cy="172" r="3.5" fill="rgba(255,255,255,0.06)"/>
+  <circle cx="220" cy="160" r="3" fill="rgba(255,255,255,0.06)"/>
+  <circle cx="240" cy="196" r="3.5" fill="rgba(255,255,255,0.05)"/>
+
+  <!-- Base of scoop (meets plate) -->
+  <ellipse cx="200" cy="248" rx="84" ry="12" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+
+  <!-- Plate -->
+  <ellipse cx="200" cy="258" rx="110" ry="16" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+  <ellipse cx="200" cy="258" rx="98" ry="11" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+  <!-- Sauce drizzle (red accent) -->
+  <path d="M 196 192 Q 224 210 218 238 Q 215 248 210 250" fill="none" stroke="rgba(184,16,46,0.35)" stroke-width="3" stroke-linecap="round"/>
+  <path d="M 208 188 Q 236 220 228 244" fill="none" stroke="rgba(184,16,46,0.2)" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Category label -->
+  <text x="200" y="318" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="rgba(255,255,255,0.16)" letter-spacing="3">POSTRE</text>
+</svg>

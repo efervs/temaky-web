@@ -1,11 +1,15 @@
 ---
 import type { Product } from '../../types/menu';
+import { getCatPlaceholder } from '../../data/image-map';
 
 interface Props {
   item: Product;
 }
 
 const { item } = Astro.props;
+
+const DEFAULT_IMG = '/images/products/default-product-image.webp';
+const imgSrc = item.img === DEFAULT_IMG ? getCatPlaceholder(item.cat) : item.img;
 
 const hasMods = (item.mods?.length ?? 0) > 0;
 const searchBlob = [item.name, item.desc, item.cat]
@@ -29,7 +33,7 @@ const searchBlob = [item.name, item.desc, item.cat]
       {item.badge ? <span class="b-top">{item.badge}</span> : null}
     </div>
     <img
-      src={item.img}
+      src={imgSrc}
       alt={item.name}
       loading="lazy"
       decoding="async"

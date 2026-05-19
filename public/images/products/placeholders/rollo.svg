@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" role="img" aria-label="Sushi roll">
+  <defs>
+    <radialGradient id="bg-r" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#080808"/>
+    </radialGradient>
+    <radialGradient id="fill-r" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="rgba(184,16,46,0.18)"/>
+      <stop offset="100%" stop-color="rgba(184,16,46,0.04)"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="400" fill="url(#bg-r)"/>
+
+  <!-- Outer nori ring -->
+  <circle cx="200" cy="196" r="112" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="20"/>
+  <!-- Nori outer edge -->
+  <circle cx="200" cy="196" r="122" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1.5"/>
+  <!-- Rice bed -->
+  <circle cx="200" cy="196" r="82" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.07)" stroke-width="1"/>
+  <!-- Filling layer -->
+  <circle cx="200" cy="196" r="52" fill="url(#fill-r)" stroke="rgba(184,16,46,0.18)" stroke-width="1.5"/>
+  <!-- Center protein -->
+  <circle cx="200" cy="196" r="22" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+
+  <!-- Sesame dots around rice ring -->
+  <circle cx="200" cy="114" r="3" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="256" cy="130" r="2.5" fill="rgba(255,255,255,0.09)"/>
+  <circle cx="282" cy="182" r="3" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="268" cy="240" r="2.5" fill="rgba(255,255,255,0.09)"/>
+  <circle cx="200" cy="278" r="3" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="144" cy="240" r="2.5" fill="rgba(255,255,255,0.09)"/>
+  <circle cx="118" cy="182" r="3" fill="rgba(255,255,255,0.12)"/>
+  <circle cx="144" cy="130" r="2.5" fill="rgba(255,255,255,0.09)"/>
+
+  <!-- Category label -->
+  <text x="200" y="346" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="rgba(255,255,255,0.16)" letter-spacing="3" text-transform="uppercase">ROLLO</text>
+</svg>

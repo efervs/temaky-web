@@ -1,3 +1,34 @@
+const PLACEHOLDERS: Record<string, string> = {
+  rollo:   '/images/products/placeholders/rollo.svg',
+  entrada: '/images/products/placeholders/entrada.svg',
+  bebida:  '/images/products/placeholders/bebida.svg',
+  postre:  '/images/products/placeholders/postre.svg',
+};
+
+const CAT_PLACEHOLDER: Record<string, string> = {
+  combos:         'rollo',
+  'clasicos-frios': 'rollo',
+  'clasicos-emp':   'rollo',
+  'clasicos-cap':   'rollo',
+  'sig-frios':      'rollo',
+  'sig-emp':        'rollo',
+  'sig-cap':        'rollo',
+  entradas:       'entrada',
+  ensaladas:      'entrada',
+  arroces:        'entrada',
+  especialidades: 'entrada',
+  teppanyaki:     'entrada',
+  alitas:         'entrada',
+  kids:           'entrada',
+  postres:        'postre',
+  bebidas:        'bebida',
+};
+
+export function getCatPlaceholder(cat: string): string {
+  const type = CAT_PLACEHOLDER[cat] ?? 'rollo';
+  return PLACEHOLDERS[type];
+}
+
 export const productImages: Record<string, string> = {
   '2-kushiagues': '/images/products/2-kushiagues.webp',
   'alitas': '/images/products/alitas.webp',
