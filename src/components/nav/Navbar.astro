@@ -6,7 +6,7 @@
 >
   <div class="w-full max-w-[1440px] mx-auto px-[6%] flex justify-between items-center">
     <!-- Logo -->
-    <a href="#top" aria-label="Temaky Sushi — inicio">
+    <a href="#top" aria-label="Temaky Sushi — inicio" class="navbar__logo">
       <img
         src="/images/logo/logo-temaky-sm.webp"
         alt="Temaky Sushi"
@@ -69,14 +69,14 @@
 <div
   id="nav-overlay"
   aria-hidden="true"
-  class="fixed inset-0 bg-black/65 z-[800] opacity-0 pointer-events-none transition-opacity duration-300"
+  class="fixed inset-0 z-[800] opacity-0 pointer-events-none transition-opacity duration-300"
 ></div>
 
 <!-- Mobile drawer -->
 <aside
   id="nav-drawer"
   aria-label="Navegación móvil"
-  class="fixed top-0 z-[900] w-[min(290px,88vw)] h-[100dvh] bg-[#0a0a0a] border-l border-white/[.07] flex flex-col justify-between pt-6 px-6 pb-[34px]"
+  class="fixed top-0 z-[900] w-[min(290px,88vw)] h-[100dvh] bg-black border-l border-white/[.07] flex flex-col justify-between pt-6 px-6 pb-[34px]"
 >
   <div class="flex items-center justify-between mb-6">
     <img src="/images/logo/logo-temaky-sm.webp" alt="Temaky Sushi" width="44" height="42" class="h-[60px] w-auto px-2" />
@@ -120,6 +120,11 @@
 </aside>
 
 <style>
+  /* Overlay backdrop */
+  #nav-overlay {
+    background: rgba(0, 0, 0, 0.92);
+  }
+
   /* Scroll-activated solid state */
   #site-nav.solid {
     background: rgba(0, 0, 0, 0.95);
@@ -172,6 +177,15 @@
   #nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
   #nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   #nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Hide top logo while drawer is open */
+  .navbar__logo {
+    transition: opacity 0.25s;
+  }
+  #site-nav.drawer-open .navbar__logo {
+    opacity: 0;
+    pointer-events: none;
+  }
 </style>
 
 <script>
@@ -198,6 +212,7 @@
     hamburger.setAttribute('aria-expanded', 'true');
     drawer.classList.add('open');
     overlay.classList.add('on');
+    siteNav.classList.add('drawer-open');
     document.body.style.overflow = 'hidden';
     releaseTrap?.();
     releaseTrap = trapFocus(drawer);
@@ -208,6 +223,7 @@
     hamburger.setAttribute('aria-expanded', 'false');
     drawer.classList.remove('open');
     overlay.classList.remove('on');
+    siteNav.classList.remove('drawer-open');
     document.body.style.overflow = '';
     releaseTrap?.();
     releaseTrap = null;

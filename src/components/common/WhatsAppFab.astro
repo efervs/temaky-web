@@ -18,7 +18,7 @@
     0%, 100% { box-shadow: 0 4px 15px rgba(37,211,102,.35); }
     50%       { box-shadow: 0 4px 24px rgba(37,211,102,.55), 0 0 0 7px rgba(37,211,102,.09); }
   }
-  .waf { bottom: 18px; }
+  .waf { bottom: calc(env(safe-area-inset-bottom) + 16px); }
   @media (max-width: 767px) {
     .waf { bottom: calc(72px + env(safe-area-inset-bottom) + 16px); }
   }

@@ -1,18 +1,98 @@
 ---
 ---
-<div class="strip bg-[#B8102E] py-2.5 md:py-3 px-4 md:px-[5%] flex items-center justify-center gap-2 md:gap-6 flex-wrap">
-  <span class="strip-i text-[.72rem] md:text-[.78rem] text-white flex items-center justify-center gap-2">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-    Sushi fresco al momento
-  </span>
-  <span class="w-1 h-1 rounded-full bg-white/40 max-[640px]:hidden"></span>
-  <span class="strip-i text-[.72rem] md:text-[.78rem] text-white flex items-center justify-center gap-2">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white" stroke="none"/></svg>
-    Plaza Villa Obispado · Piso 2
-  </span>
-  <span class="w-1 h-1 rounded-full bg-white/40 max-[640px]:hidden"></span>
-  <span class="strip-i text-[.72rem] md:text-[.78rem] text-white flex items-center justify-center gap-2">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
-    Lunes a Sábado · 12:00–22:00
-  </span>
+<div class="strip-wrap bg-[#B8102E] overflow-hidden py-2.5 md:py-3">
+  <div class="strip-track">
+    <span class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      Sushi fresco al momento
+    </span>
+    <span class="strip-sep" aria-hidden="true">·</span>
+    <span class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white" stroke="none"/></svg>
+      Plaza Villa Obispado · Piso 2
+    </span>
+    <span class="strip-sep" aria-hidden="true">·</span>
+    <span class="strip-item">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Lunes a Sábado · 12:00–22:00
+    </span>
+    <span class="strip-sep" aria-hidden="true">·</span>
+    <!-- Duplicate set for seamless marquee loop on mobile; hidden on desktop and from screen readers -->
+    <span class="strip-item" aria-hidden="true" data-dup>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+      Sushi fresco al momento
+    </span>
+    <span class="strip-sep" aria-hidden="true" data-dup>·</span>
+    <span class="strip-item" aria-hidden="true" data-dup>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/><circle cx="12" cy="9" r="2.5" fill="white" stroke="none"/></svg>
+      Plaza Villa Obispado · Piso 2
+    </span>
+    <span class="strip-sep" aria-hidden="true" data-dup>·</span>
+    <span class="strip-item" aria-hidden="true" data-dup>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+      Lunes a Sábado · 12:00–22:00
+    </span>
+    <span class="strip-sep" aria-hidden="true" data-dup>·</span>
+  </div>
 </div>
+
+<style>
+  .strip-track {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .strip-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #fff;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .strip-sep {
+    color: rgba(255, 255, 255, 0.45);
+    flex-shrink: 0;
+  }
+
+  /* Mobile: marquee ticker */
+  @media (max-width: 767px) {
+    .strip-track {
+      font-size: 0.78rem;
+      width: max-content;
+      animation: stripMarquee 24s linear infinite;
+    }
+  }
+
+  /* Desktop: static centered row */
+  @media (min-width: 768px) {
+    .strip-wrap {
+      display: flex;
+      justify-content: center;
+      padding-inline: 5%;
+    }
+    .strip-track {
+      font-size: 0.78rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      width: auto;
+    }
+    [data-dup] {
+      display: none;
+    }
+  }
+
+  @keyframes stripMarquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .strip-track {
+      animation-play-state: paused;
+    }
+  }
+</style>
