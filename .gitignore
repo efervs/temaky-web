@@ -24,3 +24,9 @@ npm-debug.log*
 .vscode/settings.json
 *.swp
 *.swo
+
+# Lighthouse reports — solo el baseline va versionado
+reports/*.html
+reports/*.json
+!reports/lighthouse-baseline.html
+!reports/lighthouse-baseline.json

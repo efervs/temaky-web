@@ -63,19 +63,128 @@
         </div>
       </div>
 
-      <!-- Right: Google Maps iframe (lazy-loaded, no JS required) -->
-      <div class="rounded-[14px] overflow-hidden h-[420px] max-[820px]:h-[280px] border border-white/[.07] bg-[#111]">
-        <iframe
-          src="https://maps.google.com/maps?q=Temaky+Sushi,+Francisco+Garza+Sada+2940,+Nuevo+Obispado,+Monterrey,+NL,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed"
-          width="100%"
-          height="100%"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          title="Temaky Sushi en Google Maps"
-          class="block border-0 rounded-[14px]"
-        ></iframe>
+      <!-- Right: Mapa con lazy load real on-demand -->
+      <div
+        id="map-container"
+        class="relative rounded-[14px] overflow-hidden h-[420px] max-[820px]:h-[280px] border border-white/[.07] bg-[#111]"
+        data-map-src="https://maps.google.com/maps?q=Temaky+Sushi,+Francisco+Garza+Sada+2940,+Nuevo+Obispado,+Monterrey,+NL,+Mexico&t=&z=16&ie=UTF8&iwloc=&output=embed"
+      >
+        <!-- Placeholder estático (CSS, sin descarga) -->
+        <div class="map-placeholder" aria-hidden="true">
+          <div class="map-grid"></div>
+          <div class="map-roads"></div>
+          <div class="map-pin">
+            <svg width="40" height="48" viewBox="0 0 24 28" fill="none" aria-hidden="true">
+              <path d="M12 0C6 0 1 5 1 11c0 8 11 17 11 17s11-9 11-17C23 5 18 0 12 0z" fill="#B8102E" stroke="#fff" stroke-width="1.5"/>
+              <circle cx="12" cy="11" r="4" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Botón de carga del iframe interactivo -->
+        <button
+          type="button"
+          class="map-load-btn"
+          data-load-map
+          aria-label="Cargar mapa interactivo de Google Maps"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/>
+            <circle cx="12" cy="9" r="2.5"/>
+          </svg>
+          Cargar mapa interactivo
+        </button>
       </div>
 
     </div>
   </div>
 </section>
+
+<style>
+  /* Placeholder visual mientras no se cargue el iframe pesado */
+  .map-placeholder {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(184, 16, 46, 0.10) 0%, transparent 55%),
+      linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
+  }
+  .map-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+  .map-roads {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(95deg, transparent 30%, rgba(255,255,255,0.06) 30%, rgba(255,255,255,0.06) 31%, transparent 31%),
+      linear-gradient(168deg, transparent 55%, rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.05) 56.2%, transparent 56.2%),
+      linear-gradient(5deg, transparent 70%, rgba(255,255,255,0.04) 70%, rgba(255,255,255,0.04) 70.8%, transparent 70.8%);
+  }
+  .map-pin {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    transform: translate(-50%, -100%);
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.5));
+    animation: pin-pop 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  @keyframes pin-pop {
+    from { opacity: 0; transform: translate(-50%, -80%) scale(0.7); }
+    to   { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+  }
+
+  .map-load-btn {
+    position: absolute;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    background: #B8102E;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    font-family: var(--sans);
+    font-size: 0.86rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .map-load-btn:hover { background: #8B0D22; transform: translateX(-50%) translateY(-1px); }
+  .map-load-btn:active { transform: translateX(-50%) translateY(0); }
+  .map-load-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+</style>
+
+<script>
+  const mapContainer = document.getElementById('map-container');
+  const loadBtn = document.querySelector<HTMLButtonElement>('[data-load-map]');
+
+  if (mapContainer && loadBtn) {
+    loadBtn.addEventListener('click', () => {
+      const src = mapContainer.dataset.mapSrc;
+      if (!src) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.width = '100%';
+      iframe.height = '100%';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.title = 'Temaky Sushi en Google Maps';
+      iframe.className = 'block border-0 rounded-[14px] absolute inset-0 w-full h-full';
+      iframe.setAttribute('aria-label', 'Mapa interactivo de Temaky Sushi en Plaza Villa Obispado');
+      mapContainer.innerHTML = '';
+      mapContainer.appendChild(iframe);
+    }, { once: true });
+  }
+</script>
