@@ -86,9 +86,15 @@ const groups = ORDERED_CATS.map(cat => ({
         </div>
       </section>
     ))}
-    <div class="no-res" id="menu-no-res" hidden>
-      <span class="no-res-ico">🔍</span>
-      Sin resultados
+    <div class="menu-empty" id="menu-no-res" role="status" hidden>
+      <span class="menu-empty-ico" aria-hidden="true">🔍</span>
+      <p class="menu-empty-msg">No encontramos "<strong id="menu-empty-q"></strong>".</p>
+      <p class="menu-empty-sugg">
+        Intenta con:
+        <button class="menu-empty-tag" type="button" data-suggest="rollo">rollo</button>
+        <button class="menu-empty-tag" type="button" data-suggest="combo">combo</button>
+        <button class="menu-empty-tag" type="button" data-suggest="gyoza">gyoza</button>
+      </p>
     </div>
     <span
       id="menu-sr-live"
@@ -363,17 +369,52 @@ const groups = ORDERED_CATS.map(cat => ({
     .grid { grid-template-columns: repeat(6, 1fr); gap: 14px; }
   }
 
-  .no-res {
+  .menu-empty {
     padding: 60px 20px;
     text-align: center;
-    color: rgba(255,255,255,0.45);
-    font-size: .9rem;
+    color: rgba(255,255,255,0.65);
+    font-size: .92rem;
+    font-family: var(--sans);
   }
-  .no-res-ico {
+  .menu-empty-ico {
     display: block;
     font-size: 2.4rem;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+    opacity: .8;
   }
+  .menu-empty-msg {
+    margin: 0 0 12px;
+    color: rgba(255,255,255,0.85);
+  }
+  .menu-empty-msg strong {
+    color: var(--rojo);
+    font-weight: 600;
+  }
+  .menu-empty-sugg {
+    margin: 0;
+    color: rgba(255,255,255,0.55);
+    font-size: .85rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+  }
+  .menu-empty-tag {
+    background: var(--g06);
+    color: #fff;
+    border: 0;
+    padding: 4px 12px;
+    min-height: 28px;
+    border-radius: 999px;
+    font-size: .82rem;
+    font-family: var(--sans);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s ease, color .15s ease;
+  }
+  .menu-empty-tag:hover { background: var(--rojo); color: #fff; }
+  .menu-empty-tag:focus-visible { outline: 2px solid var(--rojo); outline-offset: 2px; }
 </style>
 
 <script>
@@ -386,6 +427,7 @@ const groups = ORDERED_CATS.map(cat => ({
     const searchInput = document.getElementById('menu-search') as HTMLInputElement;
     const closeBtn = document.getElementById('menu-close') as HTMLButtonElement;
     const noRes = document.getElementById('menu-no-res') as HTMLElement;
+    const noResQ = document.getElementById('menu-empty-q') as HTMLElement;
     const srLive = document.getElementById('menu-sr-live') as HTMLElement;
 
     let currentQuery = '';
@@ -400,9 +442,14 @@ const groups = ORDERED_CATS.map(cat => ({
       overlay!.hidden = false;
       requestAnimationFrame(() => {
         overlay!.classList.add('open');
-        searchInput.focus();
         releaseTrap?.();
         releaseTrap = trapFocus(overlay!);
+        const isDesktop = window.matchMedia('(min-width: 768px)').matches;
+        if (isDesktop) {
+          setTimeout(() => {
+            searchInput.focus({ preventScroll: true });
+          }, 100);
+        }
       });
       overlay!.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
@@ -441,6 +488,9 @@ const groups = ORDERED_CATS.map(cat => ({
       });
 
       noRes.hidden = anyVisible;
+      if (!anyVisible && noResQ) {
+        noResQ.textContent = searchInput.value.trim();
+      }
 
       if (srLive) {
         const count = body.querySelectorAll<HTMLElement>('.pcard:not([hidden])').length;
@@ -452,18 +502,12 @@ const groups = ORDERED_CATS.map(cat => ({
 
     function setActiveChip(catId: string) {
       catsBar.querySelectorAll<HTMLElement>('.chip').forEach(c => {
-        const on = c.dataset.cat === catId;
-        c.classList.toggle('on', on);
-        c.setAttribute('aria-pressed', on ? 'true' : 'false');
-        if (on && catsScroll.contains(c)) {
-          const cr = c.getBoundingClientRect();
-          const sr = catsScroll.getBoundingClientRect();
-          if (cr.left < sr.left || cr.right > sr.right) {
-            catsScroll.scrollTo({
-              left: catsScroll.scrollLeft + (cr.left - sr.left) - 16,
-              behavior: 'smooth',
-            });
-          }
+        const isTarget = c.dataset.cat === catId;
+        const wasOn = c.classList.contains('on');
+        c.classList.toggle('on', isTarget);
+        c.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
+        if (isTarget && !wasOn && catsScroll.contains(c)) {
+          c.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
       });
     }
@@ -491,6 +535,17 @@ const groups = ORDERED_CATS.map(cat => ({
     searchInput.addEventListener('input', () => {
       currentQuery = searchInput.value.trim().toLowerCase();
       applyFilter();
+    });
+
+    noRes.addEventListener('click', e => {
+      const target = e.target as HTMLElement;
+      const btn = target.closest<HTMLElement>('[data-suggest]');
+      if (!btn) return;
+      const suggestion = btn.dataset.suggest ?? '';
+      searchInput.value = suggestion;
+      currentQuery = suggestion.toLowerCase();
+      applyFilter();
+      searchInput.focus({ preventScroll: true });
     });
 
     closeBtn.addEventListener('click', closeMenu);

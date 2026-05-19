@@ -459,6 +459,19 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     .hero-cta-stack .btn-primary { flex: 1 1 auto; min-width: 200px; }
   }
 
+  /* ── Combo glass — desktop only (A/B). Para revertir: borrar este bloque ── */
+  @media (min-width: 768px) {
+    .combo-block {
+      background: rgba(184, 16, 46, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .combo-block:hover {
+      background: rgba(139, 13, 34, 0.92);
+    }
+  }
+
   /* ── Mobile ── */
   @media (max-width: 420px) {
     .hero-container { padding: 108px 6% 120px; }
