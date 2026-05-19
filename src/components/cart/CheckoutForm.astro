@@ -12,6 +12,31 @@
   <h3 class="checkout-title">Últimos datos</h3>
   <p class="checkout-sub">Te abrimos WhatsApp con el pedido listo.</p>
 
+  <div class="ck-empty" id="ck-empty" hidden>
+    <div class="ck-empty-t">Tu pedido está vacío</div>
+    <p class="ck-empty-s">Agrega algo del menú para continuar.</p>
+    <button type="button" class="ck-empty-btn" id="ck-empty-menu">Volver al menú</button>
+  </div>
+
+  <details class="ck-summary" id="ck-summary">
+    <summary class="ck-sum-head">
+      <span class="ck-sum-line">
+        <span class="ck-sum-count" id="ck-sum-count">0 productos</span>
+        <span class="ck-sum-sep" aria-hidden="true">·</span>
+        <span class="ck-sum-total">Total <strong id="ck-sum-total">$0</strong></span>
+        <span class="ck-sum-save" id="ck-sum-save" hidden>
+          <span class="ck-sum-sep" aria-hidden="true">·</span>
+          <span>ahorras <strong id="ck-sum-save-val">$0</strong></span>
+        </span>
+      </span>
+      <span class="ck-sum-toggle" aria-hidden="true">
+        <span class="ck-sum-toggle-txt">Ver pedido</span>
+        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
+      </span>
+    </summary>
+    <ul class="ck-sum-list" id="ck-sum-list"></ul>
+  </details>
+
   <label class="ck-field">
     <span class="ck-lbl">Tu nombre <em aria-hidden="true">*</em></span>
     <input
@@ -19,11 +44,12 @@
       name="name"
       type="text"
       required
+      aria-required="true"
       autocomplete="name"
       placeholder="¿Cómo te decimos?"
       aria-describedby="ck-err-name"
     />
-    <span class="ck-err" id="ck-err-name" data-err="name" hidden>Necesitamos un nombre para el pedido.</span>
+    <span class="ck-err" id="ck-err-name" data-err="name" hidden>Necesitamos tu nombre para confirmar.</span>
   </label>
 
   <fieldset class="ck-field ck-radio">
@@ -50,6 +76,7 @@
       id="ck-address"
       name="address"
       rows="2"
+      aria-required="true"
       autocomplete="street-address"
       placeholder="Calle, número, colonia, referencias…"
       aria-describedby="ck-err-address"></textarea>
@@ -65,7 +92,17 @@
       placeholder="Sin picante, tocar timbre, empaque regalo…"></textarea>
   </label>
 
-  <button id="ck-submit" type="submit" class="ck-submit">
+  <div class="ck-off-banner" id="ck-off-banner" role="status" hidden>
+    <svg class="ck-off-ico" viewBox="0 0 24 24" aria-hidden="true">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8" />
+      <path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+    </svg>
+    <span class="ck-off-txt">
+      Estamos cerrados ahora. Tu pedido se enviará y te contactaremos al abrir mañana 12:00.
+    </span>
+  </div>
+
+  <button id="ck-submit" type="submit" class="ck-submit" aria-disabled="true" disabled>
     <svg viewBox="0 0 24 24" class="ck-wa-ico" aria-hidden="true">
       <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.9.55 3.74 1.58 5.34L2 22l4.88-1.68a9.87 9.87 0 0 0 5.16 1.47h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.81 9.81 0 0 0 12.04 2zm4.92 13.99c-.2.57-1.18 1.12-1.63 1.16-.44.04-.85.22-2.83-.63-2.37-1-3.89-3.45-4-3.61-.12-.16-.96-1.35-.96-2.58 0-1.22.63-1.82.85-2.07.22-.25.48-.31.64-.31h.46c.15 0 .35-.05.55.42.2.48.69 1.68.75 1.8.06.12.1.26.02.42-.08.15-.12.25-.24.39-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.63 1.04 1.36 1.68.93.83 1.72 1.08 1.96 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.14z" />
     </svg>
@@ -127,6 +164,130 @@
     line-height: 1.45;
   }
 
+  /* ── Empty state ── */
+  .ck-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    padding: 18px;
+    background: var(--s2);
+    border: 1px solid var(--g10);
+    border-radius: 12px;
+  }
+  .ck-empty[hidden] { display: none; }
+  .ck-empty-t {
+    font-family: var(--display);
+    font-size: 1rem;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 700;
+  }
+  .ck-empty-s {
+    margin: 0;
+    font-size: .85rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.45;
+  }
+  .ck-empty-btn {
+    margin-top: 6px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--rojo);
+    color: #fff;
+    border: 0;
+    font-family: var(--sans);
+    font-size: .85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s ease;
+  }
+  .ck-empty-btn:hover { background: var(--rojo-dark); }
+  .ck-empty-btn:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+  }
+
+  /* When empty, hide every other section to avoid filling form fields */
+  .checkout-form.is-empty .ck-summary,
+  .checkout-form.is-empty .ck-field,
+  .checkout-form.is-empty .ck-off-banner,
+  .checkout-form.is-empty .ck-submit {
+    display: none !important;
+  }
+
+  /* ── Order summary ── */
+  .ck-summary {
+    background: var(--s2);
+    border: 1px solid var(--g10);
+    border-radius: 12px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .ck-sum-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--sans);
+  }
+  .ck-sum-head::-webkit-details-marker { display: none; }
+  .ck-sum-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: .85rem;
+    color: rgba(255,255,255,0.82);
+  }
+  .ck-sum-line strong { color: #fff; font-weight: 600; }
+  .ck-sum-sep { color: rgba(255,255,255,0.3); }
+  .ck-sum-save { color: var(--amarillo); display: inline-flex; gap: 6px; align-items: center; }
+  .ck-sum-save[hidden] { display: none; }
+  .ck-sum-save strong { color: var(--amarillo); }
+  .ck-sum-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: .72rem;
+    color: rgba(255,255,255,0.55);
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    flex-shrink: 0;
+  }
+  .ck-sum-toggle svg {
+    width: 14px; height: 14px;
+    fill: none; stroke: currentColor; stroke-width: 2;
+    transition: transform .2s ease;
+  }
+  .ck-summary[open] .ck-sum-toggle svg { transform: rotate(180deg); }
+  .ck-sum-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 14px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    border-top: 1px solid var(--g06);
+    padding-top: 10px;
+  }
+  .ck-sum-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: .82rem;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.35;
+  }
+  .ck-sum-item-name { color: #fff; }
+  .ck-sum-item-qty { color: rgba(255,255,255,0.55); margin-right: 4px; }
+  .ck-sum-item-price { color: #fff; font-variant-numeric: tabular-nums; }
+
+  /* ── Fields ── */
   .ck-field {
     display: flex;
     flex-direction: column;
@@ -218,6 +379,29 @@
     line-height: 1.3;
   }
 
+  /* ── Off-hours banner ── */
+  .ck-off-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 185, 14, 0.12);
+    border-left: 4px solid var(--amarillo);
+    border-radius: 8px;
+    color: rgba(255,255,255,0.88);
+    font-family: var(--sans);
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+  .ck-off-banner[hidden] { display: none; }
+  .ck-off-ico {
+    width: 18px;
+    height: 18px;
+    color: var(--amarillo);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
   .ck-submit {
     margin-top: 6px;
     height: 54px;
@@ -234,13 +418,15 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
-    transition: background .15s ease, transform .15s ease;
+    transition: background .15s ease, transform .15s ease, opacity .15s ease;
   }
-  .ck-submit:hover { background: #1fb757; }
-  .ck-submit:active { transform: scale(.98); }
-  .ck-submit:disabled {
+  .ck-submit:hover:not(:disabled):not([aria-disabled='true']) { background: #1fb757; }
+  .ck-submit:active:not(:disabled):not([aria-disabled='true']) { transform: scale(.98); }
+  .ck-submit:disabled,
+  .ck-submit[aria-disabled='true'] {
     opacity: .5;
     cursor: not-allowed;
+    background: var(--verde-wa);
   }
   .ck-wa-ico { width: 20px; height: 20px; fill: #fff; }
 

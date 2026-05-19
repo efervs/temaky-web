@@ -1,4 +1,5 @@
 import type { CartCalc, CartItem } from '../types/menu';
+import { isRestaurantOpen } from './hours';
 
 export const WA_NUMBER = '528127474440';
 
@@ -9,6 +10,11 @@ export interface OrderCustomer {
   delivery: DeliveryType;
   address?: string;
   instructions?: string;
+}
+
+export interface BuildOrderOptions {
+  now?: Date;
+  isOpen?: boolean;
 }
 
 export interface ReservationForm {
@@ -26,18 +32,57 @@ const DELIVERY_LABEL: Record<DeliveryType, string> = {
   delivery: 'Entrega a domicilio',
 };
 
+const TZ = 'America/Monterrey';
+
+function fmtHHMM(now: Date): string {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: TZ,
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(now);
+  const get = (t: string) => parts.find(p => p.type === t)?.value ?? '';
+  return `${get('hour')}:${get('minute')}`;
+}
+
+function fmtTimestamp(now: Date): string {
+  const parts = new Intl.DateTimeFormat('es-MX', {
+    timeZone: TZ,
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(now);
+  const get = (t: string) => parts.find(p => p.type === t)?.value ?? '';
+  return `${get('day')}/${get('month')}/${get('year')} ${get('hour')}:${get('minute')}`;
+}
+
 export function buildOrderMessage(
   cart: CartItem[],
   customer: OrderCustomer,
   calc: CartCalc,
+  opts: BuildOrderOptions = {},
 ): string {
+  const now = opts.now ?? new Date();
+  const isOpen = opts.isOpen ?? isRestaurantOpen(now);
   const lines: string[] = [];
+
+  if (!isOpen) {
+    lines.push(
+      `🕐 PEDIDO FUERA DE HORARIO — Recibido a las ${fmtHHMM(now)}. Confirmar a partir de las 12:00.`,
+    );
+    lines.push('');
+  }
+
   lines.push('Hola Temaky! Quiero hacer un pedido 🍣');
   lines.push('');
   lines.push(`Nombre: ${customer.name}`);
   lines.push(`Entrega: ${DELIVERY_LABEL[customer.delivery]}`);
   if (customer.delivery === 'delivery' && customer.address) {
     lines.push(`Dirección: ${customer.address}`);
+    lines.push(`Abrir en Maps: https://maps.google.com/?q=${encodeURIComponent(customer.address)}`);
   }
   lines.push('');
   lines.push('PEDIDO:');
@@ -62,6 +107,8 @@ export function buildOrderMessage(
     lines.push('');
   }
   lines.push('¿Me confirman disponibilidad y tiempo de entrega? Gracias!');
+  lines.push('');
+  lines.push(`_Pedido generado desde temakysushi.mx · ${fmtTimestamp(now)}_`);
   return lines.join('\n');
 }
 

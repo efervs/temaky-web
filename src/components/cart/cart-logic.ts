@@ -314,6 +314,78 @@ function closeCart() {
   }
 }
 
+function renderCheckoutSummary() {
+  const form = document.getElementById('checkout-form') as HTMLFormElement | null;
+  const empty = document.getElementById('ck-empty');
+  if (!form) return;
+
+  if (!cart.length) {
+    form.classList.add('is-empty');
+    if (empty) empty.hidden = false;
+    return;
+  }
+
+  form.classList.remove('is-empty');
+  if (empty) empty.hidden = true;
+
+  const calc = cartCalc();
+  const count = cart.reduce((s, ci) => s + ci.qty, 0);
+
+  const countEl = document.getElementById('ck-sum-count');
+  if (countEl) countEl.textContent = `${count} producto${count !== 1 ? 's' : ''}`;
+  const totalEl = document.getElementById('ck-sum-total');
+  if (totalEl) totalEl.textContent = `$${calc.total}`;
+  const saveWrap = document.getElementById('ck-sum-save');
+  const saveVal = document.getElementById('ck-sum-save-val');
+  if (saveWrap && saveVal) {
+    if (calc.bundleSaving > 0) {
+      saveWrap.hidden = false;
+      saveVal.textContent = `$${calc.bundleSaving}`;
+    } else {
+      saveWrap.hidden = true;
+    }
+  }
+
+  const list = document.getElementById('ck-sum-list');
+  if (list) {
+    list.innerHTML = cart
+      .map(
+        ci => `<li class="ck-sum-item">
+          <span class="ck-sum-item-name"><span class="ck-sum-item-qty">${ci.qty}×</span>${esc(ci.name)}</span>
+          <span class="ck-sum-item-price">$${ci.lineTotal}</span>
+        </li>`,
+      )
+      .join('');
+  }
+}
+
+function isFormValid(): boolean {
+  const nameEl = document.getElementById('ck-name') as HTMLInputElement | null;
+  const addrEl = document.getElementById('ck-address') as HTMLTextAreaElement | null;
+  const delivery = document.querySelector<HTMLInputElement>('input[name="delivery"]:checked')?.value
+    ?? 'pickup';
+  const name = nameEl?.value.trim() ?? '';
+  const address = addrEl?.value.trim() ?? '';
+  if (!cart.length) return false;
+  if (!name) return false;
+  if (delivery === 'delivery' && !address) return false;
+  return true;
+}
+
+function updateSubmitState() {
+  const btn = document.getElementById('ck-submit') as HTMLButtonElement | null;
+  if (!btn) return;
+  const valid = isFormValid();
+  btn.disabled = !valid;
+  btn.setAttribute('aria-disabled', valid ? 'false' : 'true');
+}
+
+function updateOffHoursBanner() {
+  const banner = document.getElementById('ck-off-banner');
+  if (!banner) return;
+  banner.hidden = isRestaurantOpen();
+}
+
 function goToCheckout() {
   if (!cart.length) return;
   const overlay = document.getElementById('cart-overlay');
@@ -321,6 +393,9 @@ function goToCheckout() {
   overlay.classList.add('step-2');
   const title = overlay.querySelector('.cart-title');
   if (title) title.textContent = 'Checkout';
+  renderCheckoutSummary();
+  updateOffHoursBanner();
+  updateSubmitState();
   setTimeout(() => {
     document.getElementById('ck-name')?.focus();
   }, 50);
@@ -398,10 +473,12 @@ function submitCheckout(e: Event) {
     ...(instructions ? { instructions } : {}),
   };
   const calc = cartCalc();
-  const text = buildOrderMessage(cart, customer, calc);
+  const now = new Date();
+  const isOpen = isRestaurantOpen(now);
+  const text = buildOrderMessage(cart, customer, calc, { now, isOpen });
   const url = buildWhatsAppUrl(text);
 
-  if (!isRestaurantOpen()) {
+  if (!isOpen) {
     window.dispatchEvent(
       new CustomEvent('offhours:open', { detail: { pendingUrl: url } }),
     );
@@ -491,6 +568,39 @@ export function initCart() {
     if (target.name === 'delivery') {
       toggleAddressField(target.value === 'delivery');
     }
+    updateSubmitState();
+  });
+  form?.addEventListener('input', e => {
+    const target = e.target as HTMLInputElement | HTMLTextAreaElement;
+    if (target.id === 'ck-name') {
+      const filled = target.value.trim().length > 0;
+      if (filled) setFieldError('ck-name', 'name', false);
+    } else if (target.id === 'ck-address') {
+      const filled = (target as HTMLTextAreaElement).value.trim().length > 0;
+      if (filled) setFieldError('ck-address', 'address', false);
+    }
+    updateSubmitState();
+  });
+  document.getElementById('ck-name')?.addEventListener('blur', () => {
+    const el = document.getElementById('ck-name') as HTMLInputElement | null;
+    const bad = !el?.value.trim();
+    setFieldError('ck-name', 'name', bad);
+    updateSubmitState();
+  });
+  document.getElementById('ck-address')?.addEventListener('blur', () => {
+    const delivery = document.querySelector<HTMLInputElement>(
+      'input[name="delivery"]:checked',
+    )?.value ?? 'pickup';
+    if (delivery !== 'delivery') return;
+    const el = document.getElementById('ck-address') as HTMLTextAreaElement | null;
+    const bad = !el?.value.trim();
+    setFieldError('ck-address', 'address', bad);
+    updateSubmitState();
+  });
+  document.getElementById('ck-empty-menu')?.addEventListener('click', () => {
+    backToCart();
+    closeCart();
+    window.dispatchEvent(new CustomEvent('temaky:open-menu'));
   });
 
   document.addEventListener('keydown', e => {

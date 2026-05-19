@@ -8,6 +8,11 @@ import {
   type OrderCustomer,
 } from '../whatsapp';
 
+// 2026-05-18 18:00 UTC = 12:00 America/Monterrey (open).
+const OPEN_DATE = new Date('2026-05-18T18:00:00.000Z');
+// 2026-05-18 06:00 UTC = 00:00 America/Monterrey (closed).
+const CLOSED_DATE = new Date('2026-05-18T06:00:00.000Z');
+
 describe('buildOrderMessage', () => {
   const cart: CartItem[] = [
     {
@@ -48,6 +53,7 @@ describe('buildOrderMessage', () => {
       'Nombre: Juan Pérez',
       'Entrega: Entrega a domicilio',
       'Dirección: Calle Falsa 123',
+      'Abrir en Maps: https://maps.google.com/?q=Calle%20Falsa%20123',
       '',
       'PEDIDO:',
       '• 2× Dragon Roll — $270',
@@ -63,8 +69,10 @@ describe('buildOrderMessage', () => {
       'Notas del pedido: Tocar timbre 3 veces',
       '',
       '¿Me confirman disponibilidad y tiempo de entrega? Gracias!',
+      '',
+      '_Pedido generado desde temakysushi.mx · 18/05/2026 12:00_',
     ].join('\n');
-    expect(buildOrderMessage(cart, customer, calc)).toBe(expected);
+    expect(buildOrderMessage(cart, customer, calc, { now: OPEN_DATE, isOpen: true })).toBe(expected);
   });
 
   it('omite Dirección y Notas del pedido cuando no aplican (pickup)', () => {
@@ -72,11 +80,50 @@ describe('buildOrderMessage', () => {
     const simpleCalc: CartCalc = {
       subtotal: 270, bundleSaving: 0, total: 270, cPairs: 0, sPairs: 0,
     };
-    const msg = buildOrderMessage([cart[0]], pickup, simpleCalc);
+    const msg = buildOrderMessage([cart[0]], pickup, simpleCalc, { now: OPEN_DATE, isOpen: true });
     expect(msg).not.toContain('Dirección:');
+    expect(msg).not.toContain('Abrir en Maps:');
     expect(msg).not.toContain('Ahorro por promos');
     expect(msg).not.toContain('Notas del pedido');
     expect(msg).toContain('Entrega: Recoger en restaurante');
+  });
+
+  it('agrega link de Google Maps con la dirección encoded para delivery', () => {
+    const c: OrderCustomer = {
+      name: 'Test',
+      delivery: 'delivery',
+      address: 'Av Constitución 123, Centro',
+    };
+    const msg = buildOrderMessage(
+      [cart[0]],
+      c,
+      { subtotal: 270, bundleSaving: 0, total: 270, cPairs: 0, sPairs: 0 },
+      { now: OPEN_DATE, isOpen: true },
+    );
+    expect(msg).toContain('Dirección: Av Constitución 123, Centro');
+    expect(msg).toContain(
+      'Abrir en Maps: https://maps.google.com/?q=Av%20Constituci%C3%B3n%20123%2C%20Centro',
+    );
+  });
+
+  it('incluye timestamp footer en formato es-MX', () => {
+    const msg = buildOrderMessage(
+      [cart[0]],
+      { name: 'X', delivery: 'pickup' },
+      { subtotal: 270, bundleSaving: 0, total: 270, cPairs: 0, sPairs: 0 },
+      { now: OPEN_DATE, isOpen: true },
+    );
+    expect(msg).toMatch(/_Pedido generado desde temakysushi\.mx · 18\/05\/2026 12:00_$/);
+  });
+
+  it('antepone aviso fuera de horario cuando isOpen=false', () => {
+    const msg = buildOrderMessage(
+      [cart[0]],
+      { name: 'X', delivery: 'pickup' },
+      { subtotal: 270, bundleSaving: 0, total: 270, cPairs: 0, sPairs: 0 },
+      { now: CLOSED_DATE, isOpen: false },
+    );
+    expect(msg.startsWith('🕐 PEDIDO FUERA DE HORARIO — Recibido a las 00:00. Confirmar a partir de las 12:00.')).toBe(true);
   });
 });
 
