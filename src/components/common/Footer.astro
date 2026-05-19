@@ -26,16 +26,6 @@ const year = new Date().getFullYear();
               <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
             </svg>
           </a>
-          <!-- Facebook -->
-          <a
-            href="#"
-            aria-label="Facebook"
-            class="w-[36px] h-[36px] border border-white/[.11] rounded-[6px] flex items-center justify-center text-white/[.44] no-underline transition-colors hover:border-[#B8102E] hover:text-white"
-          >
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
-            </svg>
-          </a>
         </div>
       </div>
 
@@ -47,7 +37,7 @@ const year = new Date().getFullYear();
           <li><a href="#" onclick="window.dispatchEvent(new CustomEvent('temaky:open-menu'));return false" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Menú completo</a></li>
           <li><a href="#ubic" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Ubicación</a></li>
           <li><a href="https://wa.me/528127474440" target="_blank" rel="noopener" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Contacto</a></li>
-          <li class="max-md:hidden"><a href="tel:+528183462758" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Llamar</a></li>
+          <li><a href="tel:+528183462758" class="text-[.81rem] text-white/55 no-underline py-[5px] md:py-[6px] min-h-[36px] md:min-h-[44px] flex items-center hover:text-white transition-colors">Llamar al restaurante</a></li>
         </ul>
       </div>
 
@@ -86,7 +76,10 @@ const year = new Date().getFullYear();
     <!-- Copyright -->
     <p class="text-[.72rem] text-white/65 flex justify-between flex-wrap gap-[5px] max-[680px]:flex-col">
       <span>© {year} Temaky Sushi. Todos los derechos reservados.</span>
-      <span>Monterrey, Nuevo León, México</span>
+      <span class="flex gap-[14px] flex-wrap">
+        <a href="/aviso-de-privacidad" class="text-white/40 no-underline hover:text-white/70 transition-colors">Aviso de Privacidad</a>
+        <span>Monterrey, Nuevo León, México</span>
+      </span>
     </p>
 
   </div>

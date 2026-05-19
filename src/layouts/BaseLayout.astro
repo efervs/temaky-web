@@ -21,7 +21,7 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-MX">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -82,6 +82,7 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
     <StructuredData />
   </head>
   <body>
+    <a href="#contenido-principal" class="skip-link">Saltar al contenido</a>
     <slot />
   </body>
 </html>

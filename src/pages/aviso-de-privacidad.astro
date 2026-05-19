@@ -1,0 +1,243 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Aviso de Privacidad — Temaky Sushi';
+const description = 'Aviso de privacidad de Temaky Sushi conforme a la LFPDPPP. Consulta cómo usamos y protegemos tus datos personales.';
+const lastUpdate = '19 de mayo de 2025';
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="priv-page">
+
+    <nav class="priv-nav">
+      <a href="/" class="priv-back">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+        Volver al inicio
+      </a>
+    </nav>
+
+    <main id="contenido-principal" class="priv-main">
+      <h1 class="priv-h1">Aviso de Privacidad — Temaky Sushi</h1>
+
+      <p class="priv-intro">
+        Temaky Sushi, con domicilio en Francisco Garza Sada #2940, Piso 2 Local 204,
+        Plaza Villa Obispado, Monterrey, N.L., México, es responsable del uso y
+        protección de tus datos personales conforme a lo dispuesto por la Ley
+        Federal de Protección de Datos Personales en Posesión de los Particulares
+        (LFPDPPP).
+      </p>
+
+      <section class="priv-section">
+        <h2 class="priv-h2">Datos que recabamos</h2>
+        <ul class="priv-list">
+          <li>Nombre completo.</li>
+          <li>Número de WhatsApp.</li>
+          <li>Dirección de entrega (únicamente cuando solicitas entrega a domicilio).</li>
+        </ul>
+      </section>
+
+      <section class="priv-section">
+        <h2 class="priv-h2">Finalidades primarias</h2>
+        <ul class="priv-list">
+          <li>Procesar tu pedido y/o reservación.</li>
+          <li>Contactarte por WhatsApp para confirmar o aclarar detalles.</li>
+        </ul>
+      </section>
+
+      <section class="priv-section">
+        <h2 class="priv-h2">Finalidades secundarias (opt-in)</h2>
+        <p class="priv-p">
+          Enviar promociones y novedades por WhatsApp (máximo 1 mensaje al mes).
+          Puedes oponerte en cualquier momento enviando la palabra <strong>BAJA</strong> al
+          <a href="https://wa.me/528127474440" target="_blank" rel="noopener" class="priv-link">+52 81 2747-4440</a>.
+        </p>
+      </section>
+
+      <section class="priv-section">
+        <h2 class="priv-h2">Derechos ARCO</h2>
+        <p class="priv-p">
+          Puedes ejercer tus derechos de <strong>Acceso, Rectificación, Cancelación u Oposición</strong>
+          contactándonos directamente al
+          <a href="https://wa.me/528127474440" target="_blank" rel="noopener" class="priv-link">+52 81 2747-4440</a>.
+          Responderemos en un plazo máximo de 20 días hábiles.
+        </p>
+      </section>
+
+      <section class="priv-section">
+        <h2 class="priv-h2">Cambios al aviso</h2>
+        <p class="priv-p">
+          Cualquier modificación a este aviso será publicada en
+          <a href="https://temakysushi.mx/aviso-de-privacidad" class="priv-link">temakysushi.mx/aviso-de-privacidad</a>.
+        </p>
+        <p class="priv-update">Última actualización: {lastUpdate}.</p>
+      </section>
+
+      <div class="priv-footer">
+        <a
+          href="https://www.instagram.com/temakysushimty/"
+          target="_blank"
+          rel="noopener"
+          aria-label="Instagram de Temaky Sushi"
+          class="priv-social"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+            <circle cx="12" cy="12" r="4"/>
+            <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+          </svg>
+          @temakysushimty
+        </a>
+        <a
+          href="https://wa.me/528127474440"
+          target="_blank"
+          rel="noopener"
+          class="priv-social"
+          aria-label="WhatsApp de Temaky Sushi"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.9.55 3.74 1.58 5.34L2 22l4.88-1.68a9.87 9.87 0 005.16 1.47h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.81 9.81 0 0012.04 2zm4.92 13.99c-.2.57-1.18 1.12-1.63 1.16-.44.04-.85.22-2.83-.63-2.37-1-3.89-3.45-4-3.61-.12-.16-.96-1.35-.96-2.58 0-1.22.63-1.82.85-2.07.22-.25.48-.31.64-.31h.46c.15 0 .35-.05.55.42.2.48.69 1.68.75 1.8.06.12.1.26.02.42-.08.15-.12.25-.24.39-.12.14-.25.31-.36.42-.12.12-.24.25-.1.5.14.24.63 1.04 1.36 1.68.93.83 1.72 1.08 1.96 1.21.24.12.38.1.52-.06.14-.16.6-.7.76-.94.16-.24.32-.2.54-.12.22.08 1.4.66 1.64.78.24.12.4.18.46.28.06.1.06.58-.14 1.14z"/>
+          </svg>
+          WhatsApp
+        </a>
+      </div>
+    </main>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .priv-page {
+    background: #000;
+    min-height: 100vh;
+    color: #fff;
+    font-family: var(--sans, 'DM Sans', sans-serif);
+  }
+
+  .priv-nav {
+    padding: 20px 5%;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .priv-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: rgba(255,255,255,0.55);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease;
+  }
+  .priv-back:hover { color: #fff; }
+
+  .priv-main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(40px, 6vw, 80px) 5% 80px;
+  }
+
+  .priv-h1 {
+    font-family: var(--display, 'Open Sauce Sans', sans-serif);
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 28px;
+    line-height: 1.1;
+  }
+
+  .priv-intro {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    border-left: 3px solid #B8102E;
+    padding-left: 18px;
+  }
+
+  .priv-section {
+    margin-bottom: 36px;
+    padding-bottom: 36px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .priv-section:last-of-type { border-bottom: none; }
+
+  .priv-h2 {
+    font-family: var(--display, 'Open Sauce Sans', sans-serif);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #B8102E;
+    margin-bottom: 14px;
+  }
+
+  .priv-p {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .priv-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .priv-list li {
+    font-size: 0.92rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+    padding-left: 16px;
+    position: relative;
+  }
+  .priv-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #B8102E;
+  }
+
+  .priv-link {
+    color: rgba(255,255,255,0.75);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.15s ease;
+  }
+  .priv-link:hover { color: #fff; }
+
+  .priv-update {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.35);
+    margin-top: 12px;
+  }
+
+  .priv-footer {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .priv-social {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: rgba(255,255,255,0.45);
+    text-decoration: none;
+    font-size: 0.82rem;
+    transition: color 0.15s ease;
+  }
+  .priv-social:hover { color: #fff; }
+</style>

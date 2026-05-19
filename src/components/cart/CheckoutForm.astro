@@ -108,6 +108,7 @@
     </svg>
     Enviar por WhatsApp
   </button>
+  <p class="ck-legal">Al enviar aceptas nuestro <a href="/aviso-de-privacidad" target="_blank" rel="noopener" class="ck-legal-link">Aviso de Privacidad</a>.</p>
 </form>
 
 <div id="order-toast" class="order-toast" role="status" aria-live="polite" hidden>
@@ -456,4 +457,19 @@
     transform: translate(-50%, 0);
   }
   .order-toast-ico { font-size: 1rem; }
+
+  .ck-legal {
+    text-align: center;
+    font-size: .7rem;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.4;
+    margin: 0;
+  }
+  .ck-legal-link {
+    color: rgba(255,255,255,0.5);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color .15s ease;
+  }
+  .ck-legal-link:hover { color: rgba(255,255,255,0.8); }
 </style>
