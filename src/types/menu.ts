@@ -65,4 +65,9 @@ export interface CartCalc {
   total: number;
   cPairs: number;
   sPairs: number;
+  clasicoQty: number;
+  sigQty: number;
+  clasicoQtyOdd: boolean;
+  sigQtyOdd: boolean;
+  hintMessage: string | null;
 }

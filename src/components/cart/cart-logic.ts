@@ -1,5 +1,5 @@
 import { trapFocus } from '../../lib/focus-trap';
-import { MODS } from '../../data/menu';
+import { MODS, findProduct } from '../../data/menu';
 import { isRestaurantOpen } from '../../lib/hours';
 import {
   buildOrderMessage,
@@ -52,8 +52,38 @@ export function cartCalc(): CartCalc {
   const cPairs = Math.floor(clasicoQty / 2);
   const sPairs = Math.floor(sigQty / 2);
   const bundleSaving = cPairs * 51 + sPairs * 41;
-  return { subtotal, bundleSaving, total: subtotal - bundleSaving, cPairs, sPairs };
+  const clasicoQtyOdd = clasicoQty % 2 === 1;
+  const sigQtyOdd = sigQty % 2 === 1;
+  let hintMessage: string | null = null;
+  if (clasicoQty === 1) {
+    hintMessage = 'Agrega 1 Clásico más — pagas $199 y ahorras $51';
+  } else if (clasicoQty > 1 && clasicoQtyOdd) {
+    hintMessage = 'Lleva 1 Clásico más para completar otro par';
+  } else if (sigQty === 1) {
+    hintMessage = 'Agrega 1 Signature más — pagas $229 y ahorras $41';
+  } else if (sigQty > 1 && sigQtyOdd) {
+    hintMessage = 'Lleva 1 Signature más para completar otro par';
+  }
+  return {
+    subtotal,
+    bundleSaving,
+    total: subtotal - bundleSaving,
+    cPairs,
+    sPairs,
+    clasicoQty,
+    sigQty,
+    clasicoQtyOdd,
+    sigQtyOdd,
+    hintMessage,
+  };
 }
+
+const TOP_PICK_IDS: readonly string[] = ['combo-clasico', 'philadelphia', 'arjona'];
+
+const BOLT_SVG =
+  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+  '<path d="M13 2 3 14h7l-1 8 10-12h-7l1-8z"/>' +
+  '</svg>';
 
 function esc(html: string): string {
   return html.replace(/[&<>"']/g, ch =>
@@ -123,6 +153,22 @@ function renderCart() {
   if (!body || !foot) return;
 
   if (!cart.length) {
+    const picks = TOP_PICK_IDS.map(id => findProduct(id)).filter(
+      (p): p is NonNullable<ReturnType<typeof findProduct>> => Boolean(p),
+    );
+    const picksHtml = picks
+      .map(
+        p => `<button class="ce-pick" type="button" data-pick="${esc(p.id)}" aria-label="Agregar ${esc(p.name)} — $${p.price}">
+          <img class="ce-pick-img" src="${esc(p.img)}" alt="" width="80" height="80" loading="lazy" decoding="async" />
+          <span class="ce-pick-inf">
+            <span class="ce-pick-name">${esc(p.name)}</span>
+            <span class="ce-pick-price"><span class="currency">$</span>${p.price}</span>
+          </span>
+          <span class="ce-pick-add" aria-hidden="true">＋</span>
+        </button>`,
+      )
+      .join('');
+
     body.innerHTML = `<div class="ce">
       <div class="ce-ico">
         <svg viewBox="0 0 56 56" width="52" height="52" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -133,7 +179,8 @@ function renderCart() {
         </svg>
       </div>
       <div class="ce-t">Tu pedido esta vacio</div>
-      <div class="ce-s">Explora el menú y agrega tus platillos favoritos</div>
+      <div class="ce-s">Empieza con los más pedidos:</div>
+      <div class="ce-top3" role="list">${picksHtml}</div>
       <button class="ce-btn" type="button" id="ce-open-menu">Ver Menú</button>
     </div>`;
     foot.hidden = true;
@@ -162,14 +209,20 @@ function renderCart() {
 
   if (calc.cPairs > 0) {
     html += `<div class="bundle-tip">
-      <div class="bt-lbl">🎉 Promo 2×$199 aplicada</div>
+      <div class="bt-lbl"><span class="bt-ico" aria-hidden="true">${BOLT_SVG}</span>Promo 2×$199 aplicada</div>
       <div class="bt-txt">${calc.cPairs} par${calc.cPairs > 1 ? 'es' : ''} de Rollos Clásicos — <span class="bt-save">ahorro $${calc.cPairs * 51}</span></div>
     </div>`;
   }
   if (calc.sPairs > 0) {
     html += `<div class="bundle-tip">
-      <div class="bt-lbl">🎉 Promo 2×$229 aplicada</div>
+      <div class="bt-lbl"><span class="bt-ico" aria-hidden="true">${BOLT_SVG}</span>Promo 2×$229 aplicada</div>
       <div class="bt-txt">${calc.sPairs} par${calc.sPairs > 1 ? 'es' : ''} de Signature Rolls — <span class="bt-save">ahorro $${calc.sPairs * 41}</span></div>
+    </div>`;
+  }
+  if (calc.hintMessage) {
+    html += `<div class="bundle-hint" role="status">
+      <span class="bh-ico" aria-hidden="true">${BOLT_SVG}</span>
+      <span class="bh-txt">${esc(calc.hintMessage)}</span>
     </div>`;
   }
 
@@ -413,6 +466,14 @@ export function initCart() {
     if (target.closest('#ce-open-menu')) {
       closeCart();
       window.dispatchEvent(new CustomEvent('temaky:open-menu'));
+      return;
+    }
+    const pick = target.closest<HTMLElement>('[data-pick]');
+    if (pick) {
+      const id = pick.dataset.pick ?? '';
+      if (!id) return;
+      closeCart();
+      window.dispatchEvent(new CustomEvent('temaky:open-sheet', { detail: id }));
     }
   });
 
