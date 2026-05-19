@@ -2,6 +2,13 @@ import { trapFocus } from '../../lib/focus-trap';
 import { MENU, MODS, findProduct } from '../../data/menu';
 import type { Product, SheetSelections } from '../../types/menu';
 
+const CROSS_SELL_IDS = ['edamames', 'gyosas', 'refresco'] as const;
+
+const STAR_SVG =
+  '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">' +
+  '<path d="M12 2l2.95 6.32 6.95.66-5.2 4.86 1.54 6.86L12 17.27 5.76 20.7l1.54-6.86L2.1 8.98l6.95-.66L12 2z"/>' +
+  '</svg>';
+
 interface SheetState {
   prod: Product | null;
   qty: number;
@@ -124,6 +131,9 @@ function renderSheet() {
       <span class="sh-name">${esc(p.name)}</span>
       <span class="sh-price"><span class="currency">$</span>${p.price}</span>
     </div>
+    <div class="sh-trust" aria-label="Calificación 4.4 sobre 5 con 604 reseñas">
+      ${STAR_SVG}<span>4.4 · 604 reseñas</span>
+    </div>
     ${p.deal || p.badge ? `<div class="sh-tags">
       ${p.badge ? `<span class="sh-tag cat">${esc(p.badge)}</span>` : ''}
       ${p.deal ? `<span class="sh-tag promo">Promo ${esc(p.deal)}</span>` : ''}
@@ -162,9 +172,48 @@ function renderSheet() {
     <div class="mod-head"><label class="mod-label" for="psh-notes">Notas especiales</label><span class="mod-hint">Opcional</span></div>
     <textarea class="sh-notes" id="psh-notes" rows="2" placeholder="Ej: Sin alga, extra picante, alergia a…">${esc(state.notes)}</textarea>
   </div>`;
+
+  html += renderCrossSell(p.id);
   body.innerHTML = html;
 
   renderFooter();
+}
+
+function renderCrossSell(currentId: string): string {
+  if (CROSS_SELL_IDS.includes(currentId as (typeof CROSS_SELL_IDS)[number])) return '';
+  const items = CROSS_SELL_IDS
+    .map(id => findProduct(id))
+    .filter((p): p is Product => Boolean(p));
+  if (!items.length) return '';
+  const cards = items
+    .map(
+      p => `<li><button type="button" class="sh-cross-card" data-cross="${esc(p.id)}" aria-label="Agregar ${esc(p.name)} al pedido por $${p.price}">
+        <img src="${esc(p.img)}" alt="" width="48" height="48" loading="lazy" decoding="async" />
+        <span class="sh-cross-name">${esc(p.name)}</span>
+        <span class="sh-cross-price"><span class="currency">$</span>${p.price}</span>
+        <span class="sh-cross-feedback" aria-hidden="true">Agregado ✓</span>
+      </button></li>`,
+    )
+    .join('');
+  return `<section class="sh-cross" aria-label="Complementa tu pedido">
+    <span class="sh-cross-title">Complementa tu pedido</span>
+    <ul class="sh-cross-list">${cards}</ul>
+  </section>`;
+}
+
+function addCrossSell(slug: string, btn: HTMLButtonElement) {
+  const prod = findProduct(slug);
+  if (!prod) return;
+  if (btn.classList.contains('added')) return;
+  window.dispatchEvent(new CustomEvent('temaky:add-cart', {
+    detail: { product: prod, qty: 1, sels: {}, notes: '' },
+  }));
+  btn.classList.add('added');
+  btn.setAttribute('aria-pressed', 'true');
+  window.setTimeout(() => {
+    btn.classList.remove('added');
+    btn.removeAttribute('aria-pressed');
+  }, 1500);
 }
 
 function renderFooter() {
@@ -228,6 +277,13 @@ export function initSheet() {
 
     if (target.closest('#psh-close')) {
       closeSheet();
+      return;
+    }
+
+    const crossBtn = target.closest<HTMLButtonElement>('.sh-cross-card');
+    if (crossBtn) {
+      const slug = crossBtn.dataset.cross ?? '';
+      if (slug) addCrossSell(slug, crossBtn);
       return;
     }
 
