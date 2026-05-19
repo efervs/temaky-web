@@ -136,6 +136,16 @@ export function buildWhatsAppUrl(text: string): string {
   return `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
+export function markOrderSent(): void {
+  try {
+    localStorage.setItem('temaky-last-order-time', Date.now().toString());
+    localStorage.setItem('temaky-review-pending', '1');
+    localStorage.removeItem('temaky-cart-banner-dismissed');
+  } catch {
+    /* localStorage unavailable */
+  }
+}
+
 export function openWhatsApp(text: string): void {
   window.open(buildWhatsAppUrl(text), '_blank', 'noopener');
 }

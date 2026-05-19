@@ -1,0 +1,161 @@
+---
+// Review request toast — appears after a successful WhatsApp order, once the
+// user returns to the site (>=3 min since order). Closes manually or after 10s.
+const REVIEW_URL = 'https://maps.app.goo.gl/gZdvYsTJmWGkcaNL6?action=review';
+---
+
+<div
+  id="review-toast"
+  class="rt"
+  hidden
+  role="status"
+  aria-live="polite"
+  aria-label="¿Te gustó tu pedido?"
+>
+  <span class="rt-ico" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="#FFB90E">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z"/>
+    </svg>
+  </span>
+  <div class="rt-body">
+    <div class="rt-h">¿Te gustó tu pedido?</div>
+    <a class="rt-link" href={REVIEW_URL} target="_blank" rel="noopener noreferrer">
+      Déjanos una reseña en Google →
+    </a>
+  </div>
+  <button id="rt-close" class="rt-x" type="button" aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" fill="none"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  (() => {
+    const KEY_TIME = 'temaky-last-order-time';
+    const KEY_PENDING = 'temaky-review-pending';
+    const MIN_DELAY_MS = 3 * 60 * 1000;
+    const AUTO_DISMISS_MS = 10_000;
+
+    function dismiss() {
+      const el = document.getElementById('review-toast');
+      if (!el) return;
+      el.classList.remove('show');
+      try { localStorage.removeItem(KEY_PENDING); } catch {}
+      setTimeout(() => { el.hidden = true; }, 320);
+    }
+
+    function show() {
+      const el = document.getElementById('review-toast');
+      if (!el) return;
+      el.hidden = false;
+      requestAnimationFrame(() => el.classList.add('show'));
+      setTimeout(dismiss, AUTO_DISMISS_MS);
+    }
+
+    function maybeShow() {
+      try {
+        if (localStorage.getItem(KEY_PENDING) !== '1') return;
+        const ts = Number(localStorage.getItem(KEY_TIME) ?? '0');
+        if (!ts) return;
+        const elapsed = Date.now() - ts;
+        if (elapsed < MIN_DELAY_MS) return;
+        show();
+      } catch {
+        /* localStorage unavailable */
+      }
+    }
+
+    document.getElementById('rt-close')?.addEventListener('click', dismiss);
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', maybeShow);
+    } else {
+      maybeShow();
+    }
+  })();
+</script>
+
+<style>
+  .rt {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom));
+    z-index: 1200;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--negro);
+    border: 1px solid var(--amarillo);
+    border-radius: 14px;
+    box-shadow: 0 18px 42px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,185,14,0.18);
+    transform: translateY(140%);
+    opacity: 0;
+    transition: transform 0.3s cubic-bezier(0.2,0.7,0.2,1), opacity 0.3s ease;
+  }
+  .rt[hidden] { display: none; }
+  .rt.show { transform: translateY(0); opacity: 1; }
+
+  .rt-ico {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,185,14,0.12);
+    border: 1px solid rgba(255,185,14,0.28);
+  }
+
+  .rt-body { flex: 1; min-width: 0; }
+  .rt-h {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .rt-link {
+    display: inline-block;
+    margin-top: 4px;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--amarillo);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.18s ease;
+  }
+  .rt-link:hover { color: #fff; }
+
+  .rt-x {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 0;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .rt-x:hover { background: rgba(255,255,255,0.14); }
+  .rt-x:focus-visible {
+    outline: 2px solid var(--amarillo);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .rt {
+      left: auto;
+      right: 24px;
+      bottom: calc(24px + env(safe-area-inset-bottom));
+      max-width: 360px;
+      padding: 16px 18px;
+    }
+  }
+</style>

@@ -4,12 +4,14 @@ import { isRestaurantOpen } from '../../lib/hours';
 import {
   buildOrderMessage,
   buildWhatsAppUrl,
+  markOrderSent,
   type DeliveryType,
   type OrderCustomer,
 } from '../../lib/whatsapp';
 import type { CartCalc, CartItem, CartMod, Product, SheetSelections } from '../../types/menu';
 
 const STORAGE_KEY = 'temaky-v6-cart';
+const STORAGE_UPDATED_KEY = 'temaky-v6-cart-updated';
 
 let lastFocus: HTMLElement | null = null;
 let releaseTrap: (() => void) | null = null;
@@ -37,6 +39,8 @@ let cart: CartItem[] = [];
 function save() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+    localStorage.setItem(STORAGE_UPDATED_KEY, Date.now().toString());
+    localStorage.removeItem('temaky-cart-banner-dismissed');
   } catch {
     /* quota or unavailable, ignore */
   }
@@ -486,6 +490,7 @@ function submitCheckout(e: Event) {
   }
 
   window.open(url, '_blank', 'noopener');
+  markOrderSent();
   clearAllCart();
   backToCart();
   closeCart();

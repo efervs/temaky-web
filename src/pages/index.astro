@@ -15,6 +15,8 @@ import MenuOverlay from '../components/menu/MenuOverlay.astro';
 import ProductSheet from '../components/menu/ProductSheet.astro';
 import Cart from '../components/cart/Cart.astro';
 import OffHoursModal from '../components/common/OffHoursModal.astro';
+import ReviewToast from '../components/common/ReviewToast.astro';
+import CartResumeBanner from '../components/common/CartResumeBanner.astro';
 ---
 
 <BaseLayout>
@@ -40,4 +42,8 @@ import OffHoursModal from '../components/common/OffHoursModal.astro';
 
   <!-- Global modal — listens for offhours:open event -->
   <OffHoursModal />
+
+  <!-- Engagement: post-order review + cart abandoned banner -->
+  <ReviewToast />
+  <CartResumeBanner />
 </BaseLayout>

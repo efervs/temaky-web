@@ -1,0 +1,195 @@
+---
+// Cart-abandoned banner — shown on page load when the cart has items but the
+// last cart update was >=2h ago and the user has not dismissed it.
+---
+
+<div id="cart-resume-banner" class="cart-resume-banner" hidden role="status" aria-live="polite">
+  <span class="crb-ico" aria-hidden="true">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  </span>
+  <span class="crb-txt">
+    Tu pedido te espera <strong>(<span id="crb-total">$0</span>)</strong>.
+    <a id="crb-continue" href="#" data-action="open-cart" class="crb-link">Continuar →</a>
+  </span>
+  <button id="crb-close" type="button" class="crb-x" aria-label="Cerrar banner">
+    <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18" stroke="#fff" stroke-width="2" fill="none"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  (() => {
+    const CART_KEY = 'temaky-v6-cart';
+    const UPDATED_KEY = 'temaky-v6-cart-updated';
+    const DISMISSED_KEY = 'temaky-cart-banner-dismissed';
+    const TWO_HOURS_MS = 2 * 60 * 60 * 1000;
+
+    interface StoredItem {
+      qty: number;
+      price: number;
+      modsTotal: number;
+      lineTotal: number;
+      bundle: string | null;
+    }
+
+    function readCart(): StoredItem[] {
+      try {
+        const raw = localStorage.getItem(CART_KEY);
+        if (!raw) return [];
+        const parsed = JSON.parse(raw);
+        return Array.isArray(parsed) ? parsed : [];
+      } catch {
+        return [];
+      }
+    }
+
+    function computeTotal(items: StoredItem[]): number {
+      const subtotal = items.reduce((s, ci) => s + (ci.lineTotal ?? 0), 0);
+      const clasicoQty = items
+        .filter(ci => ci.bundle === 'clasico')
+        .reduce((s, ci) => s + ci.qty, 0);
+      const sigQty = items
+        .filter(ci => ci.bundle === 'signature')
+        .reduce((s, ci) => s + ci.qty, 0);
+      const saving = Math.floor(clasicoQty / 2) * 51 + Math.floor(sigQty / 2) * 41;
+      return subtotal - saving;
+    }
+
+    function hide() {
+      const el = document.getElementById('cart-resume-banner');
+      if (!el) return;
+      el.classList.remove('show');
+      setTimeout(() => { el.hidden = true; }, 280);
+    }
+
+    function dismiss() {
+      try { localStorage.setItem(DISMISSED_KEY, '1'); } catch {}
+      hide();
+    }
+
+    function show(total: number) {
+      const el = document.getElementById('cart-resume-banner');
+      const totalEl = document.getElementById('crb-total');
+      if (!el || !totalEl) return;
+      totalEl.textContent = `$${total}`;
+      el.hidden = false;
+      requestAnimationFrame(() => el.classList.add('show'));
+    }
+
+    function maybeShow() {
+      try {
+        if (localStorage.getItem(DISMISSED_KEY) === '1') return;
+        const items = readCart();
+        if (!items.length) return;
+        const ts = Number(localStorage.getItem(UPDATED_KEY) ?? '0');
+        if (!ts) return;
+        if (Date.now() - ts < TWO_HOURS_MS) return;
+        const total = computeTotal(items);
+        if (total <= 0) return;
+        show(total);
+      } catch {
+        /* localStorage unavailable */
+      }
+    }
+
+    document.getElementById('crb-close')?.addEventListener('click', dismiss);
+    document.getElementById('crb-continue')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.dispatchEvent(new CustomEvent('temaky:open-cart'));
+      hide();
+    });
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', maybeShow);
+    } else {
+      maybeShow();
+    }
+  })();
+</script>
+
+<style>
+  .cart-resume-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1150;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px calc(12px + env(safe-area-inset-top, 0px));
+    padding-top: calc(12px + env(safe-area-inset-top, 0px));
+    background: var(--rojo);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    line-height: 1.35;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.35);
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: transform 0.28s cubic-bezier(0.2,0.7,0.2,1), opacity 0.28s ease;
+  }
+  .cart-resume-banner[hidden] { display: none; }
+  .cart-resume-banner.show { transform: translateY(0); opacity: 1; }
+
+  .crb-ico {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+  }
+
+  .crb-txt { flex: 1; min-width: 0; }
+  .crb-txt strong { color: var(--amarillo); font-weight: 700; }
+
+  .crb-link {
+    color: #fff;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-left: 6px;
+    transition: opacity 0.15s ease;
+  }
+  .crb-link:hover { opacity: 0.85; }
+  .crb-link:focus-visible {
+    outline: 2px solid var(--amarillo);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .crb-x {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.22);
+    border: 0;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.15s ease;
+  }
+  .crb-x:hover { background: rgba(0,0,0,0.4); }
+  .crb-x:focus-visible {
+    outline: 2px solid var(--amarillo);
+    outline-offset: 2px;
+  }
+
+  @media (min-width: 768px) {
+    .cart-resume-banner {
+      font-size: 0.95rem;
+      padding-left: 24px;
+      padding-right: 24px;
+    }
+  }
+</style>
