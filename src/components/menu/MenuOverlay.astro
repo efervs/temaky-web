@@ -355,15 +355,26 @@ const groups = ORDERED_CATS.map(cat => ({
   @media (min-width: 1024px) {
     .m-cats {
       flex-wrap: wrap;
+      align-items: flex-start;
       overflow-x: visible;
       row-gap: 8px;
+    }
+    .m-cats-scroll {
+      flex: 1 1 auto;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      row-gap: 8px;
+      min-width: 0;
+    }
+    .chip-all {
+      box-shadow: none;
     }
   }
   @media (min-width: 1200px) {
     .grid { grid-template-columns: repeat(5, 1fr); gap: 12px; }
     .m-body { padding: 24px 28px 140px; }
     .m-hdr { padding: 0 28px; }
-    .m-cats { padding: 14px 28px; }
+    .m-cats { padding: 14px 28px 12px; }
   }
   @media (min-width: 1440px) {
     .grid { grid-template-columns: repeat(6, 1fr); gap: 14px; }
