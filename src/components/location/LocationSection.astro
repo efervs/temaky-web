@@ -80,20 +80,6 @@
             </svg>
           </div>
         </div>
-
-        <!-- Botón de carga del iframe interactivo -->
-        <button
-          type="button"
-          class="map-load-btn"
-          data-load-map
-          aria-label="Cargar mapa interactivo de Google Maps"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7z"/>
-            <circle cx="12" cy="9" r="2.5"/>
-          </svg>
-          Cargar mapa interactivo
-        </button>
       </div>
 
     </div>
@@ -137,54 +123,31 @@
     from { opacity: 0; transform: translate(-50%, -80%) scale(0.7); }
     to   { opacity: 1; transform: translate(-50%, -100%) scale(1); }
   }
-
-  .map-load-btn {
-    position: absolute;
-    left: 50%;
-    bottom: 18px;
-    transform: translateX(-50%);
-    z-index: 2;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 44px;
-    padding: 0 18px;
-    border-radius: 999px;
-    background: #B8102E;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    font-family: var(--sans);
-    font-size: 0.86rem;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-  .map-load-btn:hover { background: #8B0D22; transform: translateX(-50%) translateY(-1px); }
-  .map-load-btn:active { transform: translateX(-50%) translateY(0); }
-  .map-load-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
 </style>
 
 <script>
   const mapContainer = document.getElementById('map-container');
-  const loadBtn = document.querySelector<HTMLButtonElement>('[data-load-map]');
-
-  if (mapContainer && loadBtn) {
-    loadBtn.addEventListener('click', () => {
-      const src = mapContainer.dataset.mapSrc;
-      if (!src) return;
-      const iframe = document.createElement('iframe');
-      iframe.src = src;
-      iframe.width = '100%';
-      iframe.height = '100%';
-      iframe.loading = 'lazy';
-      iframe.referrerPolicy = 'no-referrer-when-downgrade';
-      iframe.title = 'Temaky Sushi en Google Maps';
-      iframe.className = 'block border-0 rounded-[14px] absolute inset-0 w-full h-full';
-      iframe.setAttribute('aria-label', 'Mapa interactivo de Temaky Sushi en Plaza Villa Obispado');
-      mapContainer.innerHTML = '';
-      mapContainer.appendChild(iframe);
-    }, { once: true });
+  if (mapContainer && 'IntersectionObserver' in window) {
+    const src = mapContainer.dataset.mapSrc;
+    if (src) {
+      const io = new IntersectionObserver((entries, observer) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const iframe = document.createElement('iframe');
+          iframe.src = src;
+          iframe.width = '100%';
+          iframe.height = '100%';
+          iframe.loading = 'lazy';
+          iframe.referrerPolicy = 'no-referrer-when-downgrade';
+          iframe.title = 'Temaky Sushi en Google Maps';
+          iframe.className = 'block border-0 rounded-[14px] absolute inset-0 w-full h-full';
+          iframe.setAttribute('aria-label', 'Mapa interactivo de Temaky Sushi en Plaza Villa Obispado');
+          mapContainer.innerHTML = '';
+          mapContainer.appendChild(iframe);
+          observer.disconnect();
+        }
+      }, { rootMargin: '300px 0px', threshold: 0.01 });
+      io.observe(mapContainer);
+    }
   }
 </script>
