@@ -566,6 +566,20 @@ export function initCart() {
 
   document.getElementById('checkout-back')?.addEventListener('click', backToCart);
 
+  const sumWrap = document.getElementById('ck-summary');
+  const sumToggle = document.getElementById('ck-sum-toggle');
+  const sumList = document.getElementById('ck-sum-list');
+  if (sumWrap && sumToggle && sumList) {
+    sumToggle.addEventListener('click', () => {
+      const open = sumWrap.getAttribute('data-open') === 'true';
+      sumWrap.setAttribute('data-open', open ? 'false' : 'true');
+      sumToggle.setAttribute('aria-expanded', open ? 'false' : 'true');
+      (sumList as HTMLElement).hidden = open;
+      const txt = sumToggle.querySelector('.ck-sum-toggle-txt');
+      if (txt) txt.textContent = open ? 'Ver detalle' : 'Ocultar detalle';
+    });
+  }
+
   const form = document.getElementById('checkout-form') as HTMLFormElement | null;
   form?.addEventListener('submit', submitCheckout);
   form?.addEventListener('change', e => {

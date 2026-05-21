@@ -18,9 +18,9 @@
     <button type="button" class="ck-empty-btn" id="ck-empty-menu">Volver al menú</button>
   </div>
 
-  <details class="ck-summary" id="ck-summary">
-    <summary class="ck-sum-head">
-      <span class="ck-sum-line">
+  <div class="ck-summary" id="ck-summary" data-open="false">
+    <div class="ck-sum-head">
+      <p class="ck-sum-line">
         <span class="ck-sum-count" id="ck-sum-count">0 productos</span>
         <span class="ck-sum-sep" aria-hidden="true">·</span>
         <span class="ck-sum-total">Total <strong id="ck-sum-total">$0</strong></span>
@@ -28,14 +28,20 @@
           <span class="ck-sum-sep" aria-hidden="true">·</span>
           <span>ahorras <strong id="ck-sum-save-val">$0</strong></span>
         </span>
-      </span>
-      <span class="ck-sum-toggle" aria-hidden="true">
-        <span class="ck-sum-toggle-txt">Ver pedido</span>
-        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg>
-      </span>
-    </summary>
-    <ul class="ck-sum-list" id="ck-sum-list"></ul>
-  </details>
+      </p>
+      <button
+        type="button"
+        class="ck-sum-toggle"
+        id="ck-sum-toggle"
+        aria-controls="ck-sum-list"
+        aria-expanded="false"
+      >
+        <span class="ck-sum-toggle-txt">Ver detalle</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+    </div>
+    <ul class="ck-sum-list" id="ck-sum-list" hidden></ul>
+  </div>
 
   <label class="ck-field">
     <span class="ck-lbl">Tu nombre <em aria-hidden="true">*</em></span>
@@ -228,54 +234,65 @@
   }
   .ck-sum-head {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
     padding: 12px 14px;
-    cursor: pointer;
-    list-style: none;
     font-family: var(--sans);
   }
-  .ck-sum-head::-webkit-details-marker { display: none; }
   .ck-sum-line {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 6px;
+    margin: 0;
     font-size: .85rem;
     color: rgba(255,255,255,0.82);
+    min-width: 0;
   }
   .ck-sum-line strong { color: #fff; font-weight: 600; }
   .ck-sum-sep { color: rgba(255,255,255,0.3); }
   .ck-sum-save { color: var(--amarillo); display: inline-flex; gap: 6px; align-items: center; }
   .ck-sum-save[hidden] { display: none; }
   .ck-sum-save strong { color: var(--amarillo); }
+
   .ck-sum-toggle {
+    align-self: flex-start;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    font-size: .72rem;
-    color: rgba(255,255,255,0.55);
+    gap: 6px;
+    min-height: 32px;
+    padding: 4px 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    font-family: var(--sans);
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .04em;
     text-transform: uppercase;
-    letter-spacing: .08em;
-    flex-shrink: 0;
+    color: rgba(255,255,255,0.65);
+    transition: color .15s ease;
   }
+  .ck-sum-toggle:hover { color: #fff; }
+  .ck-sum-toggle:focus-visible { outline: 2px solid var(--rojo); outline-offset: 2px; border-radius: 4px; }
   .ck-sum-toggle svg {
     width: 14px; height: 14px;
     fill: none; stroke: currentColor; stroke-width: 2;
     transition: transform .2s ease;
   }
-  .ck-summary[open] .ck-sum-toggle svg { transform: rotate(180deg); }
+  .ck-summary[data-open="true"] .ck-sum-toggle svg { transform: rotate(180deg); }
+
   .ck-sum-list {
     list-style: none;
     margin: 0;
-    padding: 0 14px 12px;
+    padding: 10px 14px 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
     border-top: 1px solid var(--g06);
-    padding-top: 10px;
   }
+  .ck-sum-list[hidden] { display: none; }
   .ck-sum-item {
     display: flex;
     justify-content: space-between;
@@ -287,6 +304,16 @@
   .ck-sum-item-name { color: #fff; }
   .ck-sum-item-qty { color: rgba(255,255,255,0.55); margin-right: 4px; }
   .ck-sum-item-price { color: #fff; font-variant-numeric: tabular-nums; }
+
+  /* Desktop: el head vuelve a horizontal */
+  @media (min-width: 768px) {
+    .ck-sum-head {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ck-sum-toggle { align-self: center; }
+  }
 
   /* ── Fields ── */
   .ck-field {
