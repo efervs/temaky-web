@@ -59,8 +59,9 @@
   --z-content: 1;
   --z-strip: 100;
   --z-nav: 500;
-  --z-fab-wa: 940;
-  --z-fab-cart: 1050;
+  --z-fab-wa: 60;
+  --z-fab-cart: 55;
+  --z-mob-cta: 50;
   --z-menu-overlay: 1000;
   --z-cart-scrim: 1060;
   --z-cart-overlay: 1070;

@@ -49,8 +49,8 @@ import CheckoutForm from './CheckoutForm.astro';
 <style>
   .cart-fab {
     position: fixed;
-    bottom: 86px;
-    right: 16px;
+    bottom: 94px;
+    right: 22px;
     z-index: var(--z-fab-cart);
     display: inline-flex;
     align-items: center;
@@ -80,6 +80,17 @@ import CheckoutForm from './CheckoutForm.astro';
     0% { transform: scale(1); }
     50% { transform: scale(1.08); }
     100% { transform: scale(1); }
+  }
+
+  @media (max-width: 767px) {
+    .cart-fab {
+      bottom: calc(152px + env(safe-area-inset-bottom, 0px));
+    }
+    body:has(#mobile-sticky-cta[data-visible="true"]) .cart-fab.show {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(16px) scale(.94);
+    }
   }
 
   .fab-icon {
