@@ -4,7 +4,7 @@
 
 Restaurante japonés en Monterrey, México, fundado en 1999.
 Especialidad: sushi fresco, rollos creativos, combo clásico.
-Una sola sucursal: Plaza Villa Obispado, Francisco Garza Sada #2940.
+Una sola sucursal: Plaza Villa Obispado, Francisco Garza Sada 2940A.
 Reconocida como uno de los mejores sushis de Monterrey durante 25+ años.
 
 ## Oferta Principal (El Gancho de Ventas)
@@ -51,7 +51,7 @@ EXTRAS: Arroz Frito (completo / medio), Gyozas, Teppanyaki de pollo
 
 ## Contacto y Ubicación
 
-* Dirección: Francisco Garza Sada #2940, Piso 2, Local 204, Plaza Villa Obispado
+* Dirección: Francisco Garza Sada 2940A · Piso 2, Local 204 · Nuevo Obispado · Monterrey, N.L.
 * Teléfono: +52 81 8346-2758
 * Whatsapp: +52 81 2747-4440
 * Instagram: @temakysushimty
@@ -128,7 +128,7 @@ WhatsApp.
 
 \## Ubicación
 
-Plaza Villa Obispado · Francisco Garza Sada #2940, Piso 2 Local 204 · 
+Plaza Villa Obispado · Francisco Garza Sada 2940A · Piso 2, Local 204 · 
 
 Nuevo Obispado · Monterrey, N.L., México.
 
