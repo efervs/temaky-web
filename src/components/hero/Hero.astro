@@ -16,12 +16,14 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     muted
     loop
     playsinline
-    preload="metadata"
+    disablepictureinpicture
+    disableremoteplayback
+    preload="auto"
     poster="/images/hero-poster.jpg"
     aria-hidden="true"
   >
-    <source src="/video/hero-720.webm" type="video/webm" />
     <source src="/video/hero-720.mp4" type="video/mp4" />
+    <source src="/video/hero-720.webm" type="video/webm" />
   </video>
 
   <!-- Left-heavy overlay (Variante A) -->
@@ -492,10 +494,53 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     });
   });
 
-  // Reduced-motion fallback: pausa el video si el usuario lo prefiere
+  // Hero video: garantizar autoplay aún con políticas estrictas (Edge battery saver,
+  // autoplay bloqueado por configuración, etc). Respeta reduced-motion.
   const heroVid = document.querySelector<HTMLVideoElement>('.hero-video');
-  if (heroVid && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    heroVid.pause();
-    heroVid.removeAttribute('autoplay');
+  if (heroVid) {
+    const prefersReduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduce) {
+      heroVid.pause();
+      heroVid.removeAttribute('autoplay');
+    } else {
+      // Refuerzo de muted (algunos navegadores requieren prop, no solo attr)
+      heroVid.muted = true;
+      heroVid.defaultMuted = true;
+
+      const tryPlay = () => {
+        const p = heroVid.play();
+        if (p && typeof p.catch === 'function') {
+          p.catch(() => {
+            // Autoplay bloqueado: reintentar al primer gesto del usuario
+            const retry = () => {
+              heroVid.play().catch(() => {});
+              window.removeEventListener('pointerdown', retry);
+              window.removeEventListener('touchstart', retry);
+              window.removeEventListener('scroll', retry);
+              window.removeEventListener('keydown', retry);
+            };
+            window.addEventListener('pointerdown', retry, { once: true, passive: true });
+            window.addEventListener('touchstart', retry, { once: true, passive: true });
+            window.addEventListener('scroll', retry, { once: true, passive: true });
+            window.addEventListener('keydown', retry, { once: true });
+          });
+        }
+      };
+
+      if (heroVid.readyState >= 2) {
+        tryPlay();
+      } else {
+        heroVid.addEventListener('loadeddata', tryPlay, { once: true });
+        heroVid.addEventListener('canplay', tryPlay, { once: true });
+      }
+
+      // Si la pestaña vuelve a primer plano y el video quedó pausado, reanudar
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden && heroVid.paused && !prefersReduce) {
+          heroVid.play().catch(() => {});
+        }
+      });
+    }
   }
 </script>
