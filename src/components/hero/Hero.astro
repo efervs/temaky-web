@@ -139,7 +139,10 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     align-items: stretch;
   }
 
-  /* ── Video ── */
+  /* ── Video ──
+     Ken Burns CSS: el clip fuente es un dolly imperceptible sobre un plato
+     fijo. Añadimos un scale + pan lentos (alternados) para dar la sensación
+     de movimiento que el clip no tiene por sí solo. */
   .hero-video {
     position: absolute;
     inset: 0;
@@ -148,6 +151,19 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     object-fit: cover;
     z-index: 0;
     pointer-events: none;
+    transform-origin: 60% 50%;
+    will-change: transform;
+    animation: hero-kenburns 22s ease-in-out infinite alternate;
+  }
+
+  @keyframes hero-kenburns {
+    0%   { transform: scale(1.06) translate(-1%, 0); }
+    50%  { transform: scale(1.12) translate(1%, -1%); }
+    100% { transform: scale(1.18) translate(2%, 1%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video { animation: none; transform: none; }
   }
 
   /* ── Poster fallback ── */
@@ -158,6 +174,11 @@ const WA_ICON = `<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="tr
     background:
       radial-gradient(ellipse at 65% 55%, rgba(184,16,46,0.22) 0%, rgba(0,0,0,0.95) 60%),
       linear-gradient(180deg, #15060a 0%, #000 100%);
+    transform-origin: 60% 50%;
+    animation: hero-kenburns 22s ease-in-out infinite alternate;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-poster { animation: none; transform: none; }
   }
 
   /* ── Overlay: Variante A (left-heavy darkness) ── */
