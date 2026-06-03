@@ -1,5 +1,6 @@
 import type { Cat, ModsMap, Product } from '../types/menu';
 import { productImages } from './image-map';
+import { productGalleries } from './product-galleries';
 
 const IMG = (slug: string): string =>
   productImages[slug] ?? productImages['default-product-image'];
@@ -27,6 +28,8 @@ export const MENU: Product[] = [
   // ── COMBOS ─────────────────────────────────────────
   { id: 'combo-clasico', cat: 'combos', name: 'Combo Clásico', desc: 'Rollo Clásico a elegir + ½ arroz de pollo ó ½ arroz de verduras. Agrega 2 kushiages por $30 más.', price: 139, badge: 'El más pedido', gr: GR.combo, img: IMG('combo-especial'), mods: ['combo-c-rollo', 'combo-c-arroz', 'combo-addon'] },
   { id: 'combo-signature', cat: 'combos', name: 'Combo Signature', desc: 'Rollo Signature a elegir + ½ arroz a elegir + ½ ensalada de cangrejo ó ½ cangrejo nevado. Agrega 2 kushiages por $30 más.', price: 175, badge: 'Premium', gr: GR.combo, img: IMG('combo-especial'), mods: ['combo-s-rollo', 'combo-s-arroz', 'combo-ensalada', 'combo-addon'] },
+  { id: 'promo-clasico', cat: 'combos', name: 'Promo 2 Rollos Clásicos', desc: 'Arma tu promo: elige 2 rollos clásicos y llévalos por $199 (ahorras $51). Ajonjolí por fuera.', price: 199, badge: 'Ahorra $51', gr: GR.combo, img: IMG('default-product-image'), mods: ['promo-c-r1', 'promo-c-r2', 'combo-addon'] },
+  { id: 'promo-signature', cat: 'combos', name: 'Promo 2 Rollos Signature', desc: 'Arma tu promo: elige 2 rollos signature y llévalos por $229 (ahorras $41).', price: 229, badge: 'Ahorra $41', gr: GR.combo, img: IMG('default-product-image'), mods: ['promo-s-r1', 'promo-s-r2', 'combo-addon'] },
 
   // ── ENTRADAS ───────────────────────────────────────
   { id: 'kushiages', cat: 'entradas', name: '8 Kushiages', desc: 'Brochetas de queso empanizadas.', price: 109, badge: 'TOP', gr: GR.entrada, img: IMG('2-kushiagues') },
@@ -156,6 +159,16 @@ export const MENU: Product[] = [
   { id: 'limonada-m', cat: 'bebidas', name: 'Limonada Mineral', desc: '500 ml.', price: 59, gr: GR.bebida, img: IMG('default-product-image') },
 ];
 
+// Adjunta la galería de fotos de la sesión NextSwift a cada producto que la tenga.
+// La foto principal (img) pasa a ser la primera de la galería; imgs alimenta el carrusel.
+for (const p of MENU) {
+  const gal = productGalleries[p.id];
+  if (gal && gal.length) {
+    p.img = gal[0];
+    p.imgs = gal;
+  }
+}
+
 export const MODS: ModsMap = {
   'extras-rollo': {
     lbl: 'Extras opcionales', type: 'check', req: false,
@@ -171,6 +184,10 @@ export const MODS: ModsMap = {
   },
   'combo-c-rollo': { lbl: 'Elige tu Rollo Clásico', type: 'radio', req: true, items: [] },
   'combo-s-rollo': { lbl: 'Elige tu Rollo Signature', type: 'radio', req: true, items: [] },
+  'promo-c-r1': { lbl: 'Elige tu 1er Rollo Clásico', type: 'radio', req: true, items: [] },
+  'promo-c-r2': { lbl: 'Elige tu 2do Rollo Clásico', type: 'radio', req: true, items: [] },
+  'promo-s-r1': { lbl: 'Elige tu 1er Rollo Signature', type: 'radio', req: true, items: [] },
+  'promo-s-r2': { lbl: 'Elige tu 2do Rollo Signature', type: 'radio', req: true, items: [] },
   'combo-c-arroz': {
     lbl: 'Elige tu arroz', type: 'radio', req: true,
     items: [
@@ -234,19 +251,27 @@ export const MODS: ModsMap = {
 };
 
 // Populate combo rollo options dynamically from MENU
-MODS['combo-c-rollo'].items = MENU
+const clasicoRollItems = MENU
   .filter(i => ['clasicos-frios', 'clasicos-emp', 'clasicos-cap'].includes(i.cat))
   .map(i => ({
     id: i.id, name: i.name, price: 0,
     sub: i.cat.replace('clasicos-', '').replace('-', '').toUpperCase(),
   }));
 
-MODS['combo-s-rollo'].items = MENU
+const sigRollItems = MENU
   .filter(i => ['sig-frios', 'sig-emp', 'sig-cap'].includes(i.cat))
   .map(i => ({
     id: i.id, name: i.name, price: 0,
     sub: i.cat.replace('sig-', '').replace('-', '').toUpperCase(),
   }));
+
+MODS['combo-c-rollo'].items = clasicoRollItems;
+MODS['combo-s-rollo'].items = sigRollItems;
+// Promos: dos selectores de rollo, reutilizando los mismos catálogos.
+MODS['promo-c-r1'].items = clasicoRollItems;
+MODS['promo-c-r2'].items = clasicoRollItems;
+MODS['promo-s-r1'].items = sigRollItems;
+MODS['promo-s-r2'].items = sigRollItems;
 
 export const CATS: Cat[] = [
   { id: 'all', lbl: 'Todo' },

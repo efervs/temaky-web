@@ -1,4 +1,5 @@
 import { trapFocus } from '../../lib/focus-trap';
+import { initGalleries } from './gallery';
 import { MENU, MODS, findProduct } from '../../data/menu';
 import type { Product, SheetSelections } from '../../types/menu';
 
@@ -118,12 +119,30 @@ function renderSheet() {
   const p = state.prod;
 
   const hero = document.getElementById('psh-hero') as HTMLElement;
+  const imgs = p.imgs && p.imgs.length > 1 ? p.imgs : null;
+  const heroMedia = imgs
+    ? `<div class="gal" data-gallery>
+        <div class="gal-track">
+          ${imgs.map(src => `<img src="${esc(src)}" alt="${esc(p.name)}" decoding="async" />`).join('')}
+        </div>
+        <button class="gal-arrow gal-prev" data-dir="prev" type="button" aria-label="Foto anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="gal-arrow gal-next" data-dir="next" type="button" aria-label="Foto siguiente">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+        <div class="gal-dots">
+          ${imgs.map((_, i) => `<span class="gal-dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}
+        </div>
+      </div>`
+    : `<img src="${esc(p.img)}" alt="${esc(p.name)}" />`;
   hero.innerHTML = `
-    <img src="${esc(p.img)}" alt="${esc(p.name)}" />
+    ${heroMedia}
     <button class="sheet-close" id="psh-close" type="button" aria-label="Cerrar">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
   `;
+  initGalleries(hero);
 
   const head = document.getElementById('psh-head') as HTMLElement;
   head.innerHTML = `

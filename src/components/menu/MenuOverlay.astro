@@ -430,10 +430,12 @@ const groups = ORDERED_CATS.map(cat => ({
 
 <script>
   import { trapFocus } from '../../lib/focus-trap';
+  import { initGalleries } from './gallery';
 
   const overlay = document.getElementById('menu-overlay') as HTMLElement | null;
   if (overlay) {
     const body = document.getElementById('menu-body') as HTMLElement;
+    initGalleries(body);
     const catsBar = document.getElementById('menu-cats') as HTMLElement;
     const searchInput = document.getElementById('menu-search') as HTMLInputElement;
     const closeBtn = document.getElementById('menu-close') as HTMLButtonElement;

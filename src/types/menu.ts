@@ -25,6 +25,8 @@ export interface Product {
   desc: string;
   price: number;
   img: string;
+  /** Galería de fotos (varios ángulos) para el carrusel. img === imgs[0]. */
+  imgs?: string[];
   gr?: string;
   badge?: string;
   bundle?: Bundle;

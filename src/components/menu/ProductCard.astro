@@ -11,6 +11,9 @@ const { item } = Astro.props;
 const DEFAULT_IMG = '/images/products/default-product-image.webp';
 const imgSrc = item.img === DEFAULT_IMG ? getCatPlaceholder(item.cat) : item.img;
 
+// Galería para el carrusel de la tarjeta (cap. a 4 fotos por peso; el detalle muestra todas).
+const gallery = item.imgs && item.imgs.length > 1 ? item.imgs.slice(0, 4) : null;
+
 const hasMods = (item.mods?.length ?? 0) > 0;
 const searchBlob = [item.name, item.desc, item.cat]
   .filter(Boolean)
@@ -32,14 +35,33 @@ const searchBlob = [item.name, item.desc, item.cat]
       {item.deal ? <span class="b-promo">{item.deal}</span> : <span></span>}
       {item.badge ? <span class="b-top">{item.badge}</span> : null}
     </div>
-    <img
-      src={imgSrc}
-      alt={item.name}
-      loading="lazy"
-      decoding="async"
-      width="400"
-      height="300"
-    />
+    {gallery ? (
+      <div class="gal" data-gallery>
+        <div class="gal-track">
+          {gallery.map((src) => (
+            <img src={src} alt={item.name} loading="lazy" decoding="async" width="400" height="400" />
+          ))}
+        </div>
+        <span class="gal-arrow gal-prev" data-dir="prev" aria-hidden="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+        </span>
+        <span class="gal-arrow gal-next" data-dir="next" aria-hidden="true">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
+        </span>
+        <div class="gal-dots" aria-hidden="true">
+          {gallery.map((_, i) => <span class={`gal-dot${i === 0 ? ' is-active' : ''}`}></span>)}
+        </div>
+      </div>
+    ) : (
+      <img
+        src={imgSrc}
+        alt={item.name}
+        loading="lazy"
+        decoding="async"
+        width="400"
+        height="300"
+      />
+    )}
   </div>
   <div class="pb">
     <span class="pn">{item.name}</span>
@@ -92,7 +114,74 @@ const searchBlob = [item.name, item.desc, item.cat]
     display: block;
     transition: transform .5s cubic-bezier(.2,.7,.2,1);
   }
-  .pcard:hover .pi img { transform: scale(1.06); }
+  .pcard:hover .pi > img { transform: scale(1.06); }
+
+  /* ── Carrusel de galería en la tarjeta ── */
+  .gal { position: absolute; inset: 0; }
+  .gal-track {
+    display: flex;
+    height: 100%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .gal-track::-webkit-scrollbar { display: none; }
+  .gal-track > img {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+  }
+  .gal-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity .18s ease, background .15s ease;
+  }
+  .gal-prev { left: 6px; }
+  .gal-next { right: 6px; }
+  .gal-arrow svg { width: 13px; height: 13px; stroke: #fff; stroke-width: 2.4; fill: none; }
+  .pcard:hover .gal-arrow { opacity: 1; }
+  .gal-arrow:hover { background: var(--rojo); }
+  .gal-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 8px;
+    z-index: 3;
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+  }
+  .gal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: rgba(255,255,255,0.45);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.55);
+    transition: background .15s ease, transform .15s ease;
+  }
+  .gal-dot.is-active { background: #fff; transform: scale(1.3); }
+  @media (hover: none) {
+    .gal-arrow { display: none; } /* en touch: swipe + puntos */
+  }
 
   .pi-badges {
     position: absolute;
