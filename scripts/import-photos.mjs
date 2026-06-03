@@ -36,14 +36,12 @@ const QUALITY = 80;
 // ── Mapeo carpeta individual -> product id ────────────────────────────────
 const DISHES = {
   'Arjona': 'arjona',
-  'Arroz camarón (media porción)': 'a-camaron',
-  'Arroz carne (media porción)': 'a-carne',
-  'Arroz especial (media porción)': 'a-especial',
-  'Arroz Mixto (porción entera)': 'a-mixto', // se prefiere la porción entera
+  // Arroces: SOLO se usan las fotos de "porción entera" (las de "media porción"
+  // muestran una porción chica en un plato enorme con mucho espacio vacío).
+  // Los arroces que solo tienen "media porción" conservan su foto antigua.
+  'Arroz Mixto (porción entera)': 'a-mixto',
   'Arroz Pollo (porcion entera)': 'a-pollo',
-  'Arroz Temaky (media porción)': 'a-temaky',
-  'Arroz vegetariano (media porción)': 'a-vegetariano',
-  'Arroz Verdura (porcion entera)': 'a-verduras', // se prefiere la porción entera
+  'Arroz Verdura (porcion entera)': 'a-verduras',
   'Barry': 'barry',
   'Brochetas de queso (media orden)': 'kushiages',
   'Brownie con nieve': 'brownie',
@@ -75,8 +73,15 @@ const DISHES = {
   'Yasal Tempura': 'yasai',
 };
 
-// Carpetas que se ignoran a propósito (duplicados de porción / variantes de combo)
+// Carpetas que se ignoran a propósito (duplicados de porción / variantes de combo).
+// Las "media porción" de arroz se descartan: la foto se ve vacía (porción chica
+// en plato grande). Esos arroces conservan su imagen antigua del menú.
 const IGNORE = new Set([
+  'Arroz camarón (media porción)',
+  'Arroz carne (media porción)',
+  'Arroz especial (media porción)',
+  'Arroz Temaky (media porción)',
+  'Arroz vegetariano (media porción)',
   'Arroz Mixto (media porción)',
   'Arroz verdura (media porción)',
   'Ensalada de Cangrejo (media porción)',

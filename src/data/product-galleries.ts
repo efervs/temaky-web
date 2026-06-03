@@ -1,13 +1,8 @@
 // AUTO-GENERADO por scripts/import-photos.mjs — no editar a mano.
 // Galería de fotos por producto (orden: foto principal primero).
 export const productGalleries: Record<string, string[]> = {
-  "a-camaron": ['/images/products/g/a-camaron/01.webp', '/images/products/g/a-camaron/02.webp', '/images/products/g/a-camaron/03.webp', '/images/products/g/a-camaron/04.webp'],
-  "a-carne": ['/images/products/g/a-carne/01.webp', '/images/products/g/a-carne/02.webp', '/images/products/g/a-carne/03.webp', '/images/products/g/a-carne/04.webp'],
-  "a-especial": ['/images/products/g/a-especial/01.webp', '/images/products/g/a-especial/02.webp', '/images/products/g/a-especial/03.webp', '/images/products/g/a-especial/04.webp'],
   "a-mixto": ['/images/products/g/a-mixto/01.webp', '/images/products/g/a-mixto/02.webp', '/images/products/g/a-mixto/03.webp', '/images/products/g/a-mixto/04.webp', '/images/products/g/a-mixto/05.webp', '/images/products/g/a-mixto/06.webp', '/images/products/g/a-mixto/07.webp'],
   "a-pollo": ['/images/products/g/a-pollo/01.webp', '/images/products/g/a-pollo/02.webp', '/images/products/g/a-pollo/03.webp', '/images/products/g/a-pollo/04.webp'],
-  "a-temaky": ['/images/products/g/a-temaky/01.webp', '/images/products/g/a-temaky/02.webp', '/images/products/g/a-temaky/03.webp', '/images/products/g/a-temaky/04.webp'],
-  "a-vegetariano": ['/images/products/g/a-vegetariano/01.webp', '/images/products/g/a-vegetariano/02.webp', '/images/products/g/a-vegetariano/03.webp', '/images/products/g/a-vegetariano/04.webp'],
   "a-verduras": ['/images/products/g/a-verduras/01.webp', '/images/products/g/a-verduras/02.webp', '/images/products/g/a-verduras/03.webp', '/images/products/g/a-verduras/04.webp'],
   "arjona": ['/images/products/g/arjona/01.webp', '/images/products/g/arjona/02.webp', '/images/products/g/arjona/03.webp', '/images/products/g/arjona/04.webp'],
   "barry": ['/images/products/g/barry/01.webp', '/images/products/g/barry/02.webp', '/images/products/g/barry/03.webp', '/images/products/g/barry/04.webp'],
