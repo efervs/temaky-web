@@ -135,7 +135,7 @@ function renderSheet() {
           ${imgs.map((_, i) => `<span class="gal-dot${i === 0 ? ' is-active' : ''}"></span>`).join('')}
         </div>
       </div>`
-    : `<img src="${esc(p.img)}" alt="${esc(p.name)}" />`;
+    : `<img src="${esc(p.img)}" alt="${esc(p.name)}"${p.cat === 'bebidas' ? ' class="hero-contain"' : ''} />`;
   hero.innerHTML = `
     ${heroMedia}
     <button class="sheet-close" id="psh-close" type="button" aria-label="Cerrar">

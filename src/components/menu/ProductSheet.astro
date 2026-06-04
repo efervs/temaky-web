@@ -102,6 +102,12 @@
     object-fit: cover;
     display: block;
   }
+  /* Bebidas: render de producto alto -> mostrar completo sin recortar */
+  :global(.sheet-hero img.hero-contain) {
+    object-fit: contain;
+    background: #0b0b0b;
+    padding: 10px 0 18px;
+  }
 
   /* ── Carrusel de galería en el hero del detalle ── */
   :global(.sheet-hero .gal) { position: absolute; inset: 0; }

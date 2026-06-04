@@ -86,6 +86,7 @@ const IGNORE = new Set([
   'Arroz verdura (media porción)',
   'Ensalada de Cangrejo (media porción)',
   'Cangrejo nevado (medio para combo)',
+  'Bebidas', // se procesa como SINGLES (fotos sueltas de producto)
   '.claude',
 ]);
 
@@ -116,6 +117,9 @@ const SRC_ROLLOS =
   'G:\\Mi unidad\\NextSwift\\Operación NextSwift\\Temaky Sushi\\Fotos y videos Stock Temaky Sushi\\Fotos de platillos\\Rollos';
 const SRC_MENU2605 =
   'G:\\Mi unidad\\NextSwift\\Operación NextSwift\\Temaky Sushi\\Fotos y videos Stock Temaky Sushi\\Fotos de platillos\\26 05 Fotos Menu Temaky Ko';
+// Bebidas: fotos de producto (render limpio) tomadas por el dueño.
+const SRC_BEBIDAS =
+  'G:\\Mi unidad\\NextSwift\\Operación NextSwift\\Temaky Sushi\\Fotos y videos Stock Temaky Sushi\\Nuevas fotos sesión fotográfica NextSwift\\Fotografías TOP raw\\Bebidas';
 
 const SINGLES = [
   // Rollos faltantes (carpeta "Rollos")
@@ -141,6 +145,10 @@ const SINGLES = [
   { id: 'sandwich-nieve', base: SRC_MENU2605, file: 'Copia de Sandwich de nieve.jpeg' },
   // 'Carlota de Limón' NO se usa: la foto es una tina empacada de otro proveedor
   // ("GURRU'S") con su teléfono. Conserva el placeholder hasta tener foto propia.
+  // Bebidas (render de producto). Agua de Sabores y Limonadas siguen en placeholder.
+  { id: 'refresco', base: SRC_BEBIDAS, file: 'Coca Cola.webp' },
+  { id: 'agua-bot', base: SRC_BEBIDAS, file: 'Agua Ciel 500ml.webp' },
+  { id: 'agua-min', base: SRC_BEBIDAS, file: 'Topo Chico.webp' },
 ];
 
 // ── Helpers ───────────────────────────────────────────────────────────────
