@@ -110,6 +110,39 @@ const PROMO = {
   ],
 };
 
+// Fotos sueltas (1 por platillo) desde carpetas de stock antiguas, para los
+// platillos que no estuvieron en la sesión "Fotografías TOP raw".
+const SRC_ROLLOS =
+  'G:\\Mi unidad\\NextSwift\\Operación NextSwift\\Temaky Sushi\\Fotos y videos Stock Temaky Sushi\\Fotos de platillos\\Rollos';
+const SRC_MENU2605 =
+  'G:\\Mi unidad\\NextSwift\\Operación NextSwift\\Temaky Sushi\\Fotos y videos Stock Temaky Sushi\\Fotos de platillos\\26 05 Fotos Menu Temaky Ko';
+
+const SINGLES = [
+  // Rollos faltantes (carpeta "Rollos")
+  { id: 'intrepid',    base: SRC_ROLLOS, file: 'Copia de Intrepid.jpeg' },
+  { id: 'tampico-r',   base: SRC_ROLLOS, file: 'Copia de Tampico.jpg' },
+  { id: 'popito',      base: SRC_ROLLOS, file: 'Copia de Popito.jpg' },
+  { id: 'intocable',   base: SRC_ROLLOS, file: 'Copia de Intocable.jpg' },
+  { id: 'futomaki',    base: SRC_ROLLOS, file: 'Copia de Futomaki.jpg' },
+  { id: 'greta',       base: SRC_ROLLOS, file: 'Copia de Greta.jpeg' },
+  { id: 'rockefeller', base: SRC_ROLLOS, file: 'Copia de Rockefeller.jpeg' },
+  { id: 'zafira',      base: SRC_ROLLOS, file: 'Copia de Zafira.jpeg' },
+  { id: 'esmeralda',   base: SRC_ROLLOS, file: 'Copia de Esmeralda.jpeg' },
+  { id: 'nori-r',      base: SRC_ROLLOS, file: 'Copia de Nori.jpeg' },
+  { id: 'ika',         base: SRC_ROLLOS, file: 'Copia de Ika.jpeg' },
+  { id: 'pittsburgh',  base: SRC_ROLLOS, file: 'Copia de Pittsburgh.jpeg' },
+  { id: 'oyster',      base: SRC_ROLLOS, file: 'Copia de Oyster Roll.jpg' },
+  { id: 'sig-cap-2',   base: SRC_ROLLOS, file: 'Copia de Rubi.jpeg' }, // Rubi
+  { id: 'houston',     base: SRC_ROLLOS, file: 'Copia de Houston.jpeg' },
+  { id: 'makisu',      base: SRC_ROLLOS, file: 'Copia de Makisu.jpeg' },
+  // Kids + Postres (carpeta "26 05 Fotos Menu Temaky Ko")
+  { id: 'kids-1',         base: SRC_MENU2605, file: 'Copia Combo Kids 1.jpg' },
+  { id: 'kids-2',         base: SRC_MENU2605, file: 'Copia de Combo Kids 2.jpeg' },
+  { id: 'sandwich-nieve', base: SRC_MENU2605, file: 'Copia de Sandwich de nieve.jpeg' },
+  // 'Carlota de Limón' NO se usa: la foto es una tina empacada de otro proveedor
+  // ("GURRU'S") con su teléfono. Conserva el placeholder hasta tener foto propia.
+];
+
 // ── Helpers ───────────────────────────────────────────────────────────────
 const norm = (s) => s.normalize('NFC');
 const isPhoto = (f) => /\.(jpe?g|png)$/i.test(f);
@@ -182,6 +215,20 @@ function resolveFolder(name) {
   return path.join(SRC, actual);
 }
 
+// Resuelve un archivo dentro de una base (tolerante a acentos NFC/NFD).
+function resolveFile(base, name) {
+  if (!fs.existsSync(base)) {
+    warnings.push(`⚠  Base no existe: ${base}`);
+    return null;
+  }
+  const want = norm(name);
+  for (const f of fs.readdirSync(base)) {
+    if (norm(f) === want) return path.join(base, f);
+  }
+  warnings.push(`⚠  Archivo no encontrado: "${name}" en ${path.basename(base)}`);
+  return null;
+}
+
 // 1) Platillos individuales
 for (const [folder, id] of Object.entries(DISHES)) {
   const abs = resolveFolder(folder);
@@ -220,6 +267,12 @@ for (const [id, folders] of Object.entries(PROMO)) {
     const hero = sortHeroFirst(files)[0];
     pushSources(id, [path.join(dir, hero)]);
   }
+}
+
+// 4) Fotos sueltas (1 por platillo) desde carpetas de stock antiguas
+for (const s of SINGLES) {
+  const abs = resolveFile(s.base, s.file);
+  if (abs) pushSources(s.id, [abs]);
 }
 
 // ── Ejecuta conversión y arma el manifiesto ───────────────────────────────
