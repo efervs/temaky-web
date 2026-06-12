@@ -431,6 +431,11 @@ const groups = ORDERED_CATS.map(cat => ({
 <script>
   import { trapFocus } from '../../lib/focus-trap';
   import { initGalleries } from './gallery';
+  import {
+    shouldAutoOpenMenuFromURL,
+    urlWithMenuOpen,
+    urlWithMenuClosed,
+  } from '../../lib/menu-deeplink';
 
   const overlay = document.getElementById('menu-overlay') as HTMLElement | null;
   if (overlay) {
@@ -450,6 +455,17 @@ const groups = ORDERED_CATS.map(cat => ({
     let scrollSpyTimeout: number | null = null;
     const catsScroll = document.getElementById('menu-cats-scroll') as HTMLElement;
 
+    // Refleja el estado del menú en la URL (#menu) sin tocar el historial,
+    // para que el enlace sea compartible y refrescar sea predecible.
+    // Preserva otros query params (UTMs). Se ignora si History API no existe.
+    function syncUrl(next: string) {
+      try {
+        history.replaceState(history.state, '', next);
+      } catch {
+        /* History API no disponible (p. ej. file://) — sin sincronizar */
+      }
+    }
+
     function openMenu() {
       lastFocus = document.activeElement as HTMLElement | null;
       overlay!.hidden = false;
@@ -466,6 +482,7 @@ const groups = ORDERED_CATS.map(cat => ({
       });
       overlay!.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      syncUrl(urlWithMenuOpen(window.location.pathname, window.location.search));
     }
 
     function closeMenu() {
@@ -480,6 +497,7 @@ const groups = ORDERED_CATS.map(cat => ({
         restoreTo?.focus();
       }, 250);
       document.body.style.overflow = '';
+      syncUrl(urlWithMenuClosed(window.location.pathname, window.location.search));
     }
 
     function applyFilter() {
@@ -608,5 +626,11 @@ const groups = ORDERED_CATS.map(cat => ({
         onBodyScroll();
       });
     });
+
+    // Deep-link: si la URL trae la señal del menú (llegando vía /menu → /?menu,
+    // o con /#menu), abrimos el overlay automáticamente al cargar.
+    if (shouldAutoOpenMenuFromURL(window.location.search, window.location.hash)) {
+      openMenu();
+    }
   }
 </script>

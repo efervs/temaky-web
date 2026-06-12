@@ -1,0 +1,4 @@
+# Enlace bonito para compartir el menú.
+# temakysushi.mx/menu  →  abre el sitio con el menú desplegado solo.
+# El index detecta ?menu y abre el overlay (ver src/lib/menu-deeplink.ts).
+/menu    /?menu    302
