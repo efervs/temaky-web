@@ -1,0 +1,466 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { listColonias } from '../lib/zonas';
+
+const colonias = listColonias();
+---
+
+<BaseLayout
+  title="Registro de compras — Temaky (interno)"
+  description="Herramienta interna de registro de ventas."
+  noindex={true}
+>
+  <main id="contenido-principal" class="reg-page">
+    <section class="reg-wrap" aria-labelledby="reg-titulo">
+      <div class="reg-hdr">
+        <p class="reg-eyebrow">Interno · Temaky</p>
+        <h1 class="reg-h1" id="reg-titulo">Registro de compras</h1>
+        <p class="reg-sub">
+          Al cerrar cada pedido, regístralo aquí. El primer campo es la <strong>hora en que el
+          cliente te escribió</strong> (cópiala del chat). Lo demás sale del mismo chat.
+        </p>
+      </div>
+
+      <div class="reg-card">
+        <form id="regForm" novalidate>
+          <!-- Fecha y hora del primer mensaje -->
+          <div class="field field-full">
+            <label class="f-label" for="rFechaHora">Fecha y hora del primer mensaje del cliente</label>
+            <input class="f-input" id="rFechaHora" type="datetime-local" required />
+            <p class="f-help">Cópiala del chat: el primer mensaje del cliente, no la hora de ahora.</p>
+            <p id="oldWarn" class="field-warn" hidden>
+              Esa fecha tiene más de 7 días. Meta no la aceptará (se guarda en la bitácora igual).
+            </p>
+          </div>
+
+          <!-- Nombre -->
+          <div class="field">
+            <label class="f-label" for="rNombre">Nombre completo del cliente</label>
+            <input class="f-input" id="rNombre" type="text" required minlength="2" placeholder="Nombre y apellido" />
+          </div>
+
+          <!-- WhatsApp -->
+          <div class="field">
+            <label class="f-label" for="rWA">WhatsApp del cliente</label>
+            <div class="wa-wrap">
+              <span class="wa-prefix" aria-hidden="true">+52</span>
+              <input
+                class="f-input"
+                id="rWA"
+                type="tel"
+                required
+                pattern="[0-9]{10}"
+                placeholder="10 dígitos · ej. 8127474440"
+                maxlength="10"
+                inputmode="numeric"
+              />
+            </div>
+          </div>
+
+          <!-- Canal -->
+          <div class="field">
+            <label class="f-label" for="rCanal">Canal del pedido</label>
+            <select class="f-input f-select" id="rCanal" required>
+              <option value="" disabled selected>Elige…</option>
+              <option value="domicilio">Domicilio</option>
+              <option value="recoge">Recoge</option>
+              <option value="comedor">Comedor</option>
+            </select>
+          </div>
+
+          <!-- Colonia -->
+          <div class="field">
+            <label class="f-label" for="rColonia">Colonia de entrega</label>
+            <select class="f-input f-select" id="rColonia" required>
+              <option value="" disabled selected>Elige…</option>
+              {colonias.map((c) => <option value={c}>{c}</option>)}
+              <option value="Otra">Otra (no listada)</option>
+            </select>
+          </div>
+
+          <!-- Calle (condicional) -->
+          <div class="field field-full" id="calleWrap" hidden>
+            <label class="f-label" for="rCalle">Calle y número</label>
+            <input class="f-input" id="rCalle" type="text" placeholder="Calle, número, referencias" />
+          </div>
+
+          <!-- Monto -->
+          <div class="field">
+            <label class="f-label" for="rMonto">Monto total (MXN)</label>
+            <input class="f-input" id="rMonto" type="number" required min="1" step="1" inputmode="decimal" placeholder="Solo el número, ej. 299" />
+          </div>
+
+          <!-- Cómo llegó -->
+          <div class="field">
+            <label class="f-label" for="rComo">¿Cómo llegó el cliente?</label>
+            <select class="f-input f-select" id="rComo">
+              <option value="" disabled selected>Opcional…</option>
+              <option value="Anuncio FB/IG">Anuncio FB/IG</option>
+              <option value="Google / Maps">Google / Maps</option>
+              <option value="Recomendación">Recomendación</option>
+              <option value="Cliente frecuente">Cliente frecuente</option>
+              <option value="No sé">No sé</option>
+            </select>
+          </div>
+
+          <!-- Correo -->
+          <div class="field">
+            <label class="f-label" for="rCorreo">Correo (opcional)</label>
+            <input class="f-input" id="rCorreo" type="email" placeholder="Solo si lo dio en el chat" />
+          </div>
+
+          <!-- PIN -->
+          <div class="field">
+            <label class="f-label" for="rPin">PIN</label>
+            <input class="f-input" id="rPin" type="password" required autocomplete="off" placeholder="Clave de registro" />
+          </div>
+
+          <!-- Folio + Notas (colapsable) -->
+          <details class="extra-collapse field-full">
+            <summary>+ Folio / notas (opcional)</summary>
+            <div class="field">
+              <label class="f-label" for="rFolio">Folio / Order ID</label>
+              <input class="f-input" id="rFolio" type="text" placeholder="Número de ticket si lo tienes" />
+            </div>
+            <div class="field">
+              <label class="f-label" for="rNotas">Notas</label>
+              <textarea class="f-input f-textarea" id="rNotas" rows="2" placeholder="Cualquier detalle de la venta"></textarea>
+            </div>
+          </details>
+
+          <!-- Submit -->
+          <button class="reg-btn" type="submit" id="regBtn" disabled>Registrar venta</button>
+          <p class="reg-btn-hint" id="regBtnHint">Completa los campos obligatorios para registrar</p>
+
+          <!-- Resultado -->
+          <div class="reg-result" id="regResult" role="status" aria-live="polite" hidden></div>
+        </form>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  (function () {
+    const form = document.getElementById('regForm') as HTMLFormElement;
+    const btn = document.getElementById('regBtn') as HTMLButtonElement;
+    const hint = document.getElementById('regBtnHint') as HTMLParagraphElement;
+    const result = document.getElementById('regResult') as HTMLDivElement;
+
+    const fechaHora = document.getElementById('rFechaHora') as HTMLInputElement;
+    const nombre = document.getElementById('rNombre') as HTMLInputElement;
+    const wa = document.getElementById('rWA') as HTMLInputElement;
+    const canal = document.getElementById('rCanal') as HTMLSelectElement;
+    const colonia = document.getElementById('rColonia') as HTMLSelectElement;
+    const calleWrap = document.getElementById('calleWrap') as HTMLDivElement;
+    const calle = document.getElementById('rCalle') as HTMLInputElement;
+    const monto = document.getElementById('rMonto') as HTMLInputElement;
+    const como = document.getElementById('rComo') as HTMLSelectElement;
+    const correo = document.getElementById('rCorreo') as HTMLInputElement;
+    const pin = document.getElementById('rPin') as HTMLInputElement;
+    const folio = document.getElementById('rFolio') as HTMLInputElement;
+    const notas = document.getElementById('rNotas') as HTMLTextAreaElement;
+    const oldWarn = document.getElementById('oldWarn') as HTMLParagraphElement;
+
+    /* datetime-local no puede ser futuro */
+    const pad = (n: number) => String(n).padStart(2, '0');
+    const nowLocal = () => {
+      const d = new Date();
+      return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    };
+    fechaHora.max = nowLocal();
+
+    /* Saneo de dígitos en WhatsApp */
+    wa.addEventListener('input', () => {
+      wa.value = wa.value.replace(/\D/g, '').slice(0, 10);
+      check();
+    });
+
+    /* Mostrar/ocultar calle según canal */
+    function syncCalle() {
+      const isDomicilio = canal.value === 'domicilio';
+      calleWrap.hidden = !isDomicilio;
+      calle.required = isDomicilio;
+    }
+
+    /* Aviso si la fecha tiene más de 7 días */
+    function checkOld() {
+      if (!fechaHora.value) {
+        oldWarn.hidden = true;
+        return;
+      }
+      const ts = new Date(fechaHora.value).getTime();
+      const sevenDays = 7 * 24 * 3600 * 1000;
+      oldWarn.hidden = !(Date.now() - ts > sevenDays);
+    }
+
+    function check() {
+      syncCalle();
+      checkOld();
+      const required: Array<HTMLInputElement | HTMLSelectElement> = [
+        fechaHora, nombre, wa, canal, colonia, monto, pin,
+      ];
+      if (canal.value === 'domicilio') required.push(calle);
+      const ok = required.every((el) => el.value.trim() !== '' && el.checkValidity());
+      btn.disabled = !ok;
+      hint.hidden = !btn.disabled;
+    }
+
+    form.addEventListener('input', check);
+    form.addEventListener('change', check);
+    check();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (btn.disabled) return;
+
+      btn.disabled = true;
+      const original = btn.textContent;
+      btn.textContent = 'Enviando…';
+      result.hidden = true;
+      result.className = 'reg-result';
+
+      const payload = {
+        fechaHora: fechaHora.value,
+        nombre: nombre.value.trim(),
+        whatsapp: wa.value.trim(),
+        colonia: colonia.value,
+        calle: calle.value.trim(),
+        monto: monto.value,
+        canal: canal.value,
+        comoLlego: como.value,
+        correo: correo.value.trim(),
+        notas: notas.value.trim(),
+        folio: folio.value.trim(),
+      };
+
+      try {
+        const res = await fetch('/api/registro', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Registro-Pin': pin.value },
+          body: JSON.stringify(payload),
+        });
+        const data = (await res.json()) as { ok?: boolean; error?: string; message?: string; event_id?: string };
+
+        if (data.ok) {
+          result.classList.add('is-ok');
+          result.textContent = `✅ ${data.message ?? 'Registrada'} (${data.event_id ?? ''})`;
+          // Limpiar campos del cliente pero conservar el PIN para registrar varias seguidas.
+          for (const el of [fechaHora, nombre, wa, calle, monto, correo, folio, notas]) el.value = '';
+          canal.selectedIndex = 0;
+          colonia.selectedIndex = 0;
+          como.selectedIndex = 0;
+        } else {
+          result.classList.add('is-err');
+          result.textContent = `⚠️ ${data.error ?? 'No se pudo registrar.'}`;
+        }
+      } catch {
+        result.classList.add('is-err');
+        result.textContent = '⚠️ Error de red. Revisa tu conexión e inténtalo de nuevo.';
+      } finally {
+        result.hidden = false;
+        btn.textContent = original;
+        check();
+      }
+    });
+  })();
+</script>
+
+<style>
+  .reg-page {
+    min-height: 100vh;
+    background: #000;
+    background-image: radial-gradient(ellipse at 50% 0%, rgba(184, 16, 46, 0.08) 0%, transparent 65%);
+    padding: clamp(40px, 7vw, 80px) 5%;
+  }
+  .reg-wrap { max-width: 720px; margin: 0 auto; }
+
+  .reg-hdr { text-align: center; margin-bottom: 36px; }
+  .reg-eyebrow {
+    display: inline-block;
+    font-family: var(--sans);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rojo);
+    margin-bottom: 12px;
+  }
+  .reg-h1 {
+    font-family: var(--display);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 14px;
+  }
+  .reg-sub {
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    color: var(--g55);
+    line-height: 1.55;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .reg-sub strong { color: var(--g85); }
+
+  .reg-card {
+    background: var(--g04);
+    border: 1px solid var(--g10);
+    border-radius: 20px;
+    padding: 32px 36px;
+  }
+
+  @media (min-width: 768px) {
+    #regForm {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 22px;
+    }
+    #regForm .field { margin-bottom: 0; }
+    #regForm .field-full,
+    #regForm .extra-collapse,
+    #regForm .reg-btn,
+    #regForm .reg-btn-hint,
+    #regForm .reg-result { grid-column: 1 / -1; }
+    #regForm .reg-btn { width: 100%; max-width: 380px; margin: 20px auto 0; }
+  }
+
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+
+  .f-label {
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--g85);
+  }
+  .f-help {
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: var(--g40);
+    line-height: 1.4;
+  }
+
+  .f-input {
+    width: 100%;
+    min-height: 44px;
+    height: 52px;
+    background: var(--g04);
+    border: 1px solid var(--g10);
+    border-radius: 10px;
+    padding: 0 16px;
+    font-family: var(--sans);
+    font-size: 16px;
+    color: #fff;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    color-scheme: dark;
+  }
+  .f-input::placeholder { color: var(--g40); }
+  .f-input:focus {
+    outline: none;
+    border-color: rgba(184, 16, 46, 0.55);
+    background: var(--g06);
+  }
+
+  .f-select {
+    padding-right: 36px;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0 0l5 6 5-6z' fill='rgba(255,255,255,0.4)'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+  :global(select.f-select option) { background: #141414; color: #fff; }
+
+  .f-textarea {
+    height: auto;
+    padding-top: 14px;
+    padding-bottom: 14px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+
+  .wa-wrap { position: relative; display: flex; align-items: center; }
+  .wa-prefix {
+    position: absolute;
+    left: 14px;
+    font-family: var(--sans);
+    font-size: 1rem;
+    color: var(--g55);
+    pointer-events: none;
+    user-select: none;
+  }
+  .wa-wrap .f-input { padding-left: 52px; }
+
+  .field-warn {
+    margin-top: 2px;
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    color: var(--amarillo);
+    line-height: 1.4;
+  }
+
+  .extra-collapse { margin-top: 4px; }
+  .extra-collapse summary {
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    color: var(--g55);
+    cursor: pointer;
+    list-style: none;
+    padding: 8px 0;
+    user-select: none;
+  }
+  .extra-collapse summary::-webkit-details-marker { display: none; }
+  .extra-collapse[open] summary { color: var(--g85); }
+  .extra-collapse .field { margin-top: 10px; }
+
+  .reg-btn {
+    width: 100%;
+    height: 54px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: var(--rojo);
+    color: #fff;
+    font-family: var(--sans);
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border: none;
+    cursor: pointer;
+    margin-top: 22px;
+    transition: background 0.18s ease, transform 0.15s ease, opacity 0.18s ease;
+  }
+  .reg-btn:hover:not(:disabled) { background: var(--rojo-dark); transform: translateY(-1px); }
+  .reg-btn:active:not(:disabled) { transform: translateY(0); }
+  .reg-btn:focus-visible { outline: 2px solid var(--rojo); outline-offset: 2px; }
+  .reg-btn:disabled { opacity: 0.55; background: rgba(184, 16, 46, 0.45); cursor: not-allowed; }
+
+  .reg-btn-hint {
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 0.78rem;
+    color: var(--g40);
+    margin-top: 8px;
+  }
+
+  .reg-result {
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+  .reg-result.is-ok { background: rgba(37, 211, 102, 0.12); border: 1px solid rgba(37, 211, 102, 0.4); color: #d6ffe6; }
+  .reg-result.is-err { background: rgba(184, 16, 46, 0.12); border: 1px solid rgba(184, 16, 46, 0.45); color: #ffd9df; }
+
+  @media (max-width: 600px) {
+    .reg-card { padding: 22px 16px; }
+  }
+</style>

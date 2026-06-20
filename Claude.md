@@ -320,11 +320,38 @@ Para cualquier cambio UI:
 
 &#x20; las cards). Tailwind puro + nuestros componentes Astro.
 
-\- No agregar backend/DB — el checkout es puro WhatsApp.
+\- No agregar backend/DB — el checkout es puro WhatsApp. **EXCEPCIÓN (2026-06-19):**
+&#x20; existe un backend mínimo y aislado para medición — ver sección "Medición / CAPI" abajo.
 
 \- No agregar OpenTable, Square, Toast, etc. — solo WhatsApp.
 
 \- No usar emojis inventados en copy crítico.
 
 \- No modificar la lógica del menú/cart que portamos de v3 — solo el look.
+
+
+
+\## Medición / CAPI (excepción al "no backend") — 2026-06-19
+
+Para que Meta atribuya las ventas (hoy columna *Compras* = 0, EMQ 2.5/10) se reemplazó el flujo
+Google Forms → Zapier por una captura propia. **El sitio sigue siendo SSG**; el backend es una
+Cloudflare Pages Function aislada — `astro.config.mjs` NO cambió.
+
+\- Página interna: `src/pages/registro-de-compras.astro` (con `noindex`; la llena Mafer).
+
+\- Endpoint: `functions/api/registro.ts` (Pages Function). Valida PIN, normaliza+hashea PII,
+&#x20; guarda en D1 y envía `Purchase` a la CAPI con `action_source: physical_store`.
+
+\- Lógica pura testeable: `src/lib/capi.ts` (+ `src/lib/__tests__/capi.test.ts`).
+
+\- Tabla de zonas: `src/lib/zonas.ts` — **completar con las colonias reales del reparto**.
+
+\- Bitácora/idempotencia: Cloudflare D1 (`schema.sql`, binding `DB`).
+
+\- `public/_routes.json` limita las Functions a `/api/*` (el resto se sirve 100% estático).
+
+\- Variables de entorno (Cloudflare Pages, cifradas): `META_DATASET_ID`, `META_CAPI_TOKEN`,
+&#x20; `META_GRAPH_VERSION`, `META_TEST_EVENT_CODE` (solo Preview), `REGISTRO_PIN`.
+
+\- Atribución solo por EMQ (sin `ctwa_clid`): depende de la normalización. Meta de salida: EMQ ≥6.
 
