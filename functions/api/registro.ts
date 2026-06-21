@@ -16,7 +16,7 @@ import {
   eventTimeFromLocal,
   isWithinCapiWindow,
 } from '../../src/lib/capi';
-import { lookupZona } from '../../src/lib/zonas';
+import { ESTADO_DEFAULT } from '../../src/lib/zonas';
 
 /* ── Tipos mínimos del runtime (evitan depender de @cloudflare/workers-types en build) ── */
 interface D1Result {
@@ -50,6 +50,7 @@ interface RegistroBody {
   nombre?: string;
   whatsapp?: string;
   colonia?: string;
+  cp?: string;
   calle?: string;
   monto?: string | number;
   canal?: string;
@@ -94,6 +95,7 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
   const nombre = (body.nombre ?? '').trim();
   const telefono10 = digitsOnly(body.whatsapp ?? '').slice(-10);
   const colonia = (body.colonia ?? '').trim();
+  const cp = digitsOnly(body.cp ?? '').slice(0, 5);
   const canal = (body.canal ?? '').trim().toLowerCase();
   const calle = (body.calle ?? '').trim();
   const correo = (body.correo ?? '').trim();
@@ -105,7 +107,6 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
   const errores: string[] = [];
   if (nombre.length < 2) errores.push('nombre');
   if (telefono10.length !== 10) errores.push('whatsapp');
-  if (!colonia) errores.push('colonia');
   if (!CANALES.has(canal)) errores.push('canal');
   if (!(value > 0)) errores.push('monto');
   if (canal === 'domicilio' && !calle) errores.push('calle');
@@ -118,7 +119,6 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
   }
 
   const nowUnix = Math.floor(Date.now() / 1000);
-  const zona = lookupZona(colonia);
   const phoneE164 = `52${telefono10}`;
   const eventId = buildEventId({ eventTimeUnix: eventTime!, phoneE164, value, orderId: folio });
   const createdAt = new Date().toISOString();
@@ -134,8 +134,8 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
        ON CONFLICT(event_id) DO NOTHING`,
     )
       .bind(
-        eventId, createdAt, eventTime, nombre, phoneE164, colonia, calle || null,
-        zona.municipio, zona.estado, zona.cp || null, canal, comoLlego || null,
+        eventId, createdAt, eventTime, nombre, phoneE164, colonia || null, calle || null,
+        null, ESTADO_DEFAULT, cp || null, canal, comoLlego || null,
         correo || null, value, folio || null, notas || null, 'pending', enviadoPor,
       )
       .run();
@@ -166,9 +166,8 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
     email: correo,
     phone: phoneE164,
     name: nombre,
-    city: zona.municipio,
-    state: zona.estado,
-    zip: zona.cp,
+    state: ESTADO_DEFAULT,
+    zip: cp,
     country: 'MX',
   });
 

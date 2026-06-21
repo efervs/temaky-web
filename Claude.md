@@ -344,7 +344,7 @@ Cloudflare Pages Function aislada — `astro.config.mjs` NO cambió.
 
 \- Lógica pura testeable: `src/lib/capi.ts` (+ `src/lib/__tests__/capi.test.ts`).
 
-\- Tabla de zonas: `src/lib/zonas.ts` — **completar con las colonias reales del reparto**.
+\- Ubicación (decisión 2026-06-21): sin tabla colonia→CP. El form captura **CP directo** (opcional → `zp`) y **colonia en texto libre** (solo bitácora). Estado fijo `Nuevo León` en `src/lib/zonas.ts` (`ESTADO_DEFAULT` → `st` siempre). Ciudad/municipio se omite.
 
 \- Bitácora/idempotencia: Cloudflare D1 (`schema.sql`, binding `DB`).
 

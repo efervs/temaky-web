@@ -1,8 +1,5 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { listColonias } from '../lib/zonas';
-
-const colonias = listColonias();
 ---
 
 <BaseLayout
@@ -68,14 +65,25 @@ const colonias = listColonias();
             </select>
           </div>
 
-          <!-- Colonia -->
+          <!-- Colonia (texto libre, opcional · solo bitácora) -->
           <div class="field">
-            <label class="f-label" for="rColonia">Colonia de entrega</label>
-            <select class="f-input f-select" id="rColonia" required>
-              <option value="" disabled selected>Elige…</option>
-              {colonias.map((c) => <option value={c}>{c}</option>)}
-              <option value="Otra">Otra (no listada)</option>
-            </select>
+            <label class="f-label" for="rColonia">Colonia (opcional)</label>
+            <input class="f-input" id="rColonia" type="text" placeholder="Como la dijo el cliente" />
+          </div>
+
+          <!-- Código postal (opcional · mejora la medición) -->
+          <div class="field">
+            <label class="f-label" for="rCP">Código postal (opcional)</label>
+            <input
+              class="f-input"
+              id="rCP"
+              type="text"
+              inputmode="numeric"
+              pattern="[0-9]{5}"
+              maxlength="5"
+              placeholder="5 dígitos · ayuda a Meta"
+            />
+            <p class="f-help">Si el cliente lo dio o lo conoces. Si no, déjalo en blanco.</p>
           </div>
 
           <!-- Calle (condicional) -->
@@ -151,7 +159,8 @@ const colonias = listColonias();
     const nombre = document.getElementById('rNombre') as HTMLInputElement;
     const wa = document.getElementById('rWA') as HTMLInputElement;
     const canal = document.getElementById('rCanal') as HTMLSelectElement;
-    const colonia = document.getElementById('rColonia') as HTMLSelectElement;
+    const colonia = document.getElementById('rColonia') as HTMLInputElement;
+    const cp = document.getElementById('rCP') as HTMLInputElement;
     const calleWrap = document.getElementById('calleWrap') as HTMLDivElement;
     const calle = document.getElementById('rCalle') as HTMLInputElement;
     const monto = document.getElementById('rMonto') as HTMLInputElement;
@@ -173,6 +182,12 @@ const colonias = listColonias();
     /* Saneo de dígitos en WhatsApp */
     wa.addEventListener('input', () => {
       wa.value = wa.value.replace(/\D/g, '').slice(0, 10);
+      check();
+    });
+
+    /* Saneo de dígitos en CP (5) */
+    cp.addEventListener('input', () => {
+      cp.value = cp.value.replace(/\D/g, '').slice(0, 5);
       check();
     });
 
@@ -198,10 +213,12 @@ const colonias = listColonias();
       syncCalle();
       checkOld();
       const required: Array<HTMLInputElement | HTMLSelectElement> = [
-        fechaHora, nombre, wa, canal, colonia, monto, pin,
+        fechaHora, nombre, wa, canal, monto, pin,
       ];
       if (canal.value === 'domicilio') required.push(calle);
-      const ok = required.every((el) => el.value.trim() !== '' && el.checkValidity());
+      const ok =
+        required.every((el) => el.value.trim() !== '' && el.checkValidity()) &&
+        (cp.value === '' || cp.checkValidity());
       btn.disabled = !ok;
       hint.hidden = !btn.disabled;
     }
@@ -224,7 +241,8 @@ const colonias = listColonias();
         fechaHora: fechaHora.value,
         nombre: nombre.value.trim(),
         whatsapp: wa.value.trim(),
-        colonia: colonia.value,
+        colonia: colonia.value.trim(),
+        cp: cp.value.trim(),
         calle: calle.value.trim(),
         monto: monto.value,
         canal: canal.value,
@@ -246,9 +264,8 @@ const colonias = listColonias();
           result.classList.add('is-ok');
           result.textContent = `✅ ${data.message ?? 'Registrada'} (${data.event_id ?? ''})`;
           // Limpiar campos del cliente pero conservar el PIN para registrar varias seguidas.
-          for (const el of [fechaHora, nombre, wa, calle, monto, correo, folio, notas]) el.value = '';
+          for (const el of [fechaHora, nombre, wa, colonia, cp, calle, monto, correo, folio, notas]) el.value = '';
           canal.selectedIndex = 0;
-          colonia.selectedIndex = 0;
           como.selectedIndex = 0;
         } else {
           result.classList.add('is-err');
