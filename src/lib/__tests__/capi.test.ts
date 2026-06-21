@@ -11,6 +11,7 @@ import {
   normalizeName,
   normalizeState,
   normalizeZip,
+  phoneVariants,
   sha256Hex,
   splitName,
   toE164,
@@ -31,6 +32,16 @@ describe('toE164', () => {
   it('no duplica el código de país si ya viene', () => {
     expect(toE164('528127474440')).toBe('528127474440');
     expect(toE164('+52 81 2747 4440')).toBe('528127474440');
+  });
+});
+
+describe('phoneVariants', () => {
+  it('devuelve E.164 (52+10) y el formato móvil MX (52 1 +10)', () => {
+    expect(phoneVariants('81 2747 4440')).toEqual(['528127474440', '5218127474440']);
+    expect(phoneVariants('528127474440')).toEqual(['528127474440', '5218127474440']);
+  });
+  it('devuelve vacío si no hay 10 dígitos', () => {
+    expect(phoneVariants('123')).toEqual([]);
   });
 });
 
@@ -121,7 +132,7 @@ describe('sha256Hex', () => {
 });
 
 describe('buildUserData', () => {
-  it('hashea, omite vacíos y duplica el teléfono en external_id', async () => {
+  it('hashea, omite vacíos, manda ph en ambos formatos MX y external_id = E.164', async () => {
     const ud = await buildUserData({
       phone: '81 2747 4440',
       name: 'Ana',
@@ -129,8 +140,10 @@ describe('buildUserData', () => {
       state: 'Nuevo León',
       // sin email, sin zip → deben omitirse
     });
-    expect(ud.ph?.[0]).toMatch(/^[0-9a-f]{64}$/);
-    expect(ud.external_id?.[0]).toBe(ud.ph?.[0]); // ambos = sha256(528127474440)
+    expect(ud.ph).toHaveLength(2);
+    expect(ud.ph?.[0]).toBe(await sha256Hex('528127474440')); // E.164 estándar
+    expect(ud.ph?.[1]).toBe(await sha256Hex('5218127474440')); // formato móvil MX con "1"
+    expect(ud.external_id?.[0]).toBe(ud.ph?.[0]); // external_id = E.164 estándar
     expect(ud.fn?.[0]).toBe(await sha256Hex('ana'));
     expect(ud.ln).toBeUndefined(); // un solo token
     expect(ud.ct?.[0]).toBe(await sha256Hex('monterrey'));

@@ -31,6 +31,18 @@ export function toE164(tel: string, countryCode = DEFAULT_COUNTRY_CODE): string 
   return `${countryCode}${last10}`;
 }
 
+/**
+ * Variantes del teléfono para maximizar la coincidencia en Meta (específico de México).
+ * Muchos perfiles de Facebook/WhatsApp guardan el móvil con el "1" histórico (52 1 + 10 dígitos)
+ * y otros sin él (52 + 10 dígitos). Mandamos AMBAS en `ph` para empatar aunque Meta lo tenga
+ * con o sin el "1". El primer elemento es el E.164 estándar (52 + 10). Devuelve [] si no hay 10 dígitos.
+ */
+export function phoneVariants(tel: string, countryCode = DEFAULT_COUNTRY_CODE): string[] {
+  const last10 = digitsOnly(tel).slice(-10);
+  if (last10.length !== 10) return [];
+  return [`${countryCode}${last10}`, `${countryCode}1${last10}`];
+}
+
 /** Divide un nombre completo en { fn, ln }. Si no hay apellido, `ln` queda undefined. */
 export function splitName(full: string): { fn: string; ln?: string } {
   const parts = (full ?? '').trim().split(/\s+/).filter(Boolean);
@@ -159,7 +171,9 @@ export async function buildUserData(raw: RawUserData): Promise<HashedUserData> {
   const { fn, ln } = splitName(raw.name);
 
   await add('em', normalizeEmail(raw.email ?? ''));
-  await add('ph', phoneE164);
+  // `ph` en ambos formatos MX (52+10 y 52 1+10) para empatar el número aunque Meta lo tenga con/sin el "1".
+  const phHashes = await Promise.all(phoneVariants(raw.phone).map((p) => sha256Hex(p)));
+  if (phHashes.length) out.ph = phHashes;
   await add('fn', normalizeName(fn));
   if (ln) await add('ln', normalizeName(ln));
   await add('ct', normalizeCity(raw.city ?? ''));
