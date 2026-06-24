@@ -143,8 +143,9 @@ const SINGLES = [
   { id: 'kids-1',         base: SRC_MENU2605, file: 'Copia Combo Kids 1.jpg' },
   { id: 'kids-2',         base: SRC_MENU2605, file: 'Copia de Combo Kids 2.jpeg' },
   { id: 'sandwich-nieve', base: SRC_MENU2605, file: 'Copia de Sandwich de nieve.jpeg' },
-  // 'Carlota de Limón' NO se usa: la foto es una tina empacada de otro proveedor
-  // ("GURRU'S") con su teléfono. Conserva el placeholder hasta tener foto propia.
+  // 'Carlota de Limón': foto asignada manualmente en image-map.ts/menu.ts (slug
+  // 'carlota-de-limon', decisión del dueño 2026-06-23, a pesar de mostrar la marca
+  // "GURRU'S" y un teléfono ajeno en la etiqueta). No se gestiona desde este script.
   // Bebidas (render de producto). Agua de Sabores y Limonadas siguen en placeholder.
   { id: 'refresco', base: SRC_BEBIDAS, file: 'Coca Cola.webp' },
   { id: 'agua-bot', base: SRC_BEBIDAS, file: 'Agua Ciel 500ml.webp' },

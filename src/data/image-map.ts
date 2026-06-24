@@ -51,6 +51,8 @@ export const productImages: Record<string, string> = {
   'arjona': '/images/products/arjona.webp',
   'barry': '/images/products/barry.webp',
   'california': '/images/products/california.webp',
+  'california-especial': '/images/products/california-especial.webp',
+  'carlota-de-limon': '/images/products/carlota-de-limon.webp',
   'cantinflas': '/images/products/cantinflas.webp',
   'caricatura': '/images/products/caricatura.webp',
   'chepevera': '/images/products/chepevera.webp',
@@ -121,4 +123,5 @@ export const productImages: Record<string, string> = {
   'medio-arroz-verduras': '/images/products/medio-arroz-verduras.webp',
   'rollo-chili': '/images/products/rollo-chili.webp',
   'rollo-sake': '/images/products/rollo-sake.webp',
+  'rollo-temaky': '/images/products/rollo-temaky.webp',
 };

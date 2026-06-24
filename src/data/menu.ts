@@ -63,7 +63,7 @@ export const MENU: Product[] = [
   { id: 'gohan-especial', cat: 'arroces', name: 'Gohan Especial', desc: 'Con tampico.', price: 105, gr: GR.arroz, img: IMG('gohan-especial') },
 
   // ── ROLLOS CLÁSICOS — FRÍOS ───────────────────────
-  { id: 'cali-esp', cat: 'clasicos-frios', name: 'California Especial', desc: 'Aguacate, pepino y camarón.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('california'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'cali-esp', cat: 'clasicos-frios', name: 'California Especial', desc: 'Aguacate, pepino y camarón.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('california-especial'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'california', cat: 'clasicos-frios', name: 'California', desc: 'Aguacate, pepino y cangrejo; ajonjolí por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('california'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'philadelphia', cat: 'clasicos-frios', name: 'Philadelphia', desc: 'Queso Philadelphia y salmón; ajonjolí por fuera.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('philadelphia'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'lino', cat: 'clasicos-frios', name: 'Lino', desc: 'Queso Philadelphia y salmón; aguacate por fuera.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_frio, img: IMG('lino'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
@@ -103,7 +103,7 @@ export const MENU: Product[] = [
   // ── SIGNATURE ROLLS — FRÍOS ───────────────────────
   { id: 'barry', cat: 'sig-frios', name: 'Barry', desc: 'Queso Philadelphia, aguacate, salmón y camarón; tampico por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('barry'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'plasma', cat: 'sig-frios', name: 'Plasma', desc: 'Queso Philadelphia, tampico, shishimi y masago; salmón por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('plasma'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
-  { id: 'temaky-r', cat: 'sig-frios', name: 'Temaky', desc: 'Queso Philadelphia, aguacate, tampico y anguila; masago por fuera.', price: 135, bundle: 'signature', deal: '2×$229', badge: 'Signature', gr: GR.sig_frio, img: IMG('temaky-masago'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'temaky-r', cat: 'sig-frios', name: 'Temaky', desc: 'Queso Philadelphia, aguacate, tampico y anguila; masago por fuera.', price: 135, bundle: 'signature', deal: '2×$229', badge: 'Signature', gr: GR.sig_frio, img: IMG('rollo-temaky'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'arjona', cat: 'sig-frios', name: 'Arjona', desc: 'Arroz frito, queso Philadelphia, aguacate, cangrejo, salmón, camarón y pulpo.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('arjona'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'caricatura', cat: 'sig-frios', name: 'Caricatura', desc: 'Camarón, anguila, tampico y shishimi; masago por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('caricatura'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'coronavirus', cat: 'sig-frios', name: 'Coronavirus', desc: 'Tampico, camarón empanizado, chamoy y queso; aguacate y seaweed salad por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_frio, img: IMG('coronavirus'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
@@ -148,7 +148,7 @@ export const MENU: Product[] = [
   { id: 'nieve', cat: 'postres', name: 'Nieve', desc: 'Bola de helado.', price: 49, gr: GR.postre, img: IMG('nieve') },
   { id: 'brownie', cat: 'postres', name: 'Brownie con Nieve', desc: 'Brownie caliente con bola de helado.', price: 99, gr: GR.postre, img: IMG('brownie-con-nieve') },
   { id: 'sandwich-nieve', cat: 'postres', name: 'Sandwich de Nieve', desc: 'Postre frío con galletas y helado.', price: 99, gr: GR.postre, img: IMG('default-product-image') },
-  { id: 'carlota', cat: 'postres', name: 'Carlota de Limón', desc: 'Postre frío de galleta y crema de limón.', price: 45, gr: GR.postre, img: IMG('default-product-image') },
+  { id: 'carlota', cat: 'postres', name: 'Carlota de Limón', desc: 'Postre frío de galleta y crema de limón.', price: 45, gr: GR.postre, img: IMG('carlota-de-limon') },
 
   // ── BEBIDAS ───────────────────────────────────────
   { id: 'refresco', cat: 'bebidas', name: 'Refresco', desc: '355 ml.', price: 42, gr: GR.bebida, img: IMG('default-product-image') },
