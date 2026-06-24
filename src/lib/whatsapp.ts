@@ -1,7 +1,7 @@
 import type { CartCalc, CartItem } from '../types/menu';
 import { isRestaurantOpen } from './hours';
 
-export const WA_NUMBER = '528127474440';
+export const WA_NUMBER = '5218136080040';
 
 export type DeliveryType = 'pickup' | 'delivery';
 

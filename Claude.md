@@ -52,8 +52,7 @@ EXTRAS: Arroz Frito (completo / medio), Gyozas, Teppanyaki de pollo
 ## Contacto y Ubicación
 
 * Dirección: Francisco Garza Sada 2940A · Piso 2, Local 204 · Nuevo Obispado · Monterrey, N.L.
-* Teléfono: +52 81 8346-2758
-* Whatsapp: +52 81 2747-4440
+* Teléfono / WhatsApp: +52 1 81 3608 0040 (número unificado 2026-06-23)
 * Instagram: @temakysushimty
 * Horario: Lunes a Sábado, 12:00–22:00
 
@@ -88,9 +87,9 @@ Hosting: Cloudflare Pages. Repo: github.com/<owner>/temaky-web.
 
 \## Canal de conversión primario
 
-WhatsApp con mensaje prellenado al \*\*+52 81 2747-4440\*\*.
+WhatsApp con mensaje prellenado al \*\*+52 1 81 3608 0040\*\*.
 
-URL base: https://wa.me/528127474440
+URL base: https://wa.me/5218136080040
 
 \- Pedidos del carrito → WhatsApp con detalle + nombre + entrega.
 
@@ -100,9 +99,9 @@ URL base: https://wa.me/528127474440
 
 \## Números de contacto
 
-\- WhatsApp (chat, pedidos, reservas): +52 81 2747-4440 → SOLO este va en wa.me.
+\- Número unificado (WhatsApp + llamadas): +52 1 81 3608 0040 — decisión 2026-06-23.
 
-\- Teléfono de llamadas: +52 81 8346-2758 → SOLO va en `tel:` links o texto.
+\- wa.me/5218136080040 para chat/pedidos/reservas; tel:+5218136080040 para llamadas.
 
 
 
