@@ -24,8 +24,18 @@ CREATE TABLE IF NOT EXISTS ventas (
   notas         TEXT,
   status        TEXT NOT NULL DEFAULT 'pending',  -- pending | sent | error | duplicate
   meta_response TEXT,                             -- fbtrace_id / events_received / motivo de error
-  enviado_por   TEXT                              -- IP de quien registró (auditoría)
+  enviado_por   TEXT,                             -- IP de quien registró (auditoría)
+  gclid         TEXT                              -- click id de Google: "gclid:Cj0K…" | "gbraid:…" | "wbraid:…"
 );
+
+-- Migración aplicada el 2026-08-12 sobre la base viva (temaky-ventas,
+-- ae0524f2-5c2d-454c-8b34-6caa202ccf34). En SQLite ADD COLUMN es metadatos: no reescribe filas.
+--   npx wrangler d1 execute <uuid> --remote --command "ALTER TABLE ventas ADD COLUMN gclid TEXT;"
+--
+-- Para qué: la importación offline de Google Ads admite 90 días de ventana, contra los 7 de la
+-- CAPI de Meta (src/lib/capi.ts:107-113). Una venta registrada tarde no llega a Meta pero sí a
+-- Google, y esta columna es lo que la hace atribuible.
+CREATE INDEX IF NOT EXISTS idx_ventas_gclid ON ventas(gclid) WHERE gclid IS NOT NULL;
 
 CREATE INDEX IF NOT EXISTS idx_ventas_created ON ventas(created_at);
 CREATE INDEX IF NOT EXISTS idx_ventas_status  ON ventas(status);
