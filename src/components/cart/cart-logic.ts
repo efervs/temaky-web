@@ -489,6 +489,10 @@ function submitCheckout(e: Event) {
     return;
   }
 
+  // Conversión de Google Ads. Va AQUÍ y no arriba junto a buildWhatsAppUrl(): en ese punto todavía
+  // no se decidió si abre WhatsApp o el OffHoursModal, y contaría los pedidos fuera de horario dos
+  // veces (una aquí y otra en el modal). El único punto de salida con monto conocido.
+  window.temakyConv?.({ value: calc.total, currency: 'MXN' });
   window.open(url, '_blank', 'noopener');
   markOrderSent();
   clearAllCart();

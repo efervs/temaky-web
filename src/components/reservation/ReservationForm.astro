@@ -289,6 +289,8 @@
       const fallbackLink = document.getElementById('waFallbackLink') as HTMLAnchorElement;
       fallbackLink.href  = url;
 
+      // Conversión de Google Ads. Sin `value`: una reservación no trae monto.
+      window.temakyConv?.();
       const win = window.open(url, '_blank', 'noopener,noreferrer');
       fallback.hidden = !(!win || win.closed || typeof win.closed === 'undefined');
     });
