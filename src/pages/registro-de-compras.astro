@@ -134,6 +134,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <label class="f-label" for="rNotas">Notas</label>
               <textarea class="f-input f-textarea" id="rNotas" rows="2" placeholder="Cualquier detalle de la venta"></textarea>
             </div>
+            <div class="field">
+              <label class="f-label" for="rGclid">Referencia de Google</label>
+              <input class="f-input" id="rGclid" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="gclid:Cj0KCQ..." />
+              <p class="f-help">
+                Si el mensaje del cliente traía hasta abajo una línea tipo «[ref: gclid:Cj0KCQ…]»,
+                copia aquí lo de adentro del corchete. Quiere decir que llegó por un anuncio de
+                Google. Si no venía, déjalo vacío.
+              </p>
+            </div>
           </details>
 
           <!-- Submit -->
@@ -169,6 +178,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const pin = document.getElementById('rPin') as HTMLInputElement;
     const folio = document.getElementById('rFolio') as HTMLInputElement;
     const notas = document.getElementById('rNotas') as HTMLTextAreaElement;
+    const gclid = document.getElementById('rGclid') as HTMLInputElement;
     const oldWarn = document.getElementById('oldWarn') as HTMLParagraphElement;
 
     /* datetime-local no puede ser futuro */
@@ -250,6 +260,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         correo: correo.value.trim(),
         notas: notas.value.trim(),
         folio: folio.value.trim(),
+        gclid: gclid.value.trim(),
       };
 
       try {
@@ -264,7 +275,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           result.classList.add('is-ok');
           result.textContent = `✅ ${data.message ?? 'Registrada'} (${data.event_id ?? ''})`;
           // Limpiar campos del cliente pero conservar el PIN para registrar varias seguidas.
-          for (const el of [fechaHora, nombre, wa, colonia, cp, calle, monto, correo, folio, notas]) el.value = '';
+          for (const el of [fechaHora, nombre, wa, colonia, cp, calle, monto, correo, folio, notas, gclid]) el.value = '';
           canal.selectedIndex = 0;
           como.selectedIndex = 0;
         } else {

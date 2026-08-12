@@ -1,5 +1,6 @@
 import { trapFocus } from '../../lib/focus-trap';
 import { MODS, findProduct } from '../../data/menu';
+import { appendRef, loadClickId } from '../../lib/click-id';
 import { isRestaurantOpen } from '../../lib/hours';
 import {
   buildOrderMessage,
@@ -479,7 +480,10 @@ function submitCheckout(e: Event) {
   const calc = cartCalc();
   const now = new Date();
   const isOpen = isRestaurantOpen(now);
-  const text = buildOrderMessage(cart, customer, calc, { now, isOpen });
+  // El click id de Google viaja dentro del mensaje: es lo único que sobrevive el salto a WhatsApp,
+  // donde el cliente ya no deja ningún dato en el sitio. Va aquí y no dentro de buildOrderMessage()
+  // para no tocar una función pura que tiene tests que comparan el mensaje carácter por carácter.
+  const text = appendRef(buildOrderMessage(cart, customer, calc, { now, isOpen }), loadClickId());
   const url = buildWhatsAppUrl(text);
 
   if (!isOpen) {

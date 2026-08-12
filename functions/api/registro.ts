@@ -58,6 +58,25 @@ interface RegistroBody {
   correo?: string;
   notas?: string;
   folio?: string;
+  gclid?: string; // click id de Google que Mafer copia del mensaje: "gclid:Cj0K...", "gbraid:..."
+}
+
+/**
+ * Sanea el click id de Google. Acepta "tipo:valor" o el valor pelón (se asume gclid).
+ * Devuelve null si no cuadra: un click id inválido no vale nada en el archivo de carga y no debe
+ * ensuciar la bitácora. NO participa en el evento de Meta — es solo para la importación offline
+ * de Google Ads, que admite 90 días contra los 7 de la CAPI.
+ */
+function normalizaClickId(raw: string): string | null {
+  const limpio = raw.trim().replace(/^\[ref:\s*/i, '').replace(/\]$/, '').trim();
+  if (!limpio) return null;
+
+  const conTipo = /^(gclid|gbraid|wbraid):(.+)$/i.exec(limpio);
+  const tipo = conTipo ? conTipo[1].toLowerCase() : 'gclid';
+  const valor = (conTipo ? conTipo[2] : limpio).trim();
+
+  if (!/^[A-Za-z0-9_-]{1,512}$/.test(valor)) return null;
+  return `${tipo}:${valor}`;
 }
 
 function json(data: unknown, status = 200): Response {
@@ -102,6 +121,7 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
   const notas = (body.notas ?? '').trim();
   const folio = (body.folio ?? '').trim();
   const comoLlego = (body.comoLlego ?? '').trim();
+  const clickId = normalizaClickId(body.gclid ?? '');
   const value = Number(String(body.monto ?? '').replace(/[^0-9.]/g, ''));
 
   const errores: string[] = [];
@@ -129,14 +149,16 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
     const insert = await env.DB.prepare(
       `INSERT INTO ventas
          (event_id, created_at, event_time, nombre, telefono, colonia, calle,
-          ciudad, estado, cp, canal, como_llego, correo, value, order_id, notas, status, enviado_por)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+          ciudad, estado, cp, canal, como_llego, correo, value, order_id, notas, status, enviado_por,
+          gclid)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
        ON CONFLICT(event_id) DO NOTHING`,
     )
       .bind(
         eventId, createdAt, eventTime, nombre, phoneE164, colonia || null, calle || null,
         null, ESTADO_DEFAULT, cp || null, canal, comoLlego || null,
         correo || null, value, folio || null, notas || null, 'pending', enviadoPor,
+        clickId,
       )
       .run();
 
