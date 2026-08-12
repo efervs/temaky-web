@@ -151,6 +151,9 @@
     /* ── "Dejar mi pedido para mañana" ── */
     function mandarIgual() {
       if (!pendingUrl) return;
+      // Conversión de Google Ads: este es el punto de salida real del pedido fuera de horario.
+      // cart-logic.ts no la disparó porque ahí se desvió a este modal en vez de abrir WhatsApp.
+      window.temakyConv?.();
       const win = window.open(pendingUrl, '_blank', 'noopener,noreferrer');
       if (!win) window.location.href = pendingUrl;
       markOrderSent();

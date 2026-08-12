@@ -81,6 +81,39 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    <!--
+      Google Ads · cuenta 118-217-4303 — etiqueta AW-18358666123.
+      `is:inline` es obligatorio: sin él Astro convierte el script en type="module", los módulos ES
+      tienen scope propio y `window.gtag` dejaría de existir. El snippet oficial usa `async`, no
+      `defer`; no cambiar.
+    -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=AW-18358666123"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', 'AW-18358666123');
+
+      /*
+        La etiqueta de la acción de conversión "Clic a WhatsApp" vive SOLO aquí. Mientras `label`
+        esté vacía, temakyConv() es un no-op: el tag base mide igual y ningún clic dispara una
+        conversión a medias. Cuando Google Ads la entregue, es esta única línea y un push.
+      */
+      window.TEMAKY_AW = { id: 'AW-18358666123', label: '' };
+
+      window.temakyConv = function (params) {
+        var conf = window.TEMAKY_AW;
+        if (!conf || !conf.label || typeof window.gtag !== 'function') return;
+        var payload = { send_to: conf.id + '/' + conf.label };
+        for (var k in params) { if (Object.prototype.hasOwnProperty.call(params, k)) payload[k] = params[k]; }
+        window.gtag('event', 'conversion', payload);
+      };
+    </script>
+    <script>
+      import { initWaTracking } from '../lib/wa-tracking';
+      initWaTracking();
+    </script>
+
     <!-- Structured Data -->
     <StructuredData />
   </head>
