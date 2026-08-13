@@ -12,8 +12,8 @@
  *   node scripts/export-google-ads.mjs --dias 30
  *   node scripts/export-google-ads.mjs --conversion "Compra registrada"
  *
- * Requiere `npx wrangler login` una vez. Deja el CSV en reports/ y NO lo versiona: lleva montos
- * de ventas reales.
+ * Requiere `npx wrangler login` una vez. Deja el CSV en reports/, que .gitignore excluye con la
+ * regla `reports/*.csv`: el archivo lleva montos de venta reales y click ids.
  *
  * Después: Google Ads → Objetivos → Conversiones → Cargas → subir el CSV.
  * Esperar 4-6 h desde que se creó la acción de conversión antes de la primera carga.
@@ -43,20 +43,61 @@ if (dias > 90) {
   process.exit(1);
 }
 
-/** Consulta D1 en remoto vía wrangler y devuelve las filas. */
+const INTENTOS = 3;
+const ESPERA_MS = [2000, 5000]; // entre el intento 1-2 y el 2-3
+
+/** Duerme sin volver asíncrono el script, que es síncrono de principio a fin. */
+const dormir = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+/**
+ * Consulta D1 en remoto vía wrangler y devuelve las filas.
+ *
+ * El SQL viaja aplanado a una sola línea y entrecomillado a propósito: con `shell: true` Node
+ * concatena los argumentos SIN escaparlos (DEP0190), así que cmd.exe partía el query por sus
+ * espacios y wrangler contestaba `Unknown arguments: event_time,, value,, gclid, FROM, ventas`.
+ *
+ * Reintenta ante CUALQUIER fallo, no solo los que parecen transitorios: la API de Cloudflare
+ * devuelve errores pasajeros (`Authentication error [code: 10000]`, red, 5xx) y el texto con que
+ * wrangler los reporta no es contrato estable como para filtrar por él. Un SQL realmente malo
+ * falla igual, solo unos segundos más tarde.
+ */
 function consultarD1(sql) {
-  const salida = execFileSync(
-    'npx',
-    ['--yes', 'wrangler', 'd1', 'execute', D1_UUID, '--remote', '--json', '--command', sql],
-    { cwd: RAIZ, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, shell: true },
-  );
-  /* wrangler antepone banners al JSON; se recorta desde el primer corchete. */
-  const json = salida.slice(Math.min(...['[', '{'].map((c) => {
-    const i = salida.indexOf(c);
-    return i === -1 ? Infinity : i;
-  })));
-  const parsed = JSON.parse(json);
-  return (Array.isArray(parsed) ? parsed[0] : parsed)?.results ?? [];
+  const plano = sql.replace(/\s+/g, ' ').trim();
+  /* cmd.exe no deja escapar comillas dobles dentro de un argumento ya entrecomillado. */
+  if (plano.includes('"')) {
+    console.error('El SQL no puede llevar comillas dobles; usa comillas simples.');
+    process.exit(1);
+  }
+
+  for (let intento = 1; intento <= INTENTOS; intento++) {
+    try {
+      const salida = execFileSync(
+        'npx',
+        ['--yes', 'wrangler', 'd1', 'execute', D1_UUID, '--remote', '--json', '--command', `"${plano}"`],
+        { cwd: RAIZ, encoding: 'utf8', maxBuffer: 32 * 1024 * 1024, shell: true },
+      );
+      /* wrangler antepone banners al JSON; se recorta desde el primer corchete. */
+      const json = salida.slice(Math.min(...['[', '{'].map((c) => {
+        const i = salida.indexOf(c);
+        return i === -1 ? Infinity : i;
+      })));
+      const parsed = JSON.parse(json);
+      return (Array.isArray(parsed) ? parsed[0] : parsed)?.results ?? [];
+    } catch (error) {
+      const detalle = String(error.stderr || error.message || error).trim().split('\n').slice(-3).join(' ');
+      if (intento === INTENTOS) {
+        console.error(`La consulta a D1 falló ${INTENTOS} veces seguidas. Último error:`);
+        console.error(detalle);
+        console.error('Si dice "Authentication error [code: 10000]" suele ser pasajero: vuelve a correrlo.');
+        console.error('Si insiste, revisa la sesión con `npx wrangler whoami`.');
+        process.exit(1);
+      }
+      const espera = ESPERA_MS[intento - 1];
+      console.error(`Intento ${intento}/${INTENTOS} falló: ${detalle}`);
+      console.error(`Reintento en ${espera / 1000}s...`);
+      dormir(espera);
+    }
+  }
 }
 
 /** unix → "yyyy-MM-dd HH:mm:ss" en hora de Monterrey, que es el formato que pide Google. */

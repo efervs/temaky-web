@@ -30,3 +30,6 @@ reports/*.html
 reports/*.json
 !reports/lighthouse-baseline.html
 !reports/lighthouse-baseline.json
+
+# Exports de conversiones offline (scripts/export-google-ads.mjs): montos de venta y click ids
+reports/*.csv
