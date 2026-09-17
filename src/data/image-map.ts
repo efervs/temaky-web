@@ -124,4 +124,8 @@ export const productImages: Record<string, string> = {
   'rollo-chili': '/images/products/rollo-chili.webp',
   'rollo-sake': '/images/products/rollo-sake.webp',
   'rollo-temaky': '/images/products/rollo-temaky.webp',
+  'chow-mein': '/images/products/chow-mein.webp',
+  'limonada-natural': '/images/products/limonada-natural.webp',
+  'limonada-mineral': '/images/products/limonada-mineral.webp',
+  'topo-chico-sangria': '/images/products/topo-chico-sangria.webp',
 };
