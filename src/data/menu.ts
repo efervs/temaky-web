@@ -97,8 +97,8 @@ export const MENU: Product[] = [
   // ── ROLLOS CLÁSICOS — CAPEADOS ────────────────────
   { id: 'villarreal', cat: 'clasicos-cap', name: 'Villarreal', desc: 'Arroz frito, Philadelphia, aguacate y camarón empanizado.', price: 125, badge: 'TOP', bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('villarreal'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'zaru', cat: 'clasicos-cap', name: 'Zaru', desc: 'Philadelphia, aguacate, camarón y surimi.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('zaru'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
-  { id: 'vagabundo', cat: 'clasicos-cap', name: 'Vagabundo', desc: 'Arroz frito, Philadelphia, aguacate, surimi y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('vagabundo'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
-  { id: 'nori-r', cat: 'clasicos-cap', name: 'Nori', desc: 'Philadelphia, aguacate y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'vagabundo', cat: 'clasicos-cap', name: 'Vagabundo', desc: 'Philadelphia, aguacate y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'nori-r', cat: 'clasicos-cap', name: 'Nori', desc: 'Arroz frito, Philadelphia, aguacate, surimi y verduras al vapor.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('nori'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'ika', cat: 'clasicos-cap', name: 'Ika', desc: 'Philadelphia, brócoli y camarón empanizado.', price: 125, bundle: 'clasico', deal: '2×$199', gr: GR.clasico_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
 
   // ── SIGNATURE ROLLS — FRÍOS ───────────────────────
@@ -118,8 +118,8 @@ export const MENU: Product[] = [
 
   // ── SIGNATURE ROLLS — CAPEADOS ────────────────────
   { id: 'chili', cat: 'sig-cap', name: 'Chili', desc: 'Aguacate, pasta tampico, camarón, cebollín y shishimi; salmón por fuera.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('rollo-chili'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
-  { id: 'sake', cat: 'sig-cap', name: 'Sake', desc: 'Philadelphia, anguila, camarón y salmón.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('rollo-sake'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
-  { id: 'houston', cat: 'sig-cap', name: 'Houston', desc: 'Arroz frito, aguacate, anguila y camarón.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'sake', cat: 'sig-cap', name: 'Sake', desc: 'Arroz frito, aguacate, anguila y camarón.', price: 135, badge: 'TOP', bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
+  { id: 'houston', cat: 'sig-cap', name: 'Houston', desc: 'Philadelphia, anguila, camarón y salmón.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('rollo-houston'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
   { id: 'makisu', cat: 'sig-cap', name: 'Makisu', desc: 'Philadelphia y anguila; surimi por fuera.', price: 135, bundle: 'signature', deal: '2×$229', gr: GR.sig_cap, img: IMG('default-product-image'), mods: ['extras-rollo', 'adicionales', 'utensilios'] },
 
   // ── ESPECIALIDADES ────────────────────────────────

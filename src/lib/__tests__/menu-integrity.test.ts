@@ -39,4 +39,20 @@ describe('integridad del menú', () => {
       for (const op of MODS[gid].items) expect(ids.has(op.id), `${gid} → ${op.id}`).toBe(true);
     }
   });
+
+  // Versión final de Alejandro (WhatsApp, 2026-10-16): la foto sigue a la receta, no al nombre.
+  it('Vagabundo, Nori, Houston y Sake tienen el texto y la foto de su receta', () => {
+    const esperado: Record<string, { desc: string; img: string }> = {
+      vagabundo: { desc: 'Philadelphia, aguacate y verduras al vapor.', img: '/images/products/g/vagabundo/01.webp' },
+      'nori-r': { desc: 'Arroz frito, Philadelphia, aguacate, surimi y verduras al vapor.', img: '/images/products/nori.webp' },
+      houston: { desc: 'Philadelphia, anguila, camarón y salmón.', img: '/images/products/rollo-houston.webp' },
+      sake: { desc: 'Arroz frito, aguacate, anguila y camarón.', img: '/images/products/g/sake/01.webp' },
+    };
+    for (const [id, e] of Object.entries(esperado)) {
+      const p = MENU.find(x => x.id === id);
+      expect(p, id).toBeDefined();
+      expect(p!.desc, id).toBe(e.desc);
+      expect(p!.img, id).toBe(e.img);
+    }
+  });
 });

@@ -132,12 +132,13 @@ const SINGLES = [
   { id: 'rockefeller', base: SRC_ROLLOS, file: 'Copia de Rockefeller.jpeg' },
   { id: 'zafira',      base: SRC_ROLLOS, file: 'Copia de Zafira.jpeg' },
   { id: 'esmeralda',   base: SRC_ROLLOS, file: 'Copia de Esmeralda.jpeg' },
-  { id: 'nori-r',      base: SRC_ROLLOS, file: 'Copia de Nori.jpeg' },
+  // Alejandro (2026-10-16) cambió los nombres: la receta de la foto «Nori» es hoy Vagabundo, y la de «Houston», Sake.
+  { id: 'vagabundo',   base: SRC_ROLLOS, file: 'Copia de Nori.jpeg' },
   { id: 'ika',         base: SRC_ROLLOS, file: 'Copia de Ika.jpeg' },
   { id: 'pittsburgh',  base: SRC_ROLLOS, file: 'Copia de Pittsburgh.jpeg' },
   { id: 'oyster',      base: SRC_ROLLOS, file: 'Copia de Oyster Roll.jpg' },
   { id: 'sig-cap-2',   base: SRC_ROLLOS, file: 'Copia de Rubi.jpeg' }, // Rubi
-  { id: 'houston',     base: SRC_ROLLOS, file: 'Copia de Houston.jpeg' },
+  { id: 'sake',        base: SRC_ROLLOS, file: 'Copia de Houston.jpeg' },
   { id: 'makisu',      base: SRC_ROLLOS, file: 'Copia de Makisu.jpeg' },
   // Kids + Postres (carpeta "26 05 Fotos Menu Temaky Ko")
   { id: 'kids-1',         base: SRC_MENU2605, file: 'Copia Combo Kids 1.jpg' },
