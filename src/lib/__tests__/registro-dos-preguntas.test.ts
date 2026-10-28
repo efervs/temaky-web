@@ -64,6 +64,11 @@ describe('página: las dos preguntas', () => {
 });
 
 describe('normalizaPrimeraVez', () => {
+  it('la clase de acentos va escapada, sin caracteres invisibles en la fuente', () => {
+    const fuente = readFileSync(join(process.cwd(), 'src/lib/primera-vez.ts'), 'utf8');
+    expect(fuente).toContain('[\\u0300-\\u036f]');
+    expect(/[\u0300-\u036f]/.test(fuente)).toBe(false);
+  });
   it('acepta si / sí / no y nada más', () => {
     expect(normalizaPrimeraVez('si')).toBe('si');
     expect(normalizaPrimeraVez('Sí')).toBe('si');

@@ -9,7 +9,7 @@ export function normalizaPrimeraVez(raw: unknown): 'si' | 'no' | null {
     .trim()
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
+    .replace(/[\u0300-\u036f]/g, '');
   if (t === 'si' || t === 'no') return t;
   return null;
 }
