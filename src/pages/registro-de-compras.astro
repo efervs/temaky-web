@@ -101,13 +101,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           <!-- Cómo llegó -->
           <div class="field">
             <label class="f-label" for="rComo">¿Cómo llegó el cliente?</label>
-            <select class="f-input f-select" id="rComo">
-              <option value="" disabled selected>Opcional…</option>
-              <option value="Anuncio FB/IG">Anuncio FB/IG</option>
-              <option value="Google / Maps">Google / Maps</option>
+            <select class="f-input f-select" id="rComo" required>
+              <option value="" disabled selected>Elige…</option>
+              <option value="Meta Ads">Meta Ads</option>
+              <option value="Google Ads / Maps">Google Ads / Maps</option>
+              <option value="Página web">Página web</option>
               <option value="Recomendación">Recomendación</option>
-              <option value="Cliente frecuente">Cliente frecuente</option>
               <option value="No sé">No sé</option>
+            </select>
+          </div>
+
+          <!-- Primera vez -->
+          <div class="field">
+            <label class="f-label" for="rPrimeraVez">¿Es la primera vez que pide el cliente?</label>
+            <select class="f-input f-select" id="rPrimeraVez" required>
+              <option value="" disabled selected>Elige…</option>
+              <option value="si">Sí, es su primera vez</option>
+              <option value="no">No, es cliente frecuente</option>
             </select>
           </div>
 
@@ -174,6 +184,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     const calle = document.getElementById('rCalle') as HTMLInputElement;
     const monto = document.getElementById('rMonto') as HTMLInputElement;
     const como = document.getElementById('rComo') as HTMLSelectElement;
+    const primeraVez = document.getElementById('rPrimeraVez') as HTMLSelectElement;
     const correo = document.getElementById('rCorreo') as HTMLInputElement;
     const pin = document.getElementById('rPin') as HTMLInputElement;
     const folio = document.getElementById('rFolio') as HTMLInputElement;
@@ -223,7 +234,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       syncCalle();
       checkOld();
       const required: Array<HTMLInputElement | HTMLSelectElement> = [
-        fechaHora, nombre, wa, canal, monto, pin,
+        fechaHora, nombre, wa, canal, monto, como, primeraVez, pin,
       ];
       if (canal.value === 'domicilio') required.push(calle);
       const ok =
@@ -257,6 +268,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         monto: monto.value,
         canal: canal.value,
         comoLlego: como.value,
+        primeraVez: primeraVez.value,
         correo: correo.value.trim(),
         notas: notas.value.trim(),
         folio: folio.value.trim(),
@@ -278,6 +290,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           for (const el of [fechaHora, nombre, wa, colonia, cp, calle, monto, correo, folio, notas, gclid]) el.value = '';
           canal.selectedIndex = 0;
           como.selectedIndex = 0;
+          primeraVez.selectedIndex = 0;
         } else {
           result.classList.add('is-err');
           result.textContent = `⚠️ ${data.error ?? 'No se pudo registrar.'}`;

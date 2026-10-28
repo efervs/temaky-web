@@ -17,6 +17,7 @@ import {
   isWithinCapiWindow,
 } from '../../src/lib/capi';
 import { ESTADO_DEFAULT } from '../../src/lib/zonas';
+import { normalizaPrimeraVez } from '../../src/lib/primera-vez';
 
 /* ── Tipos mínimos del runtime (evitan depender de @cloudflare/workers-types en build) ── */
 interface D1Result {
@@ -54,7 +55,8 @@ interface RegistroBody {
   calle?: string;
   monto?: string | number;
   canal?: string;
-  comoLlego?: string;
+  comoLlego?: string; // texto tal cual; se aceptan los viejos (Anuncio FB/IG, Google / Maps, …)
+  primeraVez?: string; // "si" | "no"; una pestaña vieja no lo manda → NULL
   correo?: string;
   notas?: string;
   folio?: string;
@@ -121,6 +123,7 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
   const notas = (body.notas ?? '').trim();
   const folio = (body.folio ?? '').trim();
   const comoLlego = (body.comoLlego ?? '').trim();
+  const primeraVez = normalizaPrimeraVez(body.primeraVez); // no es motivo para rechazar la venta
   const clickId = normalizaClickId(body.gclid ?? '');
   const value = Number(String(body.monto ?? '').replace(/[^0-9.]/g, ''));
 
@@ -150,15 +153,15 @@ export async function onRequestPost(context: PagesContext): Promise<Response> {
       `INSERT INTO ventas
          (event_id, created_at, event_time, nombre, telefono, colonia, calle,
           ciudad, estado, cp, canal, como_llego, correo, value, order_id, notas, status, enviado_por,
-          gclid)
-       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+          gclid, primera_vez)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
        ON CONFLICT(event_id) DO NOTHING`,
     )
       .bind(
         eventId, createdAt, eventTime, nombre, phoneE164, colonia || null, calle || null,
         null, ESTADO_DEFAULT, cp || null, canal, comoLlego || null,
         correo || null, value, folio || null, notas || null, 'pending', enviadoPor,
-        clickId,
+        clickId, primeraVez,
       )
       .run();
 

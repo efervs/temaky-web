@@ -41,11 +41,11 @@ describe('INSERT INTO ventas', () => {
     expect(placeholders.every((p) => p === '?')).toBe(true);
   });
 
-  it('conserva las 18 columnas originales y suma gclid', () => {
+  it('conserva las 18 columnas originales y suma gclid y primera_vez', () => {
     expect(columnas).toEqual([
       'event_id', 'created_at', 'event_time', 'nombre', 'telefono', 'colonia', 'calle',
       'ciudad', 'estado', 'cp', 'canal', 'como_llego', 'correo', 'value', 'order_id',
-      'notas', 'status', 'enviado_por', 'gclid',
+      'notas', 'status', 'enviado_por', 'gclid', 'primera_vez',
     ]);
   });
 

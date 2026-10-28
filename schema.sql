@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS ventas (
   cp            TEXT,
   canal         TEXT,                             -- domicilio | recoge | comedor
   como_llego    TEXT,                             -- sanity check; NO se envía a Meta
+  primera_vez   TEXT,                             -- si | no | NULL (pestaña vieja). D26, migrations/2026-10-28-add-primera-vez.sql
   correo        TEXT,
   value         REAL NOT NULL,
   order_id      TEXT,
