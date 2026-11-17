@@ -8,6 +8,13 @@ interface Props {
   ogImage?: string;
   canonicalURL?: string;
   noindex?: boolean;
+  /**
+   * No carga la etiqueta de Google en la página. La usa `/registro-de-compras/`: la etiqueta trae
+   * encendida, desde la cuenta, la recolección automática de teléfono, correo y dirección y la
+   * detección de formularios, y en esa página el equipo teclea teléfonos de clientes. Sin etiqueta
+   * no existe `window.temakyConv`; quien la llama usa `?.()`.
+   */
+  sinEtiquetaGoogle?: boolean;
 }
 
 const {
@@ -16,6 +23,7 @@ const {
   ogImage = '/og.jpg',
   canonicalURL = Astro.url.href,
   noindex = false,
+  sinEtiquetaGoogle = false,
 } = Astro.props;
 
 const site = 'https://temakysushi.mx';
@@ -81,6 +89,8 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
+    {!sinEtiquetaGoogle && (
+      <Fragment>
     <!--
       Google Ads · cuenta 118-217-4303 — etiqueta AW-18358666123.
       `is:inline` es obligatorio: sin él Astro convierte el script en type="module", los módulos ES
@@ -109,6 +119,8 @@ const ogImageAbsolute = ogImage.startsWith('http') ? ogImage : `${site}${ogImage
         window.gtag('event', 'conversion', payload);
       };
     </script>
+      </Fragment>
+    )}
     <script>
       import { initWaTracking } from '../lib/wa-tracking';
       initWaTracking();
